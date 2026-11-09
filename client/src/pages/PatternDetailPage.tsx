@@ -212,289 +212,289 @@ export const PatternDetailPage: React.FC = () => {
 
   return (
     <div style={{ maxWidth: '1100px', margin: '0 auto', padding: '24px 16px' }}>
-      {/* Breadcrumb & Navigation */}
-      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '20px', flexWrap: 'wrap', gap: '10px' }}>
-        <Breadcrumb
-          items={[
-            {
-              title: (
-                <Link to="/">
-                  <HomeOutlined /> Trang chủ
-                </Link>
-              ),
-            },
-            {
-              title: <Link to="/patterns">Kho Chart</Link>,
-            },
-            {
-              title: pattern.name,
-            },
-          ]}
-        />
-        <Link to="/patterns">
-          <Button icon={<ArrowLeftOutlined />} type="text" style={{ color: '#d81b60', fontWeight: 600 }}>
-            Quay lại Kho Chart
-          </Button>
-        </Link>
-      </div>
+        {/* Breadcrumb & Navigation */}
+        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '20px', flexWrap: 'wrap', gap: '10px' }}>
+          <Breadcrumb
+            items={[
+              {
+                title: (
+                  <Link to="/">
+                    <HomeOutlined /> Trang chủ
+                  </Link>
+                ),
+              },
+              {
+                title: <Link to="/patterns">Kho Chart</Link>,
+              },
+              {
+                title: pattern.name,
+              },
+            ]}
+          />
+          <Link to="/patterns">
+            <Button icon={<ArrowLeftOutlined />} type="text" style={{ color: '#d81b60', fontWeight: 600 }}>
+              Quay lại Kho Chart
+            </Button>
+          </Link>
+        </div>
 
-      {/* Main Info Card */}
-      <Card
-        style={{
-          borderRadius: '24px',
-          overflow: 'hidden',
-          marginBottom: '32px',
-          boxShadow: '0 8px 24px rgba(0,0,0,0.06)',
-          border: '1px solid #ffe4e6',
-        }}
-      >
-        <Row gutter={[32, 32]}>
-          <Col xs={24} md={10}>
-            <div style={{ borderRadius: '20px', overflow: 'hidden', height: '380px' }}>
-              <img
-                src={pattern.image_url || pattern.img}
-                alt={pattern.name}
-                style={{ width: '100%', height: '100%', objectFit: 'cover' }}
-              />
-            </div>
-          </Col>
-
-          <Col xs={24} md={14}>
-            <div style={{ display: 'flex', gap: '8px', marginBottom: '12px', flexWrap: 'wrap' }}>
-              <Tag color="magenta" style={{ borderRadius: '999px', fontWeight: 600, padding: '3px 12px' }}>
-                {typeof pattern.category === 'object' ? pattern.category.name : 'Móc Len'}
-              </Tag>
-              <Tag color="green" style={{ borderRadius: '999px', fontWeight: 600, padding: '3px 12px' }}>
-                Độ khó: {pattern.difficulty}
-              </Tag>
-              <Tag color="blue" style={{ borderRadius: '999px', fontWeight: 600, padding: '3px 12px' }}>
-                {pattern.is_free !== false ? 'Miễn phí' : 'Có phí'}
-              </Tag>
-            </div>
-
-            <Title level={1} style={{ fontSize: '28px', color: '#2c1810', marginBottom: '8px' }}>
-              {pattern.name}
-            </Title>
-
-            <div style={{ display: 'flex', alignItems: 'center', gap: '16px', marginBottom: '16px', color: '#666', flexWrap: 'wrap' }}>
-              <Space>
-                <Rate disabled value={pattern.difficulty_stars || 2} style={{ fontSize: '15px' }} />
-                <span>({pattern.difficulty_stars || 2} / 5 sao)</span>
-              </Space>
-              <span>•</span>
-              <span><EyeOutlined /> {pattern.view_count || 0} lượt xem</span>
-              <span>•</span>
-              <span><UserOutlined /> {pattern.author || 'Tiệm Len Xinh'}</span>
-            </div>
-
-            <Paragraph style={{ color: '#555', fontSize: '15px', lineHeight: 1.7, marginBottom: '24px' }}>
-              {pattern.description}
-            </Paragraph>
-
-            <div style={{ display: 'flex', gap: '12px', alignItems: 'center' }}>
-              <Button
-                type={liked ? 'primary' : 'default'}
-                danger
-                icon={liked ? <HeartFilled /> : <HeartOutlined />}
-                size="large"
-                onClick={handleLike}
-                style={{ borderRadius: '999px' }}
-              >
-                {liked ? 'Đã yêu thích' : 'Yêu thích'} ({likeCount})
-              </Button>
-            </div>
-          </Col>
-        </Row>
-      </Card>
-
-      {/* Materials & Tools */}
-      <Row gutter={[24, 24]} style={{ marginBottom: '32px' }}>
-        <Col xs={24} md={12}>
-          <Card
-            title={<span style={{ color: '#d81b60' }}><CheckCircleOutlined /> Nguyên Liệu Chuẩn Bị</span>}
-            style={{ borderRadius: '20px', height: '100%', border: '1px solid #ffe4e6' }}
-          >
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
-              {pattern.materials && pattern.materials.length > 0 ? (
-                pattern.materials.map((mat, idx) => (
-                  <Checkbox key={idx} style={{ fontSize: '15px' }}>
-                    {mat}
-                  </Checkbox>
-                ))
-              ) : (
-                <Text type="secondary" style={{ fontStyle: 'italic' }}>
-                  Len sợi phù hợp theo màu yêu thích, bông gòn nhồi thú.
-                </Text>
-              )}
-            </div>
-          </Card>
-        </Col>
-
-        <Col xs={24} md={12}>
-          <Card
-            title={<span style={{ color: '#d81b60' }}><ToolOutlined /> Dụng Cụ Cần Thiết</span>}
-            style={{ borderRadius: '20px', height: '100%', border: '1px solid #ffe4e6' }}
-          >
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
-              {pattern.tools && pattern.tools.length > 0 ? (
-                pattern.tools.map((tool, idx) => (
-                  <Checkbox key={idx} style={{ fontSize: '15px' }}>
-                    {tool}
-                  </Checkbox>
-                ))
-              ) : (
-                <Text type="secondary" style={{ fontStyle: 'italic' }}>
-                  Kim móc 2.0 - 2.5mm, kim khâu len đầu tù, kéo bấm chỉ.
-                </Text>
-              )}
-            </div>
-          </Card>
-        </Col>
-      </Row>
-
-      {/* Pattern Steps & Row Counter */}
-      <Row gutter={[24, 24]} style={{ marginBottom: '40px' }}>
-        <Col xs={24} lg={16}>
-          <Card
-            title={<span style={{ color: '#d81b60', fontSize: '18px' }}>📝 Các Bước Móc Chi Tiết</span>}
-            style={{ borderRadius: '20px', border: '1px solid #ffe4e6' }}
-          >
-            {renderPatternContent()}
-          </Card>
-        </Col>
-
-        <Col xs={24} lg={8}>
-          <div style={{ position: 'sticky', top: '90px' }}>
-            <RowCounter patternId={pattern._id} />
-            <div
-              style={{
-                marginTop: '16px',
-                background: '#ffffff',
-                borderRadius: '16px',
-                padding: '16px',
-                border: '1px solid #ffe4e6',
-              }}
-            >
-              <Text strong style={{ color: '#d81b60' }}>Ký hiệu cơ bản:</Text>
-              <div style={{ marginTop: '8px', fontSize: '13px', color: '#666', lineHeight: 1.8 }}>
-                <div>• <strong>MR:</strong> Vòng tròn ma thuật</div>
-                <div>• <strong>X / sc:</strong> Mũi đơn</div>
-                <div>• <strong>V / inc:</strong> Mũi tăng (2 mũi cùng chân)</div>
-                <div>• <strong>A / dec:</strong> Mũi giảm (thu 2 mũi thành 1)</div>
-                <div>• <strong>BO:</strong> Mũi xù / bắp ngô</div>
-                <div>• <strong>FO:</strong> Chốt sợi kết thúc</div>
-              </div>
-            </div>
-          </div>
-        </Col>
-      </Row>
-
-      {/* Reviews & Comments Section */}
-      <Card
-        title={
-          <span style={{ color: '#d81b60', fontSize: '18px' }}>
-            💬 Đánh Giá & Bình Luận ({comments.length})
-          </span>
-        }
-        style={{ borderRadius: '20px', border: '1px solid #ffe4e6' }}
-      >
-        {/* Comment Form */}
-        <Form
-          form={form}
-          layout="vertical"
-          onFinish={handleCommentSubmit}
-          initialValues={{ rating: 5 }}
+        {/* Main Info Card */}
+        <Card
           style={{
-            background: '#fff9fa',
-            padding: '20px',
-            borderRadius: '16px',
+            borderRadius: '24px',
+            overflow: 'hidden',
             marginBottom: '32px',
+            boxShadow: '0 8px 24px rgba(0,0,0,0.06)',
             border: '1px solid #ffe4e6',
           }}
         >
-          <Title level={5} style={{ color: '#d81b60', marginBottom: '16px' }}>
-            Gửi nhận xét của bạn về mẫu chart này
-          </Title>
-          <Row gutter={16}>
-            <Col xs={24} sm={12}>
-              <Form.Item
-                name="author_name"
-                label="Họ và tên của bạn"
-                rules={[{ required: true, message: 'Vui lòng nhập tên của bạn' }]}
-              >
-                <Input placeholder="Ví dụ: Lan Anh, Bún Móc Len..." style={{ borderRadius: '10px' }} />
-              </Form.Item>
+          <Row gutter={[32, 32]}>
+            <Col xs={24} md={10}>
+              <div style={{ borderRadius: '20px', overflow: 'hidden', height: '380px' }}>
+                <img
+                  src={pattern.image_url || pattern.img}
+                  alt={pattern.name}
+                  style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+                />
+              </div>
             </Col>
-            <Col xs={24} sm={12}>
-              <Form.Item name="rating" label="Đánh giá chất lượng chart">
-                <Rate defaultValue={5} style={{ color: '#ff6584' }} />
-              </Form.Item>
-            </Col>
-          </Row>
 
-          <Form.Item
-            name="content"
-            label="Nội dung đánh giá"
-            rules={[{ required: true, message: 'Vui lòng nhập cảm nhận hoặc câu hỏi' }]}
-          >
-            <TextArea
-              rows={3}
-              placeholder="Chia sẻ cảm nhận sau khi móc xong hoặc đặt câu hỏi về các dòng mũi móc..."
-              style={{ borderRadius: '10px' }}
-            />
-          </Form.Item>
+            <Col xs={24} md={14}>
+                <div style={{ display: 'flex', gap: '8px', marginBottom: '12px', flexWrap: 'wrap' }}>
+                  <Tag color="magenta" style={{ borderRadius: '999px', fontWeight: 600, padding: '3px 12px' }}>
+                    {typeof pattern.category === 'object' ? pattern.category.name : 'Móc Len'}
+                  </Tag>
+                  <Tag color="green" style={{ borderRadius: '999px', fontWeight: 600, padding: '3px 12px' }}>
+                    Độ khó: {pattern.difficulty}
+                  </Tag>
+                  <Tag color="blue" style={{ borderRadius: '999px', fontWeight: 600, padding: '3px 12px' }}>
+                    {pattern.is_free !== false ? 'Miễn phí' : 'Có phí'}
+                  </Tag>
+                </div>
 
-          <Button
-            type="primary"
-            htmlType="submit"
-            icon={<SendOutlined />}
-            loading={submittingComment}
-            style={{ borderRadius: '999px', padding: '0 28px' }}
-          >
-            Gửi Đánh Giá
-          </Button>
-        </Form>
+                <Title level={1} style={{ fontSize: '28px', color: '#2c1810', marginBottom: '8px' }}>
+                  {pattern.name}
+                </Title>
 
-        {/* Comments List */}
-        <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
-          {comments.length === 0 ? (
-            <div style={{ textAlign: 'center', color: '#999', padding: '24px 0' }}>
-              Chưa có bình luận nào. Hãy là người đầu tiên chia sẻ cảm nhận nhé!
-            </div>
-          ) : (
-            comments.map((comm) => (
-              <div
-                key={comm._id}
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '16px', marginBottom: '16px', color: '#666', flexWrap: 'wrap' }}>
+                    <Space>
+                      <Rate disabled value={pattern.difficulty_stars || 2} style={{ fontSize: '15px' }} />
+                      <span>({pattern.difficulty_stars || 2} / 5 sao)</span>
+                    </Space>
+                    <span>•</span>
+                    <span><EyeOutlined /> {pattern.view_count || 0} lượt xem</span>
+                    <span>•</span>
+                    <span><UserOutlined /> {pattern.author || 'Tiệm Len Xinh'}</span>
+                  </div>
+
+                  <Paragraph style={{ color: '#555', fontSize: '15px', lineHeight: 1.7, marginBottom: '24px' }}>
+                    {pattern.description}
+                  </Paragraph>
+
+                  <div style={{ display: 'flex', gap: '12px', alignItems: 'center' }}>
+                    <Button
+                      type={liked ? 'primary' : 'default'}
+                      danger
+                      icon={liked ? <HeartFilled /> : <HeartOutlined />}
+                      size="large"
+                      onClick={handleLike}
+                      style={{ borderRadius: '999px' }}
+                    >
+                      {liked ? 'Đã yêu thích' : 'Yêu thích'} ({likeCount})
+                    </Button>
+                  </div>
+                </Col>
+              </Row>
+            </Card>
+
+            {/* Materials & Tools */}
+            <Row gutter={[24, 24]} style={{ marginBottom: '32px' }}>
+              <Col xs={24} md={12}>
+                <Card
+                  title={<span style={{ color: '#d81b60' }}><CheckCircleOutlined /> Nguyên Liệu Chuẩn Bị</span>}
+                  style={{ borderRadius: '20px', height: '100%', border: '1px solid #ffe4e6' }}
+                >
+                  <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
+                    {pattern.materials && pattern.materials.length > 0 ? (
+                      pattern.materials.map((mat, idx) => (
+                        <Checkbox key={idx} style={{ fontSize: '15px' }}>
+                          {mat}
+                        </Checkbox>
+                      ))
+                    ) : (
+                      <Text type="secondary" style={{ fontStyle: 'italic' }}>
+                        Len sợi phù hợp theo màu yêu thích, bông gòn nhồi thú.
+                      </Text>
+                    )}
+                  </div>
+                </Card>
+              </Col>
+
+              <Col xs={24} md={12}>
+                <Card
+                  title={<span style={{ color: '#d81b60' }}><ToolOutlined /> Dụng Cụ Cần Thiết</span>}
+                  style={{ borderRadius: '20px', height: '100%', border: '1px solid #ffe4e6' }}
+                >
+                  <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
+                    {pattern.tools && pattern.tools.length > 0 ? (
+                      pattern.tools.map((tool, idx) => (
+                        <Checkbox key={idx} style={{ fontSize: '15px' }}>
+                          {tool}
+                        </Checkbox>
+                      ))
+                    ) : (
+                      <Text type="secondary" style={{ fontStyle: 'italic' }}>
+                        Kim móc 2.0 - 2.5mm, kim khâu len đầu tù, kéo bấm chỉ.
+                      </Text>
+                    )}
+                  </div>
+                </Card>
+              </Col>
+            </Row>
+
+            {/* Pattern Steps & Row Counter */}
+            <Row gutter={[24, 24]} style={{ marginBottom: '40px' }}>
+              <Col xs={24} lg={16}>
+                <Card
+                  title={<span style={{ color: '#d81b60', fontSize: '18px' }}>📝 Các Bước Móc Chi Tiết</span>}
+                  style={{ borderRadius: '20px', border: '1px solid #ffe4e6' }}
+                >
+                  {renderPatternContent()}
+                </Card>
+              </Col>
+
+              <Col xs={24} lg={8}>
+                <div style={{ position: 'sticky', top: '90px' }}>
+                  <RowCounter patternId={pattern._id} />
+                  <div
+                    style={{
+                      marginTop: '16px',
+                      background: '#ffffff',
+                      borderRadius: '16px',
+                      padding: '16px',
+                      border: '1px solid #ffe4e6',
+                    }}
+                  >
+                    <Text strong style={{ color: '#d81b60' }}>Ký hiệu cơ bản:</Text>
+                    <div style={{ marginTop: '8px', fontSize: '13px', color: '#666', lineHeight: 1.8 }}>
+                      <div>• <strong>MR:</strong> Vòng tròn ma thuật</div>
+                      <div>• <strong>X / sc:</strong> Mũi đơn</div>
+                      <div>• <strong>V / inc:</strong> Mũi tăng (2 mũi cùng chân)</div>
+                      <div>• <strong>A / dec:</strong> Mũi giảm (thu 2 mũi thành 1)</div>
+                      <div>• <strong>BO:</strong> Mũi xù / bắp ngô</div>
+                      <div>• <strong>FO:</strong> Chốt sợi kết thúc</div>
+                    </div>
+                  </div>
+                </div>
+              </Col>
+            </Row>
+
+            {/* Reviews & Comments Section */}
+            <Card
+              title={
+                <span style={{ color: '#d81b60', fontSize: '18px' }}>
+                  💬 Đánh Giá & Bình Luận ({comments.length})
+                </span>
+              }
+              style={{ borderRadius: '20px', border: '1px solid #ffe4e6' }}
+            >
+              {/* Comment Form */}
+              <Form
+                form={form}
+                layout="vertical"
+                onFinish={handleCommentSubmit}
+                initialValues={{ rating: 5 }}
                 style={{
-                  display: 'flex',
-                  gap: '14px',
-                  padding: '14px',
-                  borderRadius: '14px',
-                  background: '#ffffff',
-                  border: '1px solid #fce7f3',
+                  background: '#fff9fa',
+                  padding: '20px',
+                  borderRadius: '16px',
+                  marginBottom: '32px',
+                  border: '1px solid #ffe4e6',
                 }}
               >
-                <Avatar src={comm.avatar} size={46}>
-                  {comm.author_name ? comm.author_name.charAt(0).toUpperCase() : <UserOutlined />}
-                </Avatar>
-                <div style={{ flex: 1 }}>
-                  <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-                    <Text strong style={{ fontSize: '15px', color: '#33272a' }}>
-                      {comm.author_name}
-                    </Text>
-                    <Rate disabled value={comm.rating} style={{ fontSize: '13px', color: '#ff758c' }} />
+                <Title level={5} style={{ color: '#d81b60', marginBottom: '16px' }}>
+                  Gửi nhận xét của bạn về mẫu chart này
+                </Title>
+                <Row gutter={16}>
+                  <Col xs={24} sm={12}>
+                    <Form.Item
+                      name="author_name"
+                      label="Họ và tên của bạn"
+                      rules={[{ required: true, message: 'Vui lòng nhập tên của bạn' }]}
+                    >
+                      <Input placeholder="Ví dụ: Lan Anh, Bún Móc Len..." style={{ borderRadius: '10px' }} />
+                    </Form.Item>
+                  </Col>
+                  <Col xs={24} sm={12}>
+                    <Form.Item name="rating" label="Đánh giá chất lượng chart">
+                      <Rate defaultValue={5} style={{ color: '#ff6584' }} />
+                    </Form.Item>
+                  </Col>
+                </Row>
+
+                <Form.Item
+                  name="content"
+                  label="Nội dung đánh giá"
+                  rules={[{ required: true, message: 'Vui lòng nhập cảm nhận hoặc câu hỏi' }]}
+                >
+                  <TextArea
+                    rows={3}
+                    placeholder="Chia sẻ cảm nhận sau khi móc xong hoặc đặt câu hỏi về các dòng mũi móc..."
+                    style={{ borderRadius: '10px' }}
+                  />
+                </Form.Item>
+
+                <Button
+                  type="primary"
+                  htmlType="submit"
+                  icon={<SendOutlined />}
+                  loading={submittingComment}
+                  style={{ borderRadius: '999px', padding: '0 28px' }}
+                >
+                  Gửi Đánh Giá
+                </Button>
+              </Form>
+
+              {/* Comments List */}
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
+                {comments.length === 0 ? (
+                  <div style={{ textAlign: 'center', color: '#999', padding: '24px 0' }}>
+                    Chưa có bình luận nào. Hãy là người đầu tiên chia sẻ cảm nhận nhé!
                   </div>
-                  <Paragraph style={{ color: '#666', marginTop: '6px', marginBottom: 0, fontSize: '14px' }}>
-                    {comm.content}
-                  </Paragraph>
-                </div>
+                ) : (
+                  comments.map((comm) => (
+                    <div
+                      key={comm._id}
+                      style={{
+                        display: 'flex',
+                        gap: '14px',
+                        padding: '14px',
+                        borderRadius: '14px',
+                        background: '#ffffff',
+                        border: '1px solid #fce7f3',
+                      }}
+                    >
+                      <Avatar src={comm.avatar} size={46}>
+                        {comm.author_name ? comm.author_name.charAt(0).toUpperCase() : <UserOutlined />}
+                      </Avatar>
+                      <div style={{ flex: 1 }}>
+                        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+                          <Text strong style={{ fontSize: '15px', color: '#33272a' }}>
+                            {comm.author_name}
+                          </Text>
+                          <Rate disabled value={comm.rating} style={{ fontSize: '13px', color: '#ff758c' }} />
+                        </div>
+                        <Paragraph style={{ color: '#666', marginTop: '6px', marginBottom: 0, fontSize: '14px' }}>
+                          {comm.content}
+                        </Paragraph>
+                      </div>
+                    </div>
+                  ))
+                )}
               </div>
-            ))
-          )}
-        </div>
-      </Card>
-    </div>
-  );
+            </Card>
+          </div>
+          );
 };
 
 

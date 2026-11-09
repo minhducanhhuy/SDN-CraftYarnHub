@@ -232,131 +232,131 @@ export const HomePage: React.FC = () => {
         ) : (
           <Row gutter={[24, 24]}>
             {featuredPatterns.map((pat) => (
-              <Col xs={24} sm={12} md={8} lg={6} key={pat._id}>
-                <PatternCard pattern={pat} />
-              </Col>
+                <Col xs={24} sm={12} md={8} lg={6} key={pat._id}>
+                  <PatternCard pattern={pat} />
+                </Col>
             ))}
-          </Row>
-        )}
-      </div>
+              </Row>
+            )}
+          </div>
 
       {/* Featured Products / Accessories Section */}
-      <div style={{ marginBottom: '56px' }}>
-        <div
-          style={{
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'space-between',
-            marginBottom: '24px',
-          }}
-        >
-          <div>
-            <Title
-              level={2}
-              style={{
-                fontSize: '26px',
-                color: '#d81b60',
-                marginBottom: '4px',
-                display: 'flex',
-                alignItems: 'center',
-                gap: '8px',
-              }}
-            >
-              <ShoppingOutlined style={{ color: '#10b981' }} /> Phụ Kiện & Dụng Cụ Móc Len
-            </Title>
-            <Text style={{ color: '#888' }}>
-              Len sợi cao cấp, kim móc cán dẻo và phụ kiện nhồi thú
-            </Text>
+        <div style={{ marginBottom: '56px' }}>
+          <div
+            style={{
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'space-between',
+              marginBottom: '24px',
+            }}
+          >
+            <div>
+              <Title
+                level={2}
+                style={{
+                  fontSize: '26px',
+                  color: '#d81b60',
+                  marginBottom: '4px',
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '8px',
+                }}
+              >
+                <ShoppingOutlined style={{ color: '#10b981' }} /> Phụ Kiện & Dụng Cụ Móc Len
+              </Title>
+              <Text style={{ color: '#888' }}>
+                Len sợi cao cấp, kim móc cán dẻo và phụ kiện nhồi thú
+              </Text>
+            </div>
+            <Link to="/accessories">
+              <Button type="link" style={{ color: '#ff6584', fontWeight: 700, fontSize: '15px' }}>
+                Xem phụ kiện <ArrowRightOutlined />
+              </Button>
+            </Link>
           </div>
-          <Link to="/accessories">
-            <Button type="link" style={{ color: '#ff6584', fontWeight: 700, fontSize: '15px' }}>
-              Xem phụ kiện <ArrowRightOutlined />
-            </Button>
-          </Link>
-        </div>
 
-        {loading ? (
-          <div style={{ textAlign: 'center', padding: '40px 0' }}>
-            <Spin size="large" />
-          </div>
-        ) : (
-          <Row gutter={[24, 24]}>
-            {featuredProducts.map((prod) => (
-              <Col xs={24} sm={12} md={8} lg={6} key={prod._id}>
-                <ProductCard product={prod} />
-              </Col>
+          {loading ? (
+            <div style={{ textAlign: 'center', padding: '40px 0' }}>
+              <Spin size="large" />
+            </div>
+          ) : (
+            <Row gutter={[24, 24]}>
+              {featuredProducts.map((prod) => (
+                  <Col xs={24} sm={12} md={8} lg={6} key={prod._id}>
+                    <ProductCard product={prod} />
+                  </Col>
             ))}
-          </Row>
-        )}
-      </div>
+                </Row>
+              )}
+            </div>
 
       {/* Blog & Tips Section */}
-      <div style={{ marginBottom: '40px' }}>
-        <div
-          style={{
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'space-between',
-            marginBottom: '24px',
-          }}
-        >
-          <div>
-            <Title
-              level={2}
+          <div style={{ marginBottom: '40px' }}>
+            <div
               style={{
-                fontSize: '26px',
-                color: '#d81b60',
-                marginBottom: '4px',
                 display: 'flex',
                 alignItems: 'center',
-                gap: '8px',
+                justifyContent: 'space-between',
+                marginBottom: '24px',
               }}
             >
-              <BookOutlined style={{ color: '#f59e0b' }} /> Cẩm Nang & Mẹo Đan Móc
-            </Title>
-            <Text style={{ color: '#888' }}>
-              Bỏ túi những kinh nghiệm quý giá từ các thợ móc len điêu luyện
-            </Text>
-          </div>
-          <Link to="/blog">
-            <Button type="link" style={{ color: '#ff6584', fontWeight: 700, fontSize: '15px' }}>
-              Đọc thêm bài viết <ArrowRightOutlined />
-            </Button>
-          </Link>
-        </div>
-
-        <Row gutter={[24, 24]}>
-          {featuredBlogs.map((b) => (
-            <Col xs={24} sm={12} md={8} key={b._id}>
-              <Link to={`/blog/${b.slug}`} style={{ textDecoration: 'none' }}>
-                <Card
-                  hoverable
-                  className="hover-card"
-                  cover={
-                    <img
-                      src={b.image_url}
-                      alt={b.title}
-                      style={{ height: '190px', objectFit: 'cover' }}
-                    />
-                  }
-                  style={{ borderRadius: '20px', height: '100%' }}
+              <div>
+                <Title
+                  level={2}
+                  style={{
+                    fontSize: '26px',
+                    color: '#d81b60',
+                    marginBottom: '4px',
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: '8px',
+                  }}
                 >
-                  <div style={{ fontSize: '12px', color: '#ff6584', fontWeight: 700, marginBottom: '6px' }}>
-                    {b.category} • {b.read_time}
-                  </div>
-                  <Title level={4} style={{ fontSize: '16px', lineHeight: 1.4, color: '#33272a' }}>
-                    {b.title}
-                  </Title>
-                  <Paragraph ellipsis={{ rows: 2 }} style={{ color: '#777', fontSize: '13px' }}>
-                    {b.excerpt}
-                  </Paragraph>
-                </Card>
+                  <BookOutlined style={{ color: '#f59e0b' }} /> Cẩm Nang & Mẹo Đan Móc
+                </Title>
+                <Text style={{ color: '#888' }}>
+                  Bỏ túi những kinh nghiệm quý giá từ các thợ móc len điêu luyện
+                </Text>
+              </div>
+              <Link to="/blog">
+                <Button type="link" style={{ color: '#ff6584', fontWeight: 700, fontSize: '15px' }}>
+                  Đọc thêm bài viết <ArrowRightOutlined />
+                </Button>
               </Link>
-            </Col>
+            </div>
+
+            <Row gutter={[24, 24]}>
+              {featuredBlogs.map((b) => (
+                  <Col xs={24} sm={12} md={8} key={b._id}>
+                    <Link to={`/blog/${b.slug}`} style={{ textDecoration: 'none' }}>
+                      <Card
+                        hoverable
+                        className="hover-card"
+                        cover={
+                          <img
+                            src={b.image_url}
+                            alt={b.title}
+                            style={{ height: '190px', objectFit: 'cover' }}
+                          />
+                        }
+                        style={{ borderRadius: '20px', height: '100%' }}
+                      >
+                        <div style={{ fontSize: '12px', color: '#ff6584', fontWeight: 700, marginBottom: '6px' }}>
+                          {b.category} • {b.read_time}
+                        </div>
+                        <Title level={4} style={{ fontSize: '16px', lineHeight: 1.4, color: '#33272a' }}>
+                          {b.title}
+                        </Title>
+                        <Paragraph ellipsis={{ rows: 2 }} style={{ color: '#777', fontSize: '13px' }}>
+                          {b.excerpt}
+                        </Paragraph>
+                      </Card>
+                    </Link>
+                  </Col>
           ))}
-        </Row>
+                </Row>
       </div>
-    </div>
-  );
+        </div>
+        );
 };
 

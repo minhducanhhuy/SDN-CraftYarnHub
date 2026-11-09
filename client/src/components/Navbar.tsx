@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Layout, Input, Badge, Button, Drawer } from 'antd';
+import { Input, Badge, Button, Drawer, Tooltip } from 'antd';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import {
   HeartFilled,
@@ -13,8 +13,6 @@ import {
   SettingOutlined,
 } from '@ant-design/icons';
 import { useCart } from '../context/CartContext';
-
-const { Header } = Layout;
 
 export const Navbar: React.FC = () => {
   const location = useLocation();
@@ -39,36 +37,17 @@ export const Navbar: React.FC = () => {
   ];
 
   return (
-    <Header
-      className="glass-nav"
-      style={{
-        position: 'sticky',
-        top: 0,
-        zIndex: 100,
-        height: '75px',
-        padding: '0 28px',
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'space-between',
-      }}
-    >
-      {/* Mobile Menu Button */}
-      <div className="mobile-btn">
-        <Button
-          type="text"
-          icon={<MenuOutlined style={{ fontSize: '20px', color: '#ff6584' }} />}
-          onClick={() => setMobileOpen(true)}
-        />
-      </div>
-
-      {/* Brand Logo */}
+    <header className="app-header">
+      {/* Brand Logo (Left) */}
       <Link
         to="/"
         style={{
           display: 'flex',
           alignItems: 'center',
-          gap: '10px',
+          gap: '12px',
           textDecoration: 'none',
+          lineHeight: 'normal',
+          flexShrink: 0,
         }}
       >
         <div
@@ -81,32 +60,47 @@ export const Navbar: React.FC = () => {
             alignItems: 'center',
             justifyContent: 'center',
             boxShadow: '0 4px 10px rgba(255, 117, 140, 0.4)',
+            flexShrink: 0,
           }}
         >
           <HeartFilled style={{ color: '#fff', fontSize: '20px' }} />
         </div>
-        <div>
+        <div style={{ lineHeight: 'normal' }}>
           <div
             style={{
               fontSize: '20px',
               fontWeight: '800',
               color: '#d81b60',
-              lineHeight: 1.1,
+              lineHeight: 1.15,
               fontFamily: 'Quicksand, sans-serif',
+              letterSpacing: '-0.3px',
             }}
           >
             Tiệm Len Xinh
           </div>
-          <div style={{ fontSize: '11px', color: '#888', fontWeight: 500 }}>
+          <div
+            style={{
+              fontSize: '11px',
+              color: '#888',
+              fontWeight: 600,
+              lineHeight: 1.2,
+              marginTop: '2px',
+            }}
+          >
             Crochet & Handmade
           </div>
         </div>
       </Link>
 
-      {/* Desktop Navigation Links */}
-      <div
+      {/* Desktop Navigation Links (Center) */}
+      <nav
         className="desktop-links"
-        style={{ display: 'flex', gap: '8px', alignItems: 'center' }}
+        style={{
+          display: 'flex',
+          gap: '6px',
+          alignItems: 'center',
+          lineHeight: 'normal',
+        }}
       >
         {navLinks.map((link) => {
           const isActive =
@@ -117,35 +111,35 @@ export const Navbar: React.FC = () => {
             <Link
               key={link.path}
               to={link.path}
-              style={{
-                textDecoration: 'none',
-                padding: '8px 16px',
-                borderRadius: '999px',
-                fontWeight: 600,
-                fontSize: '15px',
-                color: isActive ? '#fff' : '#4a3b32',
-                background: isActive
-                  ? 'linear-gradient(135deg, #ff758c 0%, #ff7eb3 100%)'
-                  : 'transparent',
-                display: 'flex',
-                alignItems: 'center',
-                gap: '6px',
-                transition: 'all 0.2s',
-              }}
+              className={`header-nav-link ${isActive ? 'active' : ''}`}
             >
               {link.icon}
               {link.label}
             </Link>
           );
         })}
-      </div>
+      </nav>
 
-      {/* Search Bar & Cart */}
-      <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+      {/* Right Actions: Search + Cart + Admin + Mobile Menu Button */}
+      <div
+        style={{
+          display: 'flex',
+          alignItems: 'center',
+          gap: '12px',
+          lineHeight: 'normal',
+          flexShrink: 0,
+        }}
+      >
+        {/* Search input (desktop/tablet) */}
         <div className="header-search">
           <Input
             placeholder="Tìm chart, len..."
-            prefix={<SearchOutlined style={{ color: '#ff758c' }} />}
+            suffix={
+              <SearchOutlined
+                style={{ color: '#ff758c', cursor: 'pointer' }}
+                onClick={() => handleSearch(search)}
+              />
+            }
             value={search}
             onChange={(e) => setSearch(e.target.value)}
             onPressEnter={() => handleSearch(search)}
@@ -153,89 +147,128 @@ export const Navbar: React.FC = () => {
               width: '180px',
               borderRadius: '999px',
               borderColor: '#fbcfe8',
+              height: '38px',
+              lineHeight: 'normal',
             }}
           />
         </div>
 
-        <Link to="/cart">
-          <Badge count={totalItems} overflowCount={99} color="#ff476e">
+        {/* Cart button */}
+        <Link to="/cart" style={{ display: 'flex', alignItems: 'center', lineHeight: 'normal' }}>
+          <Badge count={totalItems} overflowCount={99} color="#ff476e" offset={[-2, 4]}>
             <Button
               shape="circle"
               size="large"
-              icon={
-                <ShoppingCartOutlined
-                  style={{ fontSize: '20px', color: '#ff6584' }}
-                />
-              }
+              icon={<ShoppingCartOutlined style={{ fontSize: '20px', color: '#ff6584' }} />}
               style={{
                 borderColor: '#fbcfe8',
                 background: '#fff0f3',
+                width: '40px',
+                height: '40px',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
               }}
             />
           </Badge>
         </Link>
 
+        {/* Admin management button */}
         <Link to="/admin" className="header-admin-btn">
-          <Button
-            type="dashed"
-            icon={<SettingOutlined />}
-            style={{
-              borderRadius: '999px',
-              color: '#d81b60',
-              borderColor: '#fbcfe8',
-            }}
-          >
-            Quản trị
-          </Button>
+          <Tooltip title="Quản trị hệ thống (CRUD)">
+            <Button
+              shape="circle"
+              size="large"
+              icon={<SettingOutlined style={{ fontSize: '18px', color: '#d81b60' }} />}
+              style={{
+                borderColor: '#fbcfe8',
+                background: '#fff0f3',
+                width: '40px',
+                height: '40px',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+              }}
+            />
+          </Tooltip>
         </Link>
+
+        {/* Mobile Hamburger Button (Only on screen <= 992px) */}
+        <div className="mobile-menu-btn">
+          <Button
+            type="text"
+            icon={<MenuOutlined style={{ fontSize: '22px', color: '#ff6584' }} />}
+            onClick={() => setMobileOpen(true)}
+            style={{
+              width: '40px',
+              height: '40px',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              padding: 0,
+            }}
+          />
+        </div>
       </div>
 
       {/* Mobile Drawer */}
       <Drawer
         title="Tiệm Len Xinh 🧶"
-        placement="left"
+        placement="right"
         open={mobileOpen}
         onClose={() => setMobileOpen(false)}
+        width={280}
       >
         <div style={{ marginBottom: '20px' }}>
           <Input
             placeholder="Tìm chart, len..."
-            prefix={<SearchOutlined style={{ color: '#ff758c' }} />}
+            suffix={
+              <SearchOutlined
+                style={{ color: '#ff758c', cursor: 'pointer' }}
+                onClick={() => handleSearch(search)}
+              />
+            }
             value={search}
             onChange={(e) => setSearch(e.target.value)}
             onPressEnter={() => handleSearch(search)}
-            style={{ borderRadius: '999px', borderColor: '#fbcfe8' }}
+            style={{ borderRadius: '999px', borderColor: '#fbcfe8', height: '40px' }}
           />
         </div>
         <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
-          {navLinks.map((link) => (
-            <Link
-              key={link.path}
-              to={link.path}
-              onClick={() => setMobileOpen(false)}
-              style={{
-                fontSize: '16px',
-                fontWeight: 600,
-                color: '#333',
-                padding: '12px 14px',
-                borderRadius: '12px',
-                textDecoration: 'none',
-                display: 'flex',
-                alignItems: 'center',
-                gap: '10px',
-                background: location.pathname === link.path ? '#fff0f3' : 'transparent',
-              }}
-            >
-              {link.icon}
-              {link.label}
-            </Link>
-          ))}
+          {navLinks.map((link) => {
+            const isActive =
+              link.path === '/'
+                ? location.pathname === '/'
+                : location.pathname.startsWith(link.path);
+            return (
+              <Link
+                key={link.path}
+                to={link.path}
+                onClick={() => setMobileOpen(false)}
+                style={{
+                  fontSize: '15px',
+                  fontWeight: 600,
+                  color: isActive ? '#ff476e' : '#333',
+                  padding: '12px 14px',
+                  borderRadius: '12px',
+                  textDecoration: 'none',
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '10px',
+                  background: isActive ? '#fff0f3' : 'transparent',
+                }}
+              >
+                {link.icon}
+                {link.label}
+              </Link>
+            );
+          })}
           <div style={{ height: '1px', background: '#ffe4e6', margin: '8px 0' }} />
           <Link
             to="/admin"
             onClick={() => setMobileOpen(false)}
             style={{
-              fontSize: '16px',
+              fontSize: '15px',
               fontWeight: 600,
               color: '#d81b60',
               padding: '12px 14px',
@@ -251,7 +284,8 @@ export const Navbar: React.FC = () => {
           </Link>
         </div>
       </Drawer>
-    </Header>
+    </header>
   );
 };
+
 

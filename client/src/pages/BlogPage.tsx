@@ -36,72 +36,72 @@ export const BlogPage: React.FC = () => {
       ) : (
         <Row gutter={[24, 32]}>
           {blogs.map((blog) => (
-            <Col xs={24} sm={12} md={8} key={blog._id}>
-              <Link to={`/blog/${blog.slug}`} style={{ textDecoration: 'none' }}>
-                <Card
-                  hoverable
-                  className="hover-card"
-                  cover={
-                    <img
-                      src={blog.image_url}
-                      alt={blog.title}
-                      style={{ height: '200px', objectFit: 'cover' }}
-                    />
-                  }
-                  style={{
-                    borderRadius: '20px',
-                    height: '100%',
-                    display: 'flex',
-                    flexDirection: 'column',
-                  }}
-                  bodyStyle={{
-                    flex: 1,
-                    display: 'flex',
-                    flexDirection: 'column',
-                    justifyContent: 'space-between',
-                  }}
-                >
-                  <div>
-                    <div style={{ marginBottom: '8px', display: 'flex', gap: '8px' }}>
-                      <Tag color="pink" style={{ borderRadius: '999px', fontWeight: 600 }}>
-                        {blog.category}
-                      </Tag>
-                      <span style={{ fontSize: '12px', color: '#888' }}>
-                        <ClockCircleOutlined /> {blog.read_time}
-                      </span>
-                    </div>
-
-                    <Title level={4} style={{ fontSize: '16px', lineHeight: 1.4, color: '#33272a' }}>
-                      {blog.title}
-                    </Title>
-
-                    <Paragraph ellipsis={{ rows: 2 }} style={{ color: '#666', fontSize: '13px' }}>
-                      {blog.excerpt}
-                    </Paragraph>
-                  </div>
-
-                  <div
+              <Col xs={24} sm={12} md={8} key={blog._id}>
+                <Link to={`/blog/${blog.slug}`} style={{ textDecoration: 'none' }}>
+                  <Card
+                    hoverable
+                    className="hover-card"
+                    cover={
+                      <img
+                        src={blog.image_url}
+                        alt={blog.title}
+                        style={{ height: '200px', objectFit: 'cover' }}
+                      />
+                    }
                     style={{
-                      borderTop: '1px solid #fce7f3',
-                      paddingTop: '10px',
+                      borderRadius: '20px',
+                      height: '100%',
                       display: 'flex',
-                      alignItems: 'center',
+                      flexDirection: 'column',
+                    }}
+                    bodyStyle={{
+                      flex: 1,
+                      display: 'flex',
+                      flexDirection: 'column',
                       justifyContent: 'space-between',
-                      color: '#ff6584',
-                      fontWeight: 600,
-                      fontSize: '13px',
                     }}
                   >
-                    <span>{blog.author}</span>
-                    <ArrowRightOutlined />
-                  </div>
-                </Card>
-              </Link>
-            </Col>
+                    <div>
+                      <div style={{ marginBottom: '8px', display: 'flex', gap: '8px' }}>
+                        <Tag color="pink" style={{ borderRadius: '999px', fontWeight: 600 }}>
+                          {blog.category}
+                        </Tag>
+                        <span style={{ fontSize: '12px', color: '#888' }}>
+                          <ClockCircleOutlined /> {blog.read_time}
+                        </span>
+                      </div>
+
+                      <Title level={4} style={{ fontSize: '16px', lineHeight: 1.4, color: '#33272a' }}>
+                        {blog.title}
+                      </Title>
+
+                      <Paragraph ellipsis={{ rows: 2 }} style={{ color: '#666', fontSize: '13px' }}>
+                        {blog.excerpt}
+                      </Paragraph>
+                    </div>
+
+                    <div
+                      style={{
+                        borderTop: '1px solid #fce7f3',
+                        paddingTop: '10px',
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'space-between',
+                        color: '#ff6584',
+                        fontWeight: 600,
+                        fontSize: '13px',
+                      }}
+                    >
+                      <span>{blog.author}</span>
+                      <ArrowRightOutlined />
+                    </div>
+                  </Card>
+                </Link>
+              </Col>
           ))}
-        </Row>
-      )}
-    </div>
-  );
+            </Row>
+          )}
+        </div>
+      );
 };
 

@@ -9,101 +9,101 @@ const { Title, Paragraph } = Typography;
 export const PatternCard: React.FC<{
   pattern: Pattern;
   onLike?: (id: string) => void;
-}> = ({ pattern }) => {
-  const difficultyColors: Record<string, string> = {
-    'Dễ': '#52c41a',
-    'Vừa': '#faad14',
-    'Khó': '#f5222d',
-  };
+  } > = ({ pattern }) => {
+    const difficultyColors: Record<string, string> = {
+      'Dễ': '#52c41a',
+      'Vừa': '#faad14',
+      'Khó': '#f5222d',
+    };
 
-  return (
-    <Card
-      hoverable
-      className="hover-card"
-      style={{
-        borderRadius: '20px',
-        overflow: 'hidden',
-        height: '100%',
-        display: 'flex',
-        flexDirection: 'column',
-      }}
-      cover={
+    return (
+      <Card
+        hoverable
+        className="hover-card"
+        style={{
+          borderRadius: '20px',
+          overflow: 'hidden',
+          height: '100%',
+          display: 'flex',
+          flexDirection: 'column',
+        }}
+        cover={
         <Link to={`/patterns/${pattern._id}`} style={{ display: 'block' }}>
-          <div style={{ position: 'relative', height: '240px', overflow: 'hidden' }}>
-            <img
-              src={pattern.image_url || pattern.img}
-              alt={pattern.name}
-              style={{
-                width: '100%',
-                height: '100%',
-                objectFit: 'cover',
-                transition: 'transform 0.4s ease',
-              }}
-              onMouseOver={(e) => ((e.target as HTMLElement).style.transform = 'scale(1.08)')}
-              onMouseOut={(e) => ((e.target as HTMLElement).style.transform = 'scale(1)')}
-            />
-            <div
-              style={{
-                position: 'absolute',
-                top: '12px',
-                left: '12px',
-                display: 'flex',
-                gap: '6px',
-                flexWrap: 'wrap',
-              }}
-            >
-              <Tag
-                color={difficultyColors[pattern.difficulty] || 'magenta'}
+                <div style={{ position: 'relative', height: '240px', overflow: 'hidden' }}>
+                  <img
+                    src={pattern.image_url || pattern.img}
+                    alt={pattern.name}
+                    style={{
+                      width: '100%',
+                      height: '100%',
+                      objectFit: 'cover',
+                      transition: 'transform 0.4s ease',
+                    }}
+                    onMouseOver={(e) => ((e.target as HTMLElement).style.transform = 'scale(1.08)')}
+                    onMouseOut={(e) => ((e.target as HTMLElement).style.transform = 'scale(1)')}
+                  />
+                  <div
+                    style={{
+                      position: 'absolute',
+                      top: '12px',
+                      left: '12px',
+                      display: 'flex',
+                      gap: '6px',
+                      flexWrap: 'wrap',
+                    }}
+                  >
+                    <Tag
+                      color={difficultyColors[pattern.difficulty] || 'magenta'}
+                      style={{
+                        borderRadius: '999px',
+                        fontWeight: 700,
+                        border: 'none',
+                        padding: '3px 10px',
+                      }}
+                    >
+                      {pattern.difficulty}
+                    </Tag>
+                {pattern.category && (
+                  <Tag
+                    style={{
+                      borderRadius: '999px',
+                      background: 'rgba(255, 255, 255, 0.92)',
+                      color: '#333',
+                      fontWeight: 600,
+                      border: 'none',
+                    }}
+                  >
+                    {typeof pattern.category === 'object' ? pattern.category.name : 'Móc Len'}
+                  </Tag>
+                )}
+            </div>
+
+              <div
                 style={{
+                  position: 'absolute',
+                  bottom: '10px',
+                  right: '12px',
+                  background: 'rgba(0, 0, 0, 0.55)',
+                  padding: '2px 8px',
                   borderRadius: '999px',
-                  fontWeight: 700,
-                  border: 'none',
-                  padding: '3px 10px',
+                  color: '#fff',
+                  fontSize: '12px',
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '4px',
                 }}
               >
-                {pattern.difficulty}
-              </Tag>
-              {pattern.category && (
-                <Tag
-                  style={{
-                    borderRadius: '999px',
-                    background: 'rgba(255, 255, 255, 0.92)',
-                    color: '#333',
-                    fontWeight: 600,
-                    border: 'none',
-                  }}
-                >
-                  {typeof pattern.category === 'object' ? pattern.category.name : 'Móc Len'}
-                </Tag>
-              )}
+                <EyeOutlined /> {pattern.view_count || 0}
+              </div>
             </div>
-
-            <div
-              style={{
-                position: 'absolute',
-                bottom: '10px',
-                right: '12px',
-                background: 'rgba(0, 0, 0, 0.55)',
-                padding: '2px 8px',
-                borderRadius: '999px',
-                color: '#fff',
-                fontSize: '12px',
-                display: 'flex',
-                alignItems: 'center',
-                gap: '4px',
-              }}
-            >
-              <EyeOutlined /> {pattern.view_count || 0}
-            </div>
-          </div>
-        </Link>
+        </Link >
       }
-      bodyStyle={{
-        flex: 1,
-        display: 'flex',
-        flexDirection: 'column',
+bodyStyle = {{
+  flex: 1,
+    display: 'flex',
+      flexDirection: 'column',
         justifyContent: 'space-between',
-        padding: '16px',
+          padding: '16px',
       }}
     >
       <div>
@@ -166,7 +166,7 @@ export const PatternCard: React.FC<{
           </Button>
         </Link>
       </div>
-    </Card>
+    </Card >
   );
 };
 

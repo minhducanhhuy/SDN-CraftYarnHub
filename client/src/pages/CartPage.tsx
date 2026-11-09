@@ -383,10 +383,10 @@ export const CartPage: React.FC = () => {
                           ord.status === 'Đã giao'
                             ? 'green'
                             : ord.status === 'Đang xử lý'
-                            ? 'blue'
-                            : ord.status === 'Đã hủy'
-                            ? 'red'
-                            : 'orange'
+                              ? 'blue'
+                              : ord.status === 'Đã hủy'
+                                ? 'red'
+                                : 'orange'
                         }
                       >
                         {ord.status}
