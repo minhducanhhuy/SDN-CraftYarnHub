@@ -29,9 +29,6 @@ import { Order } from '../types';
 
 const { Title, Text, Paragraph } = Typography;
 
-const FALLBACK_PRODUCT_IMG =
-  'https://images.unsplash.com/photo-1584992236310-6edddc08acff?auto=format&fit=crop&w=600&q=80';
-
 export const CartPage: React.FC = () => {
   const { cart, removeFromCart, updateQuantity, clearCart, totalAmount, totalItems } = useCart();
   const [isSuccessModal, setIsSuccessModal] = useState(false);
@@ -162,17 +159,15 @@ export const CartPage: React.FC = () => {
                       gap: '16px',
                       paddingBottom: '16px',
                       borderBottom: '1px solid #fce7f3',
+                      flexWrap: 'wrap',
                     }}
                   >
                     <img
                       src={item.product.image_url}
                       alt={item.product.name}
-                      onError={(e) => {
-                        (e.target as HTMLImageElement).src = FALLBACK_PRODUCT_IMG;
-                      }}
                       style={{ width: '80px', height: '80px', borderRadius: '12px', objectFit: 'cover' }}
                     />
-                    <div style={{ flex: 1 }}>
+                    <div style={{ flex: '1 1 180px', minWidth: '160px' }}>
                       <Title level={5} style={{ marginBottom: '4px', color: '#2c1810' }}>
                         {item.product.name}
                       </Title>
@@ -180,24 +175,26 @@ export const CartPage: React.FC = () => {
                         {new Intl.NumberFormat('vi-VN', {
                           style: 'currency',
                           currency: 'VND',
-                        }).format(item.product.price)}
+                        }).format(item.product.price || 0)}
                       </div>
                     </div>
 
-                    <InputNumber
-                      min={1}
-                      max={99}
-                      value={item.quantity}
-                      onChange={(val) => updateQuantity(item.product._id, val || 1)}
-                      style={{ borderRadius: '8px', width: '65px' }}
-                    />
+                    <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+                      <InputNumber
+                        min={1}
+                        max={99}
+                        value={item.quantity}
+                        onChange={(val) => updateQuantity(item.product._id, val || 1)}
+                        style={{ borderRadius: '8px', width: '65px' }}
+                      />
 
-                    <Button
-                      type="text"
-                      danger
-                      icon={<DeleteOutlined />}
-                      onClick={() => removeFromCart(item.product._id)}
-                    />
+                      <Button
+                        type="text"
+                        danger
+                        icon={<DeleteOutlined />}
+                        onClick={() => removeFromCart(item.product._id)}
+                      />
+                    </div>
                   </div>
                 ))}
               </div>
@@ -400,9 +397,36 @@ export const CartPage: React.FC = () => {
                   <div style={{ fontSize: '13px', lineHeight: 1.8 }}>
                     <div><strong>Người nhận:</strong> {ord.customer_name} - SĐT: {ord.phone}</div>
                     <div><strong>Địa chỉ:</strong> {ord.address}</div>
-                    <div><strong>Tổng thanh toán:</strong> <span style={{ color: '#e11d48', fontWeight: 700 }}>{new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(ord.total_amount)}</span></div>
-                    <div><strong>Số mặt hàng:</strong> {ord.items?.length || 0} sản phẩm</div>
-                    <div style={{ color: '#888', fontSize: '12px' }}>Ngày đặt: {new Date(ord.createdAt).toLocaleString('vi-VN')}</div>
+                    <div>
+                      <strong>Tổng thanh toán:</strong>{' '}
+                      <span style={{ color: '#e11d48', fontWeight: 700 }}>
+                        {new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(ord.total_amount || 0)}
+                      </span>
+                    </div>
+                    <div style={{ color: '#888', fontSize: '12px' }}>
+                      Ngày đặt: {ord.createdAt ? new Date(ord.createdAt).toLocaleString('vi-VN') : 'Mới tạo'}
+                    </div>
+
+                    {ord.items && ord.items.length > 0 && (
+                      <div style={{ marginTop: '10px', padding: '10px', background: '#fff5f7', borderRadius: '8px' }}>
+                        <div style={{ fontSize: '12px', fontWeight: 700, color: '#d81b60', marginBottom: '6px' }}>
+                          Mặt hàng đã đặt ({ord.items.length}):
+                        </div>
+                        {ord.items.map((it, idx) => (
+                          <div key={idx} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', fontSize: '13px', padding: '4px 0' }}>
+                            <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                              {it.image_url && (
+                                <img src={it.image_url} alt={it.name} style={{ width: 28, height: 28, borderRadius: 4, objectFit: 'cover' }} />
+                              )}
+                              <span>{it.name} <Text type="secondary">x{it.quantity}</Text></span>
+                            </div>
+                            <span style={{ fontWeight: 600, color: '#e11d48' }}>
+                              {new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format((it.price || 0) * (it.quantity || 1))}
+                            </span>
+                          </div>
+                        ))}
+                      </div>
+                    )}
                   </div>
                 </Card>
               ))}

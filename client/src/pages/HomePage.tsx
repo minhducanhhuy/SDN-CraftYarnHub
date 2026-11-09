@@ -232,7 +232,7 @@ export const HomePage: React.FC = () => {
         ) : (
           <Row gutter={[24, 24]}>
             {featuredPatterns.map((pat) => (
-              <Col xs={24} sm={12} md={6} key={pat._id}>
+              <Col xs={24} sm={12} md={8} lg={6} key={pat._id}>
                 <PatternCard pattern={pat} />
               </Col>
             ))}
@@ -282,7 +282,7 @@ export const HomePage: React.FC = () => {
         ) : (
           <Row gutter={[24, 24]}>
             {featuredProducts.map((prod) => (
-              <Col xs={24} sm={12} md={6} key={prod._id}>
+              <Col xs={24} sm={12} md={8} lg={6} key={prod._id}>
                 <ProductCard product={prod} />
               </Col>
             ))}
@@ -327,7 +327,7 @@ export const HomePage: React.FC = () => {
 
         <Row gutter={[24, 24]}>
           {featuredBlogs.map((b) => (
-            <Col xs={24} md={8} key={b._id}>
+            <Col xs={24} sm={12} md={8} key={b._id}>
               <Link to={`/blog/${b.slug}`} style={{ textDecoration: 'none' }}>
                 <Card
                   hoverable
@@ -336,9 +336,6 @@ export const HomePage: React.FC = () => {
                     <img
                       src={b.image_url}
                       alt={b.title}
-                      onError={(e) => {
-                        (e.target as HTMLImageElement).src = '/featured_blog.png';
-                      }}
                       style={{ height: '190px', objectFit: 'cover' }}
                     />
                   }

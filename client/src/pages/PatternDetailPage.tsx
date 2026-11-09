@@ -9,12 +9,12 @@ import {
   Card,
   Checkbox,
   Spin,
-  Divider,
   Input,
   Form,
   Avatar,
   message,
   Space,
+  Breadcrumb,
 } from 'antd';
 import {
   HeartFilled,
@@ -22,10 +22,10 @@ import {
   EyeOutlined,
   CheckCircleOutlined,
   ToolOutlined,
-  CalendarOutlined,
   UserOutlined,
   SendOutlined,
   ArrowLeftOutlined,
+  HomeOutlined,
 } from '@ant-design/icons';
 import { useParams, Link } from 'react-router-dom';
 import { Pattern, CommentItem } from '../types';
@@ -35,9 +35,6 @@ import { RowCounter } from '../components/RowCounter';
 
 const { Title, Text, Paragraph } = Typography;
 const { TextArea } = Input;
-
-const FALLBACK_PATTERN_IMG =
-  'https://i.pinimg.com/736x/8a/36/c9/8a36c968b077942a132ef2166f3249d8.jpg';
 
 export const PatternDetailPage: React.FC = () => {
   const { id } = useParams<{ id: string }>();
@@ -131,12 +128,112 @@ export const PatternDetailPage: React.FC = () => {
     );
   }
 
+  // Safe parsing helper for pattern.content
+  const renderPatternContent = () => {
+    const contentData = pattern.content as any;
+    if (!contentData) {
+      return <Paragraph style={{ color: '#888', fontStyle: 'italic' }}>Đang cập nhật nội dung chi tiết các vòng móc...</Paragraph>;
+    }
+
+    if (typeof contentData === 'string') {
+      return (
+        <div style={{ padding: '8px 0' }}>
+          {(contentData as string).split('\n').filter(Boolean).map((line, idx) => (
+            <div
+              key={idx}
+              style={{
+                padding: '8px 12px',
+                margin: '6px 0',
+                borderRadius: '8px',
+                background: idx % 2 === 0 ? '#fff5f7' : '#ffffff',
+                fontSize: '15px',
+                fontFamily: 'monospace',
+                color: '#333',
+                borderLeft: '3px solid #ff758c',
+              }}
+            >
+              {line}
+            </div>
+          ))}
+        </div>
+      );
+    }
+
+    if (typeof contentData === 'object') {
+      const entries = Object.entries(contentData);
+      if (entries.length === 0) {
+        return <Paragraph style={{ color: '#888', fontStyle: 'italic' }}>Đang cập nhật nội dung chi tiết các vòng móc...</Paragraph>;
+      }
+
+      return entries.map(([partName, steps]: [string, any]) => {
+        let stepList: string[] = [];
+        if (Array.isArray(steps)) {
+          stepList = steps.map(String);
+        } else if (typeof steps === 'string') {
+          stepList = steps.split('\n').filter(Boolean);
+        } else if (steps && typeof steps === 'object') {
+          stepList = Object.entries(steps).map(([k, v]) => `${k}: ${v}`);
+        } else {
+          stepList = [String(steps)];
+        }
+
+        return (
+          <div key={partName} style={{ marginBottom: '24px' }}>
+            <Title level={4} style={{ color: '#ff476e', borderBottom: '2px dashed #fbcfe8', paddingBottom: '6px' }}>
+              ✦ Phần: {partName}
+            </Title>
+            <ul style={{ listStyleType: 'none', paddingLeft: 0, margin: 0 }}>
+              {stepList.map((step, sIdx) => (
+                <li
+                  key={sIdx}
+                  style={{
+                    padding: '8px 12px',
+                    margin: '6px 0',
+                    borderRadius: '8px',
+                    background: sIdx % 2 === 0 ? '#fff5f7' : '#ffffff',
+                    fontSize: '15px',
+                    fontFamily: 'monospace',
+                    color: '#333',
+                    borderLeft: '3px solid #ff758c',
+                    lineHeight: 1.6,
+                  }}
+                >
+                  {step}
+                </li>
+              ))}
+            </ul>
+          </div>
+        );
+      });
+    }
+
+    return <Paragraph style={{ color: '#888', fontStyle: 'italic' }}>Đang cập nhật nội dung chi tiết các vòng móc...</Paragraph>;
+  };
+
   return (
     <div style={{ maxWidth: '1100px', margin: '0 auto', padding: '24px 16px' }}>
-      <div style={{ marginBottom: '20px' }}>
+      {/* Breadcrumb & Navigation */}
+      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '20px', flexWrap: 'wrap', gap: '10px' }}>
+        <Breadcrumb
+          items={[
+            {
+              title: (
+                <Link to="/">
+                  <HomeOutlined /> Trang chủ
+                </Link>
+              ),
+            },
+            {
+              title: <Link to="/patterns">Kho Chart</Link>,
+            },
+            {
+              title: pattern.name,
+            },
+          ]}
+        />
         <Link to="/patterns">
           <Button icon={<ArrowLeftOutlined />} type="text" style={{ color: '#d81b60', fontWeight: 600 }}>
-            Quay lại danh sách Chart
+            Quay lại Kho Chart
           </Button>
         </Link>
       </div>
@@ -157,24 +254,21 @@ export const PatternDetailPage: React.FC = () => {
               <img
                 src={pattern.image_url || pattern.img}
                 alt={pattern.name}
-                onError={(e) => {
-                  (e.target as HTMLImageElement).src = FALLBACK_PATTERN_IMG;
-                }}
                 style={{ width: '100%', height: '100%', objectFit: 'cover' }}
               />
             </div>
           </Col>
 
           <Col xs={24} md={14}>
-            <div style={{ display: 'flex', gap: '8px', marginBottom: '12px' }}>
+            <div style={{ display: 'flex', gap: '8px', marginBottom: '12px', flexWrap: 'wrap' }}>
               <Tag color="magenta" style={{ borderRadius: '999px', fontWeight: 600, padding: '3px 12px' }}>
-                {pattern.category?.name || 'Móc Len'}
+                {typeof pattern.category === 'object' ? pattern.category.name : 'Móc Len'}
               </Tag>
               <Tag color="green" style={{ borderRadius: '999px', fontWeight: 600, padding: '3px 12px' }}>
                 Độ khó: {pattern.difficulty}
               </Tag>
               <Tag color="blue" style={{ borderRadius: '999px', fontWeight: 600, padding: '3px 12px' }}>
-                Miễn phí
+                {pattern.is_free !== false ? 'Miễn phí' : 'Có phí'}
               </Tag>
             </div>
 
@@ -182,15 +276,15 @@ export const PatternDetailPage: React.FC = () => {
               {pattern.name}
             </Title>
 
-            <div style={{ display: 'flex', alignItems: 'center', gap: '16px', marginBottom: '16px', color: '#666' }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '16px', marginBottom: '16px', color: '#666', flexWrap: 'wrap' }}>
               <Space>
-                <Rate disabled defaultValue={pattern.difficulty_stars || 2} style={{ fontSize: '15px' }} />
-                <span>({pattern.difficulty_stars} / 5 sao)</span>
+                <Rate disabled value={pattern.difficulty_stars || 2} style={{ fontSize: '15px' }} />
+                <span>({pattern.difficulty_stars || 2} / 5 sao)</span>
               </Space>
               <span>•</span>
-              <span><EyeOutlined /> {pattern.view_count} lượt xem</span>
+              <span><EyeOutlined /> {pattern.view_count || 0} lượt xem</span>
               <span>•</span>
-              <span><UserOutlined /> {pattern.author}</span>
+              <span><UserOutlined /> {pattern.author || 'Tiệm Len Xinh'}</span>
             </div>
 
             <Paragraph style={{ color: '#555', fontSize: '15px', lineHeight: 1.7, marginBottom: '24px' }}>
@@ -221,11 +315,17 @@ export const PatternDetailPage: React.FC = () => {
             style={{ borderRadius: '20px', height: '100%', border: '1px solid #ffe4e6' }}
           >
             <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
-              {pattern.materials?.map((mat, idx) => (
-                <Checkbox key={idx} style={{ fontSize: '15px' }}>
-                  {mat}
-                </Checkbox>
-              ))}
+              {pattern.materials && pattern.materials.length > 0 ? (
+                pattern.materials.map((mat, idx) => (
+                  <Checkbox key={idx} style={{ fontSize: '15px' }}>
+                    {mat}
+                  </Checkbox>
+                ))
+              ) : (
+                <Text type="secondary" style={{ fontStyle: 'italic' }}>
+                  Len sợi phù hợp theo màu yêu thích, bông gòn nhồi thú.
+                </Text>
+              )}
             </div>
           </Card>
         </Col>
@@ -236,11 +336,17 @@ export const PatternDetailPage: React.FC = () => {
             style={{ borderRadius: '20px', height: '100%', border: '1px solid #ffe4e6' }}
           >
             <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
-              {pattern.tools?.map((tool, idx) => (
-                <Checkbox key={idx} style={{ fontSize: '15px' }}>
-                  {tool}
-                </Checkbox>
-              ))}
+              {pattern.tools && pattern.tools.length > 0 ? (
+                pattern.tools.map((tool, idx) => (
+                  <Checkbox key={idx} style={{ fontSize: '15px' }}>
+                    {tool}
+                  </Checkbox>
+                ))
+              ) : (
+                <Text type="secondary" style={{ fontStyle: 'italic' }}>
+                  Kim móc 2.0 - 2.5mm, kim khâu len đầu tù, kéo bấm chỉ.
+                </Text>
+              )}
             </div>
           </Card>
         </Col>
@@ -253,36 +359,7 @@ export const PatternDetailPage: React.FC = () => {
             title={<span style={{ color: '#d81b60', fontSize: '18px' }}>📝 Các Bước Móc Chi Tiết</span>}
             style={{ borderRadius: '20px', border: '1px solid #ffe4e6' }}
           >
-            {pattern.content && Object.keys(pattern.content).length > 0 ? (
-              Object.entries(pattern.content).map(([partName, steps]) => (
-                <div key={partName} style={{ marginBottom: '24px' }}>
-                  <Title level={4} style={{ color: '#ff476e', borderBottom: '2px dashed #fbcfe8', paddingBottom: '6px' }}>
-                    ✦ Phần: {partName}
-                  </Title>
-                  <ul style={{ listStyleType: 'none', paddingLeft: '8px' }}>
-                    {(steps as string[]).map((step, sIdx) => (
-                      <li
-                        key={sIdx}
-                        style={{
-                          padding: '8px 12px',
-                          margin: '6px 0',
-                          borderRadius: '8px',
-                          background: sIdx % 2 === 0 ? '#fff5f7' : '#ffffff',
-                          fontSize: '15px',
-                          fontFamily: 'monospace',
-                          color: '#333',
-                          borderLeft: '3px solid #ff758c',
-                        }}
-                      >
-                        {step}
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-              ))
-            ) : (
-              <Paragraph>Đang cập nhật nội dung chi tiết các vòng móc...</Paragraph>
-            )}
+            {renderPatternContent()}
           </Card>
         </Col>
 
@@ -397,13 +474,15 @@ export const PatternDetailPage: React.FC = () => {
                   border: '1px solid #fce7f3',
                 }}
               >
-                <Avatar src={comm.avatar} size={46} />
+                <Avatar src={comm.avatar} size={46}>
+                  {comm.author_name ? comm.author_name.charAt(0).toUpperCase() : <UserOutlined />}
+                </Avatar>
                 <div style={{ flex: 1 }}>
                   <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
                     <Text strong style={{ fontSize: '15px', color: '#33272a' }}>
                       {comm.author_name}
                     </Text>
-                    <Rate disabled defaultValue={comm.rating} style={{ fontSize: '13px', color: '#ff758c' }} />
+                    <Rate disabled value={comm.rating} style={{ fontSize: '13px', color: '#ff758c' }} />
                   </div>
                   <Paragraph style={{ color: '#666', marginTop: '6px', marginBottom: 0, fontSize: '14px' }}>
                     {comm.content}
@@ -417,4 +496,5 @@ export const PatternDetailPage: React.FC = () => {
     </div>
   );
 };
+
 

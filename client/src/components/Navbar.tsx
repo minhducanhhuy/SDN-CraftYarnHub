@@ -141,19 +141,21 @@ export const Navbar: React.FC = () => {
       </div>
 
       {/* Search Bar & Cart */}
-      <div style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
-        <Input
-          placeholder="Tìm chart, len..."
-          prefix={<SearchOutlined style={{ color: '#ff758c' }} />}
-          value={search}
-          onChange={(e) => setSearch(e.target.value)}
-          onPressEnter={() => handleSearch(search)}
-          style={{
-            width: '200px',
-            borderRadius: '999px',
-            borderColor: '#fbcfe8',
-          }}
-        />
+      <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+        <div className="header-search">
+          <Input
+            placeholder="Tìm chart, len..."
+            prefix={<SearchOutlined style={{ color: '#ff758c' }} />}
+            value={search}
+            onChange={(e) => setSearch(e.target.value)}
+            onPressEnter={() => handleSearch(search)}
+            style={{
+              width: '180px',
+              borderRadius: '999px',
+              borderColor: '#fbcfe8',
+            }}
+          />
+        </div>
 
         <Link to="/cart">
           <Badge count={totalItems} overflowCount={99} color="#ff476e">
@@ -173,7 +175,7 @@ export const Navbar: React.FC = () => {
           </Badge>
         </Link>
 
-        <Link to="/admin">
+        <Link to="/admin" className="header-admin-btn">
           <Button
             type="dashed"
             icon={<SettingOutlined />}
@@ -190,12 +192,22 @@ export const Navbar: React.FC = () => {
 
       {/* Mobile Drawer */}
       <Drawer
-        title="Tiệm Len Xinh"
+        title="Tiệm Len Xinh 🧶"
         placement="left"
         open={mobileOpen}
         onClose={() => setMobileOpen(false)}
       >
-        <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
+        <div style={{ marginBottom: '20px' }}>
+          <Input
+            placeholder="Tìm chart, len..."
+            prefix={<SearchOutlined style={{ color: '#ff758c' }} />}
+            value={search}
+            onChange={(e) => setSearch(e.target.value)}
+            onPressEnter={() => handleSearch(search)}
+            style={{ borderRadius: '999px', borderColor: '#fbcfe8' }}
+          />
+        </div>
+        <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
           {navLinks.map((link) => (
             <Link
               key={link.path}
@@ -205,13 +217,20 @@ export const Navbar: React.FC = () => {
                 fontSize: '16px',
                 fontWeight: 600,
                 color: '#333',
-                padding: '10px',
+                padding: '12px 14px',
+                borderRadius: '12px',
                 textDecoration: 'none',
+                display: 'flex',
+                alignItems: 'center',
+                gap: '10px',
+                background: location.pathname === link.path ? '#fff0f3' : 'transparent',
               }}
             >
+              {link.icon}
               {link.label}
             </Link>
           ))}
+          <div style={{ height: '1px', background: '#ffe4e6', margin: '8px 0' }} />
           <Link
             to="/admin"
             onClick={() => setMobileOpen(false)}
@@ -219,11 +238,16 @@ export const Navbar: React.FC = () => {
               fontSize: '16px',
               fontWeight: 600,
               color: '#d81b60',
-              padding: '10px',
+              padding: '12px 14px',
+              borderRadius: '12px',
               textDecoration: 'none',
+              display: 'flex',
+              alignItems: 'center',
+              gap: '10px',
+              background: location.pathname === '/admin' ? '#fff0f3' : 'transparent',
             }}
           >
-            ⚙️ Quản Trị Hệ Thống
+            <SettingOutlined /> Quản Trị Hệ Thống
           </Link>
         </div>
       </Drawer>

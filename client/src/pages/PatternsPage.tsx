@@ -173,7 +173,7 @@ export const PatternsPage: React.FC = () => {
           </div>
           <Row gutter={[24, 24]}>
             {patterns.map((pat) => (
-              <Col xs={24} sm={12} md={6} key={pat._id}>
+              <Col xs={24} sm={12} md={8} lg={6} key={pat._id}>
                 <PatternCard pattern={pat} />
               </Col>
             ))}

@@ -1,14 +1,11 @@
 import React from 'react';
 import { Card, Tag, Typography, Button, message } from 'antd';
-import { ShoppingCartOutlined, EyeOutlined } from '@ant-design/icons';
+import { ShoppingCartOutlined } from '@ant-design/icons';
 import { Link } from 'react-router-dom';
 import { Product } from '../types';
 import { useCart } from '../context/CartContext';
 
-const { Title, Paragraph, Text } = Typography;
-
-const FALLBACK_PRODUCT_IMG =
-  'https://images.unsplash.com/photo-1584992236310-6edddc08acff?auto=format&fit=crop&w=600&q=80';
+const { Title, Paragraph } = Typography;
 
 export const ProductCard: React.FC<{ product: Product }> = ({ product }) => {
   const { addToCart } = useCart();
@@ -23,7 +20,7 @@ export const ProductCard: React.FC<{ product: Product }> = ({ product }) => {
   const formattedPrice = new Intl.NumberFormat('vi-VN', {
     style: 'currency',
     currency: 'VND',
-  }).format(product.price);
+  }).format(product.price || 0);
 
   return (
     <Card
@@ -42,9 +39,6 @@ export const ProductCard: React.FC<{ product: Product }> = ({ product }) => {
             <img
               src={product.image_url}
               alt={product.name}
-              onError={(e) => {
-                (e.target as HTMLImageElement).src = FALLBACK_PRODUCT_IMG;
-              }}
               style={{
                 width: '100%',
                 height: '100%',
@@ -66,7 +60,7 @@ export const ProductCard: React.FC<{ product: Product }> = ({ product }) => {
                 padding: '2px 10px',
               }}
             >
-              {product.stock_status}
+              {product.stock_status || 'Còn hàng'}
             </Tag>
           </div>
         </Link>
@@ -80,7 +74,7 @@ export const ProductCard: React.FC<{ product: Product }> = ({ product }) => {
       }}
     >
       <div>
-        <Link to={`/accessories/${product._id}`}>
+        <Link to={`/accessories/${product._id}`} style={{ textDecoration: 'none' }}>
           <Title
             level={4}
             style={{
@@ -137,4 +131,5 @@ export const ProductCard: React.FC<{ product: Product }> = ({ product }) => {
     </Card>
   );
 };
+
 

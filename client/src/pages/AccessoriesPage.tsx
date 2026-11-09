@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Row, Col, Typography, Input, Tabs, Spin, Empty } from 'antd';
+import { Row, Col, Typography, Input, Tabs, Spin, Empty, Button } from 'antd';
 import { SearchOutlined, ShoppingOutlined } from '@ant-design/icons';
 import { Product, Category } from '../types';
 import { productsService } from '../services/products.service';
@@ -107,7 +107,17 @@ export const AccessoriesPage: React.FC = () => {
         </div>
       ) : products.length === 0 ? (
         <div style={{ textAlign: 'center', padding: '60px 0' }}>
-          <Empty description="Không tìm thấy sản phẩm nào" />
+          <Empty description="Không tìm thấy sản phẩm nào phù hợp" />
+          <Button
+            type="primary"
+            onClick={() => {
+              setActiveTab('all');
+              setSearch('');
+            }}
+            style={{ marginTop: '16px', borderRadius: '999px' }}
+          >
+            Xem tất cả sản phẩm
+          </Button>
         </div>
       ) : (
         <Row gutter={[24, 24]}>

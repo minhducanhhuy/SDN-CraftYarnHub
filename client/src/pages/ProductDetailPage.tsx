@@ -11,6 +11,7 @@ import {
   message,
   Divider,
   Space,
+  Breadcrumb,
 } from 'antd';
 import {
   ShoppingCartOutlined,
@@ -18,6 +19,7 @@ import {
   CheckCircleOutlined,
   SafetyCertificateOutlined,
   ThunderboltOutlined,
+  HomeOutlined,
 } from '@ant-design/icons';
 import { useParams, Link, useNavigate } from 'react-router-dom';
 import { Product } from '../types';
@@ -25,9 +27,6 @@ import { productsService } from '../services/products.service';
 import { useCart } from '../context/CartContext';
 
 const { Title, Paragraph, Text } = Typography;
-
-const FALLBACK_PRODUCT_IMG =
-  'https://images.unsplash.com/photo-1584992236310-6edddc08acff?auto=format&fit=crop&w=600&q=80';
 
 export const ProductDetailPage: React.FC = () => {
   const { id } = useParams<{ id: string }>();
@@ -90,7 +89,7 @@ export const ProductDetailPage: React.FC = () => {
   const formattedPrice = new Intl.NumberFormat('vi-VN', {
     style: 'currency',
     currency: 'VND',
-  }).format(product.price);
+  }).format(product.price || 0);
 
   const formattedOriginalPrice = product.original_price
     ? new Intl.NumberFormat('vi-VN', {
@@ -99,9 +98,40 @@ export const ProductDetailPage: React.FC = () => {
       }).format(product.original_price)
     : null;
 
+  const categoryName = typeof product.category === 'object' && product.category?.name
+    ? product.category.name
+    : 'Phụ kiện';
+
   return (
     <div style={{ maxWidth: '1100px', margin: '0 auto', padding: '24px 16px' }}>
-      <div style={{ marginBottom: '20px' }}>
+      {/* Breadcrumb & Navigation */}
+      <div
+        style={{
+          display: 'flex',
+          justifyContent: 'space-between',
+          alignItems: 'center',
+          marginBottom: '20px',
+          flexWrap: 'wrap',
+          gap: '10px',
+        }}
+      >
+        <Breadcrumb
+          items={[
+            {
+              title: (
+                <Link to="/">
+                  <HomeOutlined /> Trang chủ
+                </Link>
+              ),
+            },
+            {
+              title: <Link to="/accessories">Phụ Kiện</Link>,
+            },
+            {
+              title: product.name,
+            },
+          ]}
+        />
         <Link to="/accessories">
           <Button icon={<ArrowLeftOutlined />} type="text" style={{ color: '#d81b60', fontWeight: 600 }}>
             Quay lại danh mục Phụ Kiện
@@ -125,32 +155,34 @@ export const ProductDetailPage: React.FC = () => {
               style={{
                 borderRadius: '20px',
                 overflow: 'hidden',
-                height: '420px',
+                maxHeight: '420px',
+                minHeight: '280px',
                 border: '1px solid #fce7f3',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                background: '#fff',
               }}
             >
               <img
                 src={product.image_url}
                 alt={product.name}
-                onError={(e) => {
-                  (e.target as HTMLImageElement).src = FALLBACK_PRODUCT_IMG;
-                }}
-                style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+                style={{ width: '100%', height: '100%', maxHeight: '420px', objectFit: 'cover' }}
               />
             </div>
           </Col>
 
           {/* Product Details */}
           <Col xs={24} md={13}>
-            <div style={{ display: 'flex', gap: '8px', marginBottom: '12px' }}>
+            <div style={{ display: 'flex', gap: '8px', marginBottom: '12px', flexWrap: 'wrap' }}>
               <Tag color="cyan" style={{ borderRadius: '999px', fontWeight: 600, padding: '3px 12px' }}>
-                {product.category?.name || 'Phụ kiện'}
+                {categoryName}
               </Tag>
               <Tag
                 color={product.stock_status === 'Còn hàng' ? 'green' : 'orange'}
                 style={{ borderRadius: '999px', fontWeight: 600, padding: '3px 12px' }}
               >
-                {product.stock_status}
+                {product.stock_status || 'Còn hàng'}
               </Tag>
             </div>
 
@@ -172,12 +204,13 @@ export const ProductDetailPage: React.FC = () => {
                 display: 'flex',
                 alignItems: 'baseline',
                 gap: '12px',
+                flexWrap: 'wrap',
               }}
             >
               <span style={{ fontSize: '30px', fontWeight: 800, color: '#e11d48' }}>
                 {formattedPrice}
               </span>
-              {formattedOriginalPrice && product.original_price > product.price && (
+              {formattedOriginalPrice && product.original_price && product.original_price > product.price && (
                 <span
                   style={{
                     fontSize: '16px',
@@ -197,7 +230,7 @@ export const ProductDetailPage: React.FC = () => {
                 min={1}
                 max={99}
                 value={quantity}
-                onChange={(val) => setQuantity(val || 1)}
+                onChange={(val) => setQuantity(val && val > 0 ? val : 1)}
                 style={{ width: '80px', borderRadius: '8px' }}
               />
             </div>
@@ -268,3 +301,4 @@ export const ProductDetailPage: React.FC = () => {
     </div>
   );
 };
+

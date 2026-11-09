@@ -36,7 +36,7 @@ export const BlogPage: React.FC = () => {
       ) : (
         <Row gutter={[24, 32]}>
           {blogs.map((blog) => (
-            <Col xs={24} md={12} lg={6} key={blog._id}>
+            <Col xs={24} sm={12} md={8} key={blog._id}>
               <Link to={`/blog/${blog.slug}`} style={{ textDecoration: 'none' }}>
                 <Card
                   hoverable
@@ -45,9 +45,6 @@ export const BlogPage: React.FC = () => {
                     <img
                       src={blog.image_url}
                       alt={blog.title}
-                      onError={(e) => {
-                        (e.target as HTMLImageElement).src = '/featured_blog.png';
-                      }}
                       style={{ height: '200px', objectFit: 'cover' }}
                     />
                   }
