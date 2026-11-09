@@ -46,3 +46,4 @@ export class UpdatePatternDto {
   @IsString()
   author?: string;
 }
+

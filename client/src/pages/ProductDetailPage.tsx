@@ -262,3 +262,4 @@ export const ProductDetailPage: React.FC = () => {
     </div>
   );
 };
+
