@@ -282,7 +282,7 @@ export const PatternDetailPage: React.FC = () => {
 
         <Col xs={24} lg={8}>
           <div style={{ position: 'sticky', top: '90px' }}>
-            <RowCounter />
+            <RowCounter patternId={pattern._id} />
             <div
               style={{
                 marginTop: '16px',

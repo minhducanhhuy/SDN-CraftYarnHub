@@ -100,11 +100,38 @@ const commentSchema = new mongoose.Schema(
   { timestamps: true }
 );
 
+const orderSchema = new mongoose.Schema(
+  {
+    order_code: { type: String, required: true, unique: true },
+    customer_name: { type: String, required: true },
+    phone: { type: String, required: true },
+    address: { type: String, required: true },
+    note: { type: String, default: '' },
+    items: [
+      {
+        product_id: { type: mongoose.Schema.Types.ObjectId, ref: 'Product' },
+        name: String,
+        price: Number,
+        quantity: Number,
+        image_url: String,
+      },
+    ],
+    total_amount: { type: Number, required: true },
+    status: {
+      type: String,
+      enum: ['Chờ xác nhận', 'Đang xử lý', 'Đã giao', 'Đã hủy'],
+      default: 'Chờ xác nhận',
+    },
+  },
+  { timestamps: true }
+);
+
 const CategoryModel = mongoose.model('Category', categorySchema);
 const PatternModel = mongoose.model('Pattern', patternSchema);
 const ProductModel = mongoose.model('Product', productSchema);
 const BlogModel = mongoose.model('Blog', blogSchema);
 const CommentModel = mongoose.model('Comment', commentSchema);
+const OrderModel = mongoose.model('Order', orderSchema);
 
 async function seed() {
   console.log('🌱 Kết nối MongoDB để nạp dữ liệu seed:', MONGODB_URI);
@@ -116,6 +143,7 @@ async function seed() {
   await ProductModel.deleteMany({});
   await BlogModel.deleteMany({});
   await CommentModel.deleteMany({});
+  await OrderModel.deleteMany({});
 
   console.log('📁 Tạo Danh mục (Categories)...');
   const catRauCu = await CategoryModel.create({
@@ -299,7 +327,7 @@ async function seed() {
   });
 
   console.log('🛍️ Tạo Sản phẩm Phụ kiện & Len (Products)...');
-  await ProductModel.create([
+  const createdProducts = await ProductModel.create([
     {
       name: 'Set len Milk Bò 50g - Palette Màu Pastel',
       category: catLenSoi._id,
@@ -449,6 +477,71 @@ async function seed() {
       rating: 5,
       content: 'Hoa mặt trời móc nhanh và làm quà tặng 20/11 hay 8/3 cực kỳ ý nghĩa.',
       verified: true,
+    },
+  ]);
+
+  console.log('📦 Tạo Đơn hàng mẫu (Orders)...');
+  await OrderModel.create([
+    {
+      order_code: 'ORD-882194',
+      customer_name: 'Nguyễn Thảo Ly',
+      phone: '0987654321',
+      address: 'Số 12 ngõ 45 Cầu Giấy, Hà Nội',
+      note: 'Giao giờ hành chính giúp mình nha shop',
+      items: [
+        {
+          product_id: createdProducts[0]._id,
+          name: createdProducts[0].name,
+          price: createdProducts[0].price,
+          quantity: 3,
+          image_url: createdProducts[0].image_url,
+        },
+        {
+          product_id: createdProducts[2]._id,
+          name: createdProducts[2].name,
+          price: createdProducts[2].price,
+          quantity: 1,
+          image_url: createdProducts[2].image_url,
+        },
+      ],
+      total_amount: createdProducts[0].price * 3 + createdProducts[2].price * 1,
+      status: 'Chờ xác nhận',
+    },
+    {
+      order_code: 'ORD-914283',
+      customer_name: 'Trần Hoàng Yến',
+      phone: '0912345678',
+      address: 'Phường Bến Nghé, Quận 1, TP. Hồ Chí Minh',
+      note: 'Gói hàng cẩn thận giúp em nhé',
+      items: [
+        {
+          product_id: createdProducts[1]._id,
+          name: createdProducts[1].name,
+          price: createdProducts[1].price,
+          quantity: 2,
+          image_url: createdProducts[1].image_url,
+        },
+      ],
+      total_amount: createdProducts[1].price * 2,
+      status: 'Đang xử lý',
+    },
+    {
+      order_code: 'ORD-763910',
+      customer_name: 'Lê Thanh Hương',
+      phone: '0933221144',
+      address: 'Đường Hùng Vương, TP. Đà Nẵng',
+      note: '',
+      items: [
+        {
+          product_id: createdProducts[0]._id,
+          name: createdProducts[0].name,
+          price: createdProducts[0].price,
+          quantity: 5,
+          image_url: createdProducts[0].image_url,
+        },
+      ],
+      total_amount: createdProducts[0].price * 5,
+      status: 'Đã giao',
     },
   ]);
 

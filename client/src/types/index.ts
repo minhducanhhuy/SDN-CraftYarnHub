@@ -69,3 +69,26 @@ export interface CartItem {
   quantity: number;
 }
 
+export interface OrderItem {
+  product_id: string;
+  name: string;
+  price: number;
+  quantity: number;
+  image_url: string;
+}
+
+export interface Order {
+  _id: string;
+  order_code: string;
+  customer_name: string;
+  phone: string;
+  address: string;
+  note?: string;
+  items: OrderItem[];
+  total_amount: number;
+  status: 'Chờ xác nhận' | 'Đang xử lý' | 'Đã giao' | 'Đã hủy';
+  createdAt: string;
+  updatedAt: string;
+}
+
+

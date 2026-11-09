@@ -10,6 +10,7 @@ import {
   ShoppingCartOutlined,
   SearchOutlined,
   MenuOutlined,
+  SettingOutlined,
 } from '@ant-design/icons';
 import { useCart } from '../context/CartContext';
 
@@ -171,6 +172,20 @@ export const Navbar: React.FC = () => {
             />
           </Badge>
         </Link>
+
+        <Link to="/admin">
+          <Button
+            type="dashed"
+            icon={<SettingOutlined />}
+            style={{
+              borderRadius: '999px',
+              color: '#d81b60',
+              borderColor: '#fbcfe8',
+            }}
+          >
+            Quản trị
+          </Button>
+        </Link>
       </div>
 
       {/* Mobile Drawer */}
@@ -197,6 +212,19 @@ export const Navbar: React.FC = () => {
               {link.label}
             </Link>
           ))}
+          <Link
+            to="/admin"
+            onClick={() => setMobileOpen(false)}
+            style={{
+              fontSize: '16px',
+              fontWeight: 600,
+              color: '#d81b60',
+              padding: '10px',
+              textDecoration: 'none',
+            }}
+          >
+            ⚙️ Quản Trị Hệ Thống
+          </Link>
         </div>
       </Drawer>
     </Header>

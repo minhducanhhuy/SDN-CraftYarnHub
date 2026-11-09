@@ -12,28 +12,94 @@ import {
   Input,
   message,
   Modal,
+  Tag,
+  Alert,
 } from 'antd';
 import {
   DeleteOutlined,
   ShoppingOutlined,
   CheckCircleFilled,
   ArrowLeftOutlined,
+  SearchOutlined,
 } from '@ant-design/icons';
 import { Link, useNavigate } from 'react-router-dom';
 import { useCart } from '../context/CartContext';
+import { ordersService } from '../services/orders.service';
+import { Order } from '../types';
 
 const { Title, Text, Paragraph } = Typography;
 
 export const CartPage: React.FC = () => {
   const { cart, removeFromCart, updateQuantity, clearCart, totalAmount, totalItems } = useCart();
   const [isSuccessModal, setIsSuccessModal] = useState(false);
-  const [orderInfo, setOrderInfo] = useState<any>(null);
-  const navigate = useNavigate();
+  const [createdOrder, setCreatedOrder] = useState<Order | null>(null);
+  const [submitting, setSubmitting] = useState(false);
 
-  const handleCheckout = (values: any) => {
-    setOrderInfo(values);
-    setIsSuccessModal(true);
-    clearCart();
+  // State tra cứu đơn hàng
+  const [lookupModal, setLookupModal] = useState(false);
+  const [lookupKeyword, setLookupKeyword] = useState('');
+  const [lookupResults, setLookupResults] = useState<Order[]>([]);
+  const [lookupLoading, setLookupLoading] = useState(false);
+
+  const navigate = useNavigate();
+  const [form] = Form.useForm();
+
+  const handleCheckout = async (values: any) => {
+    if (cart.length === 0) {
+      message.warning('Giỏ hàng của bạn đang trống!');
+      return;
+    }
+
+    try {
+      setSubmitting(true);
+      const payload = {
+        customer_name: values.customer_name,
+        phone: values.phone,
+        address: values.address,
+        note: values.note || '',
+        items: cart.map((item) => ({
+          product_id: item.product._id,
+          name: item.product.name,
+          price: item.product.price,
+          quantity: item.quantity,
+          image_url: item.product.image_url,
+        })),
+        total_amount: totalAmount,
+      };
+
+      const res = await ordersService.create(payload);
+      if (res.success) {
+        setCreatedOrder(res.data);
+        setIsSuccessModal(true);
+        clearCart();
+        form.resetFields();
+      }
+    } catch (err: any) {
+      message.error(err.message || 'Không thể tạo đơn hàng, vui lòng thử lại');
+    } finally {
+      setSubmitting(false);
+    }
+  };
+
+  const handleLookup = async () => {
+    if (!lookupKeyword.trim()) {
+      message.warning('Vui lòng nhập Mã đơn hàng hoặc Số điện thoại');
+      return;
+    }
+    try {
+      setLookupLoading(true);
+      const res = await ordersService.lookup(lookupKeyword.trim());
+      if (res.success) {
+        setLookupResults(res.data);
+        if (res.data.length === 0) {
+          message.info('Không tìm thấy đơn hàng nào khớp với thông tin này');
+        }
+      }
+    } catch (err) {
+      message.error('Lỗi khi tra cứu đơn hàng');
+    } finally {
+      setLookupLoading(false);
+    }
   };
 
   const formattedTotal = new Intl.NumberFormat('vi-VN', {
@@ -43,11 +109,30 @@ export const CartPage: React.FC = () => {
 
   return (
     <div style={{ maxWidth: '1100px', margin: '0 auto', padding: '24px 16px' }}>
-      <div style={{ marginBottom: '24px' }}>
-        <Title level={1} style={{ color: '#d81b60', fontSize: '28px', marginBottom: '4px' }}>
-          Giỏ Hàng Của Bạn 🛒
-        </Title>
-        <Text style={{ color: '#666' }}>Bạn có {totalItems} sản phẩm phụ kiện trong giỏ</Text>
+      <div
+        style={{
+          display: 'flex',
+          justifyContent: 'space-between',
+          alignItems: 'center',
+          marginBottom: '24px',
+          flexWrap: 'wrap',
+          gap: '12px',
+        }}
+      >
+        <div>
+          <Title level={1} style={{ color: '#d81b60', fontSize: '28px', marginBottom: '4px' }}>
+            Giỏ Hàng Của Bạn 🛒
+          </Title>
+          <Text style={{ color: '#666' }}>Bạn có {totalItems} sản phẩm phụ kiện trong giỏ</Text>
+        </div>
+
+        <Button
+          icon={<SearchOutlined />}
+          onClick={() => setLookupModal(true)}
+          style={{ borderRadius: '999px', borderColor: '#ff758c', color: '#d81b60' }}
+        >
+          Tra Cứu Đơn Hàng Của Tôi
+        </Button>
       </div>
 
       {cart.length === 0 ? (
@@ -146,19 +231,22 @@ export const CartPage: React.FC = () => {
                 </div>
               </div>
 
-              <Form layout="vertical" onFinish={handleCheckout}>
+              <Form form={form} layout="vertical" onFinish={handleCheckout}>
                 <Form.Item
                   name="customer_name"
                   label="Họ và tên"
-                  rules={[{ required: true, message: 'Vui lòng nhập họ tên' }]}
+                  rules={[{ required: true, message: 'Vui lòng nhập họ tên người nhận' }]}
                 >
-                  <Input placeholder="Nguyễn Văn A" style={{ borderRadius: '10px' }} />
+                  <Input placeholder="Ví dụ: Lan Anh, Mai Phương..." style={{ borderRadius: '10px' }} />
                 </Form.Item>
 
                 <Form.Item
                   name="phone"
                   label="Số điện thoại"
-                  rules={[{ required: true, message: 'Vui lòng nhập số điện thoại' }]}
+                  rules={[
+                    { required: true, message: 'Vui lòng nhập số điện thoại' },
+                    { pattern: /^[0-9]{10,11}$/, message: 'Số điện thoại không hợp lệ (10-11 số)' },
+                  ]}
                 >
                   <Input placeholder="0912345678" style={{ borderRadius: '10px' }} />
                 </Form.Item>
@@ -171,15 +259,20 @@ export const CartPage: React.FC = () => {
                   <Input.TextArea rows={2} placeholder="Số nhà, tên đường, quận/huyện..." style={{ borderRadius: '10px' }} />
                 </Form.Item>
 
+                <Form.Item name="note" label="Ghi chú thêm (tùy chọn)">
+                  <Input placeholder="Giao giờ hành chính, bọc kỹ..." style={{ borderRadius: '10px' }} />
+                </Form.Item>
+
                 <Button
                   type="primary"
                   htmlType="submit"
                   block
                   size="large"
+                  loading={submitting}
                   icon={<ShoppingOutlined />}
                   style={{ height: '46px', fontSize: '16px', borderRadius: '999px', marginTop: '12px' }}
                 >
-                  Đặt Hàng Ngay
+                  {submitting ? 'Đang tạo đơn...' : 'Đặt Hàng Ngay'}
                 </Button>
               </Form>
             </Card>
@@ -200,24 +293,117 @@ export const CartPage: React.FC = () => {
           <Title level={3} style={{ color: '#2c1810', marginBottom: '8px' }}>
             Đặt Hàng Thành Công!
           </Title>
+          <div style={{ marginBottom: '16px' }}>
+            <Tag color="magenta" style={{ fontSize: '15px', padding: '6px 14px', borderRadius: '999px' }}>
+              Mã đơn hàng: {createdOrder?.order_code}
+            </Tag>
+          </div>
           <Paragraph style={{ color: '#666', fontSize: '15px' }}>
-            Cảm ơn bạn <strong>{orderInfo?.customer_name}</strong> đã ủng hộ Tiệm Len Xinh.
-            Chúng mình sẽ chuẩn bị gói hàng và liên hệ bạn qua SĐT {orderInfo?.phone} sớm nhất!
+            Cảm ơn bạn <strong>{createdOrder?.customer_name}</strong> đã ủng hộ Tiệm Len Xinh.
+            Đơn hàng trị giá{' '}
+            <strong style={{ color: '#e11d48' }}>
+              {new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(
+                createdOrder?.total_amount || 0
+              )}
+            </strong>{' '}
+            đã được lưu vào hệ thống và đang chờ xác nhận!
           </Paragraph>
-          <Button
-            type="primary"
-            size="large"
-            onClick={() => {
-              setIsSuccessModal(false);
-              navigate('/');
-            }}
-            style={{ borderRadius: '999px', marginTop: '16px' }}
-          >
-            Về Trang Chủ
-          </Button>
+          <div style={{ display: 'flex', gap: '12px', justifyContent: 'center', marginTop: '20px' }}>
+            <Button
+              type="primary"
+              size="large"
+              onClick={() => {
+                setIsSuccessModal(false);
+                navigate('/');
+              }}
+              style={{ borderRadius: '999px' }}
+            >
+              Về Trang Chủ
+            </Button>
+            <Button
+              size="large"
+              onClick={() => {
+                setIsSuccessModal(false);
+                setLookupModal(true);
+                if (createdOrder) {
+                  setLookupKeyword(createdOrder.order_code);
+                  setLookupResults([createdOrder]);
+                }
+              }}
+              style={{ borderRadius: '999px' }}
+            >
+              Xem Chi Tiết Đơn
+            </Button>
+          </div>
+        </div>
+      </Modal>
+
+      {/* Lookup Order Modal */}
+      <Modal
+        title={<span style={{ color: '#d81b60', fontSize: '18px' }}>🔍 Tra Cứu Tình Trạng Đơn Hàng</span>}
+        open={lookupModal}
+        onCancel={() => setLookupModal(false)}
+        footer={null}
+        width={680}
+      >
+        <div style={{ padding: '8px 0' }}>
+          <div style={{ display: 'flex', gap: '8px', marginBottom: '20px' }}>
+            <Input
+              placeholder="Nhập Mã đơn hàng (VD: ORD-...) hoặc Số điện thoại"
+              value={lookupKeyword}
+              onChange={(e) => setLookupKeyword(e.target.value)}
+              onPressEnter={handleLookup}
+              style={{ borderRadius: '10px' }}
+            />
+            <Button
+              type="primary"
+              onClick={handleLookup}
+              loading={lookupLoading}
+              style={{ borderRadius: '10px' }}
+            >
+              Tra Cứu
+            </Button>
+          </div>
+
+          {lookupResults.length > 0 && (
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '16px', maxHeight: '420px', overflowY: 'auto' }}>
+              {lookupResults.map((ord) => (
+                <Card
+                  key={ord._id}
+                  size="small"
+                  style={{ borderRadius: '12px', border: '1px solid #ffd6e0' }}
+                  title={
+                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                      <Text strong style={{ color: '#d81b60' }}>{ord.order_code}</Text>
+                      <Tag
+                        color={
+                          ord.status === 'Đã giao'
+                            ? 'green'
+                            : ord.status === 'Đang xử lý'
+                            ? 'blue'
+                            : ord.status === 'Đã hủy'
+                            ? 'red'
+                            : 'orange'
+                        }
+                      >
+                        {ord.status}
+                      </Tag>
+                    </div>
+                  }
+                >
+                  <div style={{ fontSize: '13px', lineHeight: 1.8 }}>
+                    <div><strong>Người nhận:</strong> {ord.customer_name} - SĐT: {ord.phone}</div>
+                    <div><strong>Địa chỉ:</strong> {ord.address}</div>
+                    <div><strong>Tổng thanh toán:</strong> <span style={{ color: '#e11d48', fontWeight: 700 }}>{new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(ord.total_amount)}</span></div>
+                    <div><strong>Số mặt hàng:</strong> {ord.items?.length || 0} sản phẩm</div>
+                    <div style={{ color: '#888', fontSize: '12px' }}>Ngày đặt: {new Date(ord.createdAt).toLocaleString('vi-VN')}</div>
+                  </div>
+                </Card>
+              ))}
+            </div>
+          )}
         </div>
       </Modal>
     </div>
   );
 };
-

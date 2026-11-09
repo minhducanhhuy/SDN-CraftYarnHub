@@ -89,5 +89,43 @@ export class PatternsService {
     }
     return pattern;
   }
+
+  async create(data: any): Promise<Pattern> {
+    if (data.category && Types.ObjectId.isValid(data.category)) {
+      data.category = new Types.ObjectId(data.category);
+    }
+    const newPattern = new this.patternModel(data);
+    const saved = await newPattern.save();
+    return this.patternModel.findById(saved._id).populate('category').exec();
+  }
+
+  async update(id: string, data: any): Promise<Pattern> {
+    if (!Types.ObjectId.isValid(id)) {
+      throw new NotFoundException('ID Chart không hợp lệ');
+    }
+    if (data.category && Types.ObjectId.isValid(data.category)) {
+      data.category = new Types.ObjectId(data.category);
+    }
+    const updated = await this.patternModel
+      .findByIdAndUpdate(id, data, { new: true })
+      .populate('category')
+      .exec();
+
+    if (!updated) {
+      throw new NotFoundException('Không tìm thấy Chart để cập nhật');
+    }
+    return updated;
+  }
+
+  async delete(id: string): Promise<Pattern> {
+    if (!Types.ObjectId.isValid(id)) {
+      throw new NotFoundException('ID Chart không hợp lệ');
+    }
+    const deleted = await this.patternModel.findByIdAndDelete(id).exec();
+    if (!deleted) {
+      throw new NotFoundException('Không tìm thấy Chart');
+    }
+    return deleted;
+  }
 }
 

@@ -53,5 +53,43 @@ export class ProductsService {
     }
     return product;
   }
+
+  async create(data: any): Promise<Product> {
+    if (data.category && Types.ObjectId.isValid(data.category)) {
+      data.category = new Types.ObjectId(data.category);
+    }
+    const newProduct = new this.productModel(data);
+    const saved = await newProduct.save();
+    return this.productModel.findById(saved._id).populate('category').exec();
+  }
+
+  async update(id: string, data: any): Promise<Product> {
+    if (!Types.ObjectId.isValid(id)) {
+      throw new NotFoundException('ID Sản phẩm không hợp lệ');
+    }
+    if (data.category && Types.ObjectId.isValid(data.category)) {
+      data.category = new Types.ObjectId(data.category);
+    }
+    const updated = await this.productModel
+      .findByIdAndUpdate(id, data, { new: true })
+      .populate('category')
+      .exec();
+
+    if (!updated) {
+      throw new NotFoundException('Không tìm thấy sản phẩm');
+    }
+    return updated;
+  }
+
+  async delete(id: string): Promise<Product> {
+    if (!Types.ObjectId.isValid(id)) {
+      throw new NotFoundException('ID Sản phẩm không hợp lệ');
+    }
+    const deleted = await this.productModel.findByIdAndDelete(id).exec();
+    if (!deleted) {
+      throw new NotFoundException('Không tìm thấy sản phẩm');
+    }
+    return deleted;
+  }
 }
 

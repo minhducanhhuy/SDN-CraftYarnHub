@@ -1,4 +1,16 @@
-import { Controller, Get, Param, Query, Patch } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Put,
+  Delete,
+  Param,
+  Query,
+  Patch,
+  Body,
+  HttpCode,
+  HttpStatus,
+} from '@nestjs/common';
 import { PatternsService } from './patterns.service';
 
 @Controller('patterns')
@@ -47,6 +59,37 @@ export class PatternsController {
       success: true,
       data,
       message: 'Thả tim Chart thành công',
+    };
+  }
+
+  @Post()
+  @HttpCode(HttpStatus.CREATED)
+  async create(@Body() body: any) {
+    const data = await this.patternsService.create(body);
+    return {
+      success: true,
+      data,
+      message: 'Thêm mới mẫu Chart thành công',
+    };
+  }
+
+  @Put(':id')
+  async update(@Param('id') id: string, @Body() body: any) {
+    const data = await this.patternsService.update(id, body);
+    return {
+      success: true,
+      data,
+      message: 'Cập nhật mẫu Chart thành công',
+    };
+  }
+
+  @Delete(':id')
+  async delete(@Param('id') id: string) {
+    const data = await this.patternsService.delete(id);
+    return {
+      success: true,
+      data,
+      message: 'Xóa mẫu Chart thành công',
     };
   }
 }

@@ -1,6 +1,7 @@
 # ĐỒ ÁN MÔN HỌC SDN302: TIỆM LEN XINH (CROCHET CHART & ACCESSORIES)
 
 > Dự án xây dựng theo chuẩn mô hình **Client - Server**:
+>
 > - **Frontend (Client):** React + Vite (Ant Design, Responsive, UI tông ấm áp)
 > - **Backend (Server):** NestJS RESTful API Server (Module - Controller - Service)
 > - **Database:** MongoDB kết nối qua Mongoose (Schemas có type, validation, quan hệ `ObjectId` + `ref` và `.populate()`)
@@ -43,20 +44,26 @@ chart-crochet/
 ## 2. HƯỚNG DẪN KHỞI CHẠY DỰ ÁN
 
 ### Yêu cầu tiên quyết:
+
 - Đảm bảo dịch vụ **MongoDB** đang chạy trên máy (mặc định port `27017`).
 
 ### Cách 1: Chạy đồng thời cả Server & Client (Khuyên dùng)
+
 Tại thư mục gốc của dự án:
+
 ```bash
 npm run dev
 ```
+
 Lệnh này sẽ tự động khởi chạy song song:
+
 - **Backend (NestJS API):** `http://localhost:3000/api`
 - **Frontend (React Vite):** `http://localhost:5173`
 
 ---
 
 ### Cách 2: Chạy riêng lẻ từng phần
+
 - **Khởi chạy Backend:**
   ```bash
   cd server
@@ -78,34 +85,35 @@ Lệnh này sẽ tự động khởi chạy song song:
 ## 3. CÁC TÍNH NĂNG CHÍNH CỦA HỆ THỐNG
 
 1. **Trang Chủ (Home):**
+
    - Slider Carousel phong cách ấm áp (Bí Mật Chúng Mình, Quà Tặng Handmade, Chuyện Của Len).
    - Thẻ giới thiệu các tiện ích: Bấm Giờ & Định Giá, Đếm Hàng Chuẩn Bíp, Dịch Hóa Thuật Ngữ, Từ Điển Mũi Móc.
    - Hiển thị Chart nổi bật, Phụ kiện bán chạy và Cẩm nang đan móc từ MongoDB.
-
 2. **Kho Chart Móc Len (Patterns Catalog):**
+
    - Tìm kiếm realtime theo tên và nguyên liệu.
    - Lọc danh mục: Rau Củ, Con Vật, Hoa Lá...
    - Lọc độ khó: Dễ, Vừa, Khó.
    - Thẻ Chart hiển thị ảnh, số sao, danh mục và số lượt xem.
-
 3. **Chi Tiết Chart (Pattern Detail):**
+
    - Hình ảnh chi tiết, nguyên liệu, dụng cụ cần có.
    - Hướng dẫn móc từng bộ phận (Thân, Đầu, Cánh...) với các dòng R1, R2...
    - **Trợ lý đếm hàng đan móc (Row Counter)** phát âm thanh bíp pop trực tiếp.
    - Nút yêu thích / Thả tim (tăng like count lưu vào MongoDB).
    - Khu vực Đánh giá & Bình luận: Đọc bình luận thật và Form gửi đánh giá mới lưu ngay vào MongoDB.
-
 4. **Phụ Kiện & Dụng Cụ (Accessories):**
+
    - Danh sách len sợi Milk bò, len xù cừu, kim móc dẻo ABS, mắt thú, bông gòn bi.
    - Lọc theo phân loại sản phẩm.
    - Thêm vào giỏ hàng với thông báo Toast trực quan.
-
 5. **Giỏ Hàng & Đặt Hàng (Cart):**
+
    - Xem danh sách sản phẩm trong giỏ, tùy chỉnh số lượng, xóa sản phẩm.
    - Tự động tính tổng tiền.
    - Form thông tin nhận hàng và popup thông báo đặt hàng thành công.
-
 6. **Blog Thủ Công (Blog & Tips):**
+
    - Các bài viết mẹo giấu len, bảo quản len sợi, kỹ thuật nhồi thú amigurumi căng tròn.
 
 ---

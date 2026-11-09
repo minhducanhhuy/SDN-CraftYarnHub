@@ -1,11 +1,29 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Card, Button, Typography, Space } from 'antd';
 import { PlusOutlined, MinusOutlined, ReloadOutlined, SoundOutlined } from '@ant-design/icons';
 
 const { Title, Text } = Typography;
 
-export const RowCounter: React.FC<{ maxRows?: number }> = ({ maxRows = 20 }) => {
-  const [count, setCount] = useState(1);
+export const RowCounter: React.FC<{ maxRows?: number; patternId?: string }> = ({
+  maxRows = 50,
+  patternId,
+}) => {
+  const storageKey = patternId ? `crochet_row_${patternId}` : 'crochet_row_default';
+
+  const [count, setCount] = useState<number>(() => {
+    try {
+      const saved = localStorage.getItem(storageKey);
+      return saved ? parseInt(saved, 10) : 1;
+    } catch {
+      return 1;
+    }
+  });
+
+  useEffect(() => {
+    try {
+      localStorage.setItem(storageKey, count.toString());
+    } catch (e) {}
+  }, [count, storageKey]);
 
   // Âm thanh bíp giả lập bằng Web Audio API không cần file ngoài
   const playBeep = (freq = 600) => {

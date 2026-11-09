@@ -1,4 +1,16 @@
-import { Controller, Get, Param, Query, NotFoundException } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Put,
+  Delete,
+  Param,
+  Query,
+  Body,
+  NotFoundException,
+  HttpCode,
+  HttpStatus,
+} from '@nestjs/common';
 import { CategoriesService } from './categories.service';
 
 @Controller('categories')
@@ -31,6 +43,37 @@ export class CategoriesController {
       success: true,
       data: category,
       message: 'Lấy chi tiết danh mục thành công',
+    };
+  }
+
+  @Post()
+  @HttpCode(HttpStatus.CREATED)
+  async create(@Body() body: any) {
+    const data = await this.categoriesService.create(body);
+    return {
+      success: true,
+      data,
+      message: 'Tạo mới danh mục thành công',
+    };
+  }
+
+  @Put(':id')
+  async update(@Param('id') id: string, @Body() body: any) {
+    const data = await this.categoriesService.update(id, body);
+    return {
+      success: true,
+      data,
+      message: 'Cập nhật danh mục thành công',
+    };
+  }
+
+  @Delete(':id')
+  async delete(@Param('id') id: string) {
+    const data = await this.categoriesService.delete(id);
+    return {
+      success: true,
+      data,
+      message: 'Xóa danh mục thành công',
     };
   }
 }

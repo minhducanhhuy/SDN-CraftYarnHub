@@ -29,6 +29,12 @@ export const PatternsPage: React.FC = () => {
     });
   }, []);
 
+  // Đồng bộ search param từ URL
+  useEffect(() => {
+    const q = searchParams.get('q') || '';
+    setSearch(q);
+  }, [searchParams]);
+
   // Load danh sách Patterns khi filter thay đổi
   useEffect(() => {
     const fetchPatterns = async () => {
