@@ -29,6 +29,9 @@ import { Order } from '../types';
 
 const { Title, Text, Paragraph } = Typography;
 
+const FALLBACK_PRODUCT_IMG =
+  'https://images.unsplash.com/photo-1584992236310-6edddc08acff?auto=format&fit=crop&w=600&q=80';
+
 export const CartPage: React.FC = () => {
   const { cart, removeFromCart, updateQuantity, clearCart, totalAmount, totalItems } = useCart();
   const [isSuccessModal, setIsSuccessModal] = useState(false);
@@ -164,6 +167,9 @@ export const CartPage: React.FC = () => {
                     <img
                       src={item.product.image_url}
                       alt={item.product.name}
+                      onError={(e) => {
+                        (e.target as HTMLImageElement).src = FALLBACK_PRODUCT_IMG;
+                      }}
                       style={{ width: '80px', height: '80px', borderRadius: '12px', objectFit: 'cover' }}
                     />
                     <div style={{ flex: 1 }}>

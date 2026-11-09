@@ -26,6 +26,9 @@ import { useCart } from '../context/CartContext';
 
 const { Title, Paragraph, Text } = Typography;
 
+const FALLBACK_PRODUCT_IMG =
+  'https://images.unsplash.com/photo-1584992236310-6edddc08acff?auto=format&fit=crop&w=600&q=80';
+
 export const ProductDetailPage: React.FC = () => {
   const { id } = useParams<{ id: string }>();
   const [product, setProduct] = useState<Product | null>(null);
@@ -129,6 +132,9 @@ export const ProductDetailPage: React.FC = () => {
               <img
                 src={product.image_url}
                 alt={product.name}
+                onError={(e) => {
+                  (e.target as HTMLImageElement).src = FALLBACK_PRODUCT_IMG;
+                }}
                 style={{ width: '100%', height: '100%', objectFit: 'cover' }}
               />
             </div>

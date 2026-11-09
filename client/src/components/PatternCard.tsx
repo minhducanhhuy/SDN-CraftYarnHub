@@ -6,6 +6,9 @@ import { Pattern } from '../types';
 
 const { Title, Paragraph, Text } = Typography;
 
+const FALLBACK_PATTERN_IMG =
+  'https://i.pinimg.com/736x/8a/36/c9/8a36c968b077942a132ef2166f3249d8.jpg';
+
 export const PatternCard: React.FC<{
   pattern: Pattern;
   onLike?: (id: string) => void;
@@ -32,6 +35,9 @@ export const PatternCard: React.FC<{
           <img
             src={pattern.image_url || pattern.img}
             alt={pattern.name}
+            onError={(e) => {
+              (e.target as HTMLImageElement).src = FALLBACK_PATTERN_IMG;
+            }}
             style={{
               width: '100%',
               height: '100%',

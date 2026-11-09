@@ -89,6 +89,9 @@ export const BlogDetailPage: React.FC = () => {
           <img
             src={blog.image_url}
             alt={blog.title}
+            onError={(e) => {
+              (e.target as HTMLImageElement).src = '/featured_blog.png';
+            }}
             style={{ width: '100%', maxHeight: '420px', objectFit: 'cover' }}
           />
         </div>

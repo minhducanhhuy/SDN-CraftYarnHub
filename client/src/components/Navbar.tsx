@@ -53,7 +53,7 @@ export const Navbar: React.FC = () => {
       }}
     >
       {/* Mobile Menu Button */}
-      <div className="mobile-btn" style={{ display: 'none' }}>
+      <div className="mobile-btn">
         <Button
           type="text"
           icon={<MenuOutlined style={{ fontSize: '20px', color: '#ff6584' }} />}

@@ -336,6 +336,9 @@ export const HomePage: React.FC = () => {
                     <img
                       src={b.image_url}
                       alt={b.title}
+                      onError={(e) => {
+                        (e.target as HTMLImageElement).src = '/featured_blog.png';
+                      }}
                       style={{ height: '190px', objectFit: 'cover' }}
                     />
                   }

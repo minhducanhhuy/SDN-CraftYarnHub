@@ -45,6 +45,9 @@ export const BlogPage: React.FC = () => {
                     <img
                       src={blog.image_url}
                       alt={blog.title}
+                      onError={(e) => {
+                        (e.target as HTMLImageElement).src = '/featured_blog.png';
+                      }}
                       style={{ height: '200px', objectFit: 'cover' }}
                     />
                   }

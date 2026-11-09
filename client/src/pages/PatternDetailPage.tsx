@@ -36,6 +36,9 @@ import { RowCounter } from '../components/RowCounter';
 const { Title, Text, Paragraph } = Typography;
 const { TextArea } = Input;
 
+const FALLBACK_PATTERN_IMG =
+  'https://i.pinimg.com/736x/8a/36/c9/8a36c968b077942a132ef2166f3249d8.jpg';
+
 export const PatternDetailPage: React.FC = () => {
   const { id } = useParams<{ id: string }>();
   const [pattern, setPattern] = useState<Pattern | null>(null);
@@ -154,6 +157,9 @@ export const PatternDetailPage: React.FC = () => {
               <img
                 src={pattern.image_url || pattern.img}
                 alt={pattern.name}
+                onError={(e) => {
+                  (e.target as HTMLImageElement).src = FALLBACK_PATTERN_IMG;
+                }}
                 style={{ width: '100%', height: '100%', objectFit: 'cover' }}
               />
             </div>

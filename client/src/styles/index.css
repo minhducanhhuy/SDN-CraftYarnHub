@@ -79,7 +79,35 @@ h1, h2, h3, h4, h5, h6 {
   border: none;
 }
 
-/* Custom Scrollbar */
+.mobile-btn {
+  display: none;
+}
+
+/* Responsive media queries */
+@media (max-width: 860px) {
+  .desktop-links {
+    display: none !important;
+  }
+  .mobile-btn {
+    display: block !important;
+  }
+  .ant-layout-header {
+    padding: 0 16px !important;
+  }
+}
+
+@media (max-width: 576px) {
+  .ant-carousel .slick-slide > div > div {
+    height: 320px !important;
+  }
+  .ant-carousel h1 {
+    font-size: 26px !important;
+  }
+  .ant-carousel p {
+    font-size: 14px !important;
+  }
+}
+
 ::-webkit-scrollbar {
   width: 8px;
   height: 8px;

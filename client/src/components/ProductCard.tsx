@@ -7,6 +7,9 @@ import { useCart } from '../context/CartContext';
 
 const { Title, Paragraph, Text } = Typography;
 
+const FALLBACK_PRODUCT_IMG =
+  'https://images.unsplash.com/photo-1584992236310-6edddc08acff?auto=format&fit=crop&w=600&q=80';
+
 export const ProductCard: React.FC<{ product: Product }> = ({ product }) => {
   const { addToCart } = useCart();
 
@@ -39,6 +42,9 @@ export const ProductCard: React.FC<{ product: Product }> = ({ product }) => {
             <img
               src={product.image_url}
               alt={product.name}
+              onError={(e) => {
+                (e.target as HTMLImageElement).src = FALLBACK_PRODUCT_IMG;
+              }}
               style={{
                 width: '100%',
                 height: '100%',
