@@ -1,5 +1,6 @@
 import { Controller, Get, Post, Body, Query, HttpStatus, HttpCode } from '@nestjs/common';
 import { CommentsService } from './comments.service';
+import { CreateCommentDto } from './dto/create-comment.dto';
 
 @Controller('comments')
 export class CommentsController {
@@ -18,16 +19,8 @@ export class CommentsController {
 
   @Post()
   @HttpCode(HttpStatus.CREATED)
-  async create(
-    @Body()
-    body: {
-      pattern_id: string;
-      author_name: string;
-      rating: number;
-      content: string;
-    },
-  ) {
-    const data = await this.commentsService.create(body);
+  async create(@Body() createCommentDto: CreateCommentDto) {
+    const data = await this.commentsService.create(createCommentDto);
     return {
       success: true,
       data,

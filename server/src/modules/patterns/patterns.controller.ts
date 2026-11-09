@@ -12,6 +12,8 @@ import {
   HttpStatus,
 } from '@nestjs/common';
 import { PatternsService } from './patterns.service';
+import { CreatePatternDto } from './dto/create-pattern.dto';
+import { UpdatePatternDto } from './dto/update-pattern.dto';
 
 @Controller('patterns')
 export class PatternsController {
@@ -64,8 +66,8 @@ export class PatternsController {
 
   @Post()
   @HttpCode(HttpStatus.CREATED)
-  async create(@Body() body: any) {
-    const data = await this.patternsService.create(body);
+  async create(@Body() createPatternDto: CreatePatternDto) {
+    const data = await this.patternsService.create(createPatternDto);
     return {
       success: true,
       data,
@@ -74,8 +76,11 @@ export class PatternsController {
   }
 
   @Put(':id')
-  async update(@Param('id') id: string, @Body() body: any) {
-    const data = await this.patternsService.update(id, body);
+  async update(
+    @Param('id') id: string,
+    @Body() updatePatternDto: UpdatePatternDto,
+  ) {
+    const data = await this.patternsService.update(id, updatePatternDto);
     return {
       success: true,
       data,
