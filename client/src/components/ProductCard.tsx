@@ -1,6 +1,7 @@
 import React from 'react';
 import { Card, Tag, Typography, Button, message } from 'antd';
-import { ShoppingCartOutlined } from '@ant-design/icons';
+import { ShoppingCartOutlined, EyeOutlined } from '@ant-design/icons';
+import { Link } from 'react-router-dom';
 import { Product } from '../types';
 import { useCart } from '../context/CartContext';
 
@@ -11,6 +12,7 @@ export const ProductCard: React.FC<{ product: Product }> = ({ product }) => {
 
   const handleAddToCart = (e: React.MouseEvent) => {
     e.preventDefault();
+    e.stopPropagation();
     addToCart(product, 1);
     message.success(`Đã thêm "${product.name}" vào giỏ hàng!`);
   };
@@ -32,31 +34,36 @@ export const ProductCard: React.FC<{ product: Product }> = ({ product }) => {
         flexDirection: 'column',
       }}
       cover={
-        <div style={{ position: 'relative', height: '220px', overflow: 'hidden' }}>
-          <img
-            src={product.image_url}
-            alt={product.name}
-            style={{
-              width: '100%',
-              height: '100%',
-              objectFit: 'cover',
-            }}
-          />
-          <Tag
-            color={product.stock_status === 'Còn hàng' ? 'success' : 'warning'}
-            style={{
-              position: 'absolute',
-              top: '12px',
-              left: '12px',
-              borderRadius: '999px',
-              fontWeight: 700,
-              border: 'none',
-              padding: '2px 10px',
-            }}
-          >
-            {product.stock_status}
-          </Tag>
-        </div>
+        <Link to={`/accessories/${product._id}`} style={{ display: 'block' }}>
+          <div style={{ position: 'relative', height: '220px', overflow: 'hidden' }}>
+            <img
+              src={product.image_url}
+              alt={product.name}
+              style={{
+                width: '100%',
+                height: '100%',
+                objectFit: 'cover',
+                transition: 'transform 0.4s ease',
+              }}
+              onMouseOver={(e) => ((e.target as HTMLElement).style.transform = 'scale(1.08)')}
+              onMouseOut={(e) => ((e.target as HTMLElement).style.transform = 'scale(1)')}
+            />
+            <Tag
+              color={product.stock_status === 'Còn hàng' ? 'success' : 'warning'}
+              style={{
+                position: 'absolute',
+                top: '12px',
+                left: '12px',
+                borderRadius: '999px',
+                fontWeight: 700,
+                border: 'none',
+                padding: '2px 10px',
+              }}
+            >
+              {product.stock_status}
+            </Tag>
+          </div>
+        </Link>
       }
       bodyStyle={{
         flex: 1,
@@ -67,17 +74,20 @@ export const ProductCard: React.FC<{ product: Product }> = ({ product }) => {
       }}
     >
       <div>
-        <Title
-          level={4}
-          style={{
-            fontSize: '16px',
-            marginBottom: '6px',
-            color: '#2c1810',
-            lineHeight: 1.3,
-          }}
-        >
-          {product.name}
-        </Title>
+        <Link to={`/accessories/${product._id}`}>
+          <Title
+            level={4}
+            style={{
+              fontSize: '16px',
+              marginBottom: '6px',
+              color: '#2c1810',
+              lineHeight: 1.3,
+              cursor: 'pointer',
+            }}
+          >
+            {product.name}
+          </Title>
+        </Link>
         <Paragraph
           ellipsis={{ rows: 2 }}
           style={{ color: '#777', fontSize: '13px', marginBottom: '8px' }}

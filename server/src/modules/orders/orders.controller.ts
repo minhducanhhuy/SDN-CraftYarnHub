@@ -12,6 +12,7 @@ import {
 } from '@nestjs/common';
 import { OrdersService } from './orders.service';
 import { CreateOrderDto } from './dto/create-order.dto';
+import { UpdateOrderStatusDto } from './dto/update-order-status.dto';
 
 @Controller('orders')
 export class OrdersController {
@@ -72,9 +73,9 @@ export class OrdersController {
   @Patch(':id/status')
   async updateStatus(
     @Param('id') id: string,
-    @Body('status') status: string,
+    @Body() updateOrderStatusDto: UpdateOrderStatusDto,
   ) {
-    const data = await this.ordersService.updateStatus(id, status);
+    const data = await this.ordersService.updateStatus(id, updateOrderStatusDto.status);
     return {
       success: true,
       data,
@@ -92,3 +93,4 @@ export class OrdersController {
     };
   }
 }
+
