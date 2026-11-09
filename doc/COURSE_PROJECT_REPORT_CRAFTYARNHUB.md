@@ -1,11 +1,11 @@
 # COURSE PROJECT REPORT
 
-**Subject:** SDN302 – Server-side Development with NodeJS, Express & MongoDB  
-**Project Name:** CraftYarnHub – Crochet Chart Management & Accessories Platform  
-**Project Code:** SDN-CYH  
-**Academic Institution:** FPT University  
-**Date:** November 2026  
-**Document Version:** 1.0 Final  
+**Subject:** SDN302 – Server-side Development with NodeJS, Express & MongoDB
+**Project Name:** CraftYarnHub – Crochet Chart Management & Accessories Platform
+**Project Code:** SDN-CYH
+**Academic Institution:** FPT University
+**Date:** November 2026
+**Document Version:** 1.0 Final
 
 ---
 
@@ -39,7 +39,7 @@
   - [IV.2 System High-Level Design (Client - Server Architecture)](#iv2-system-high-level-design-client---server-architecture)
   - [IV.3 Component and Package Diagram](#iv3-component-and-package-diagram)
     - [IV.3.1 Component Diagram](#iv31-component-diagram)
-    - [IV.3.2 Package Diagram & Descriptions](#iv32-package-diagram--descriptions)
+    - [IV.3.2 Package Diagram &amp; Descriptions](#iv32-package-diagram--descriptions)
   - [IV.4 Implementation Class Diagrams](#iv4-implementation-class-diagrams)
   - [IV.5 Database Design (MongoDB / Mongoose ODM)](#iv5-database-design-mongodb--mongoose-odm)
 - [V. IMPLEMENTATION](#v-implementation)
@@ -53,13 +53,13 @@
 
 ## RECORD OF CHANGES
 
-| Date | A / M / D\* | In Charge | Change Description | Version |
-| :--- | :---: | :--- | :--- | :---: |
-| 02/11/2026 | A | Member 1 (Lead) | Initial project setup, core database schemas definition | 0.1 |
-| 05/11/2026 | A | Member 2 | Implement Products catalog, shopping cart client state | 0.4 |
-| 08/11/2026 | A | Member 3 | Implement Blogs module, Categories CRUD, Admin UI structure | 0.7 |
-| 10/11/2026 | M | Member 1 & 2 | Implement real Orders module (NestJS + MongoDB), replace mockup | 0.9 |
-| 10/11/2026 | A | All Members | Consolidate full Course Project Report documentation | 1.0 Final |
+| Date       | A / M / D\* | In Charge       | Change Description                                              |  Version  |
+| :--------- | :---------: | :-------------- | :-------------------------------------------------------------- | :-------: |
+| 02/11/2026 |      A      | Member 1 (Lead) | Initial project setup, core database schemas definition         |    0.1    |
+| 05/11/2026 |      A      | Member 2        | Implement Products catalog, shopping cart client state          |    0.4    |
+| 08/11/2026 |      A      | Member 3        | Implement Blogs module, Categories CRUD, Admin UI structure     |    0.7    |
+| 10/11/2026 |      M      | Member 1 & 2    | Implement real Orders module (NestJS + MongoDB), replace mockup |    0.9    |
+| 10/11/2026 |      A      | All Members     | Consolidate full Course Project Report documentation            | 1.0 Final |
 
 *\*A: Added, M: Modified, D: Deleted*
 
@@ -68,6 +68,7 @@
 ## I. OVERVIEW (VISION AND SCOPE)
 
 ### I.1 Project Information
+
 - **Project Name:** CraftYarnHub (Tiệm Len Xinh)
 - **Project Code:** SDN-CYH
 - **Subject:** SDN302 – Server-side Development with NodeJS, Express & MongoDB
@@ -76,15 +77,15 @@
 
 ### I.2 Project Team
 
-| No | Full Name | Student ID | Project Role | Responsibilities |
-| :---: | :--- | :---: | :---: | :--- |
-| 1 | **Thành viên 1** | SE17xxxx | **Leader (Fullstack Lead)** | **Core Pattern & Community:** Patterns CRUD, Regex search & filter, $inc view/like, Comments module, RowCounter widget, Home showcase. |
-| 2 | **Thành viên 2** | SE17xxxx | **Developer (Fullstack)** | **E-Commerce & Orders:** Products CRUD, Shopping Cart context, Orders module (schema, auto-code, status workflow, lookup). |
-| 3 | **Thành viên 3** | SE17xxxx | **Developer (Fullstack)** | **Knowledge & Administration:** Blogs CRUD, Categories CRUD, Validation Pipe configuration, Admin Management Dashboard (`/admin`). |
+| No | Full Name                | Student ID |           Project Role           | Responsibilities                                                                                                                             |
+| :-: | :----------------------- | :--------: | :-------------------------------: | :------------------------------------------------------------------------------------------------------------------------------------------- |
+| 1 | **Thành viên 1** |  SE17xxxx  | **Leader (Fullstack Lead)** | **Core Pattern & Community:** Patterns CRUD, Regex search & filter, $inc view/like, Comments module, RowCounter widget, Home showcase. |
+| 2 | **Thành viên 2** |  SE17xxxx  |  **Developer (Fullstack)**  | **E-Commerce & Orders:** Products CRUD, Shopping Cart context, Orders module (schema, auto-code, status workflow, lookup).             |
+| 3 | **Thành viên 3** |  SE17xxxx  |  **Developer (Fullstack)**  | **Knowledge & Administration:** Blogs CRUD, Categories CRUD, Validation Pipe configuration, Admin Management Dashboard (`/admin`).   |
 
 ### I.3 Business Opportunity and Objectives
-1. **Background:**  
-   Nghệ thuật đan móc len thủ công (Crochet & Amigurumi) ngày càng phát triển mạnh mẽ trong giới trẻ. Tuy nhiên, người học móc len hiện gặp nhiều trở ngại:
+
+1. **Background:**Nghệ thuật đan móc len thủ công (Crochet & Amigurumi) ngày càng phát triển mạnh mẽ trong giới trẻ. Tuy nhiên, người học móc len hiện gặp nhiều trở ngại:
    - Các mẫu chart (hướng dẫn từng vòng móc) thường rải rác trên mạng xã hội dưới dạng hình ảnh chất lượng thấp, khó tra cứu.
    - Khi thực hành, thợ móc rất dễ quên số hàng đang móc dang dở nếu không có công cụ ghi nhớ.
    - Việc tìm mua đúng chủng loại len, size kim móc phù hợp với mẫu chart tốn nhiều thời gian.
@@ -96,18 +97,19 @@
 
 ### I.4 Project Priorities
 
-| Dimension | Constraint (Bắt buộc) | Driver (Ưu tiên tối đa) | Degree of Freedom (Được điều chỉnh) |
-| :--- | :---: | :---: | :---: |
-| **Schedule** | Deadline kết thúc học kỳ | | |
-| **Features** | | Chuẩn RESTful API, Full CRUD, Không Mock Data | Phạm vi tích hợp cổng thanh toán bên thứ ba |
-| **Quality** | | Đạt chuẩn phản hồi < 300ms, Validation chặt chẽ | |
-| **Cost / Staff** | 03 Sinh viên | | |
+| Dimension              |   Constraint (Bắt buộc)   |              Driver (Ưu tiên tối đa)              |     Degree of Freedom (Được điều chỉnh)     |
+| :--------------------- | :--------------------------: | :----------------------------------------------------: | :------------------------------------------------: |
+| **Schedule**     | Deadline kết thúc học kỳ |                                                        |                                                    |
+| **Features**     |                              |    Chuẩn RESTful API, Full CRUD, Không Mock Data    | Phạm vi tích hợp cổng thanh toán bên thứ ba |
+| **Quality**      |                              | Đạt chuẩn phản hồi < 300ms, Validation chặt chẽ |                                                    |
+| **Cost / Staff** |        03 Sinh viên        |                                                        |                                                    |
 
 ---
 
 ## II. REQUIREMENT SPECIFICATION
 
 ### II.1 Problem Description
+
 CraftYarnHub là giải pháp phần mềm hướng dịch vụ giải quyết triệt để sự phân mảnh giữa việc **học kỹ thuật móc len** và **mua sắm nguyên vật liệu phụ kiện**. Hệ thống là một ứng dụng Web phân tầng, cung cấp giao diện tương tác tức thì cho người dùng đầu cuối (Client) và hệ thống xử lý API hướng cơ sở dữ liệu phi quan hệ MongoDB (Server).
 
 ### II.2 Major Features
@@ -127,15 +129,15 @@ flowchart TD
     Guest["👤 Khách Vãng Lai / Thợ Móc Len (Visitor / Crocheter)"]
     Customer["🛒 Khách Mua Hàng (Customer)"]
     Admin["⚙️ Quản Trị Viên (System Administrator)"]
-    
+  
     System["📦 HỆ THỐNG CRAFTYARNHUB (SDN-CraftYarnHub System)"]
-    
+  
     Guest -->|1. Tìm kiếm chart, xem công thức, đếm hàng, like| System
     System -->|2. Trả về thông tin chart, âm thanh đếm hàng, danh sách bài viết| Guest
-    
+  
     Customer -->|3. Thêm giỏ hàng, gửi đơn đặt hàng, tra cứu SĐT| System
     System -->|4. Xác nhận đơn hàng, cấp mã ORD-xxxx, cập nhật trạng thái| Customer
-    
+  
     Admin -->|5. Thêm/Sửa/Xóa Chart, Phụ kiện, Duyệt đơn hàng| System
     System -->|6. Báo cáo thống kê, danh sách quản trị CRUD| Admin
 ```
@@ -144,29 +146,29 @@ flowchart TD
 
 ### II.4 Non-Functional Requirements (NFR)
 
-| ID | Nhóm Yêu Cầu | Tên Yêu Cầu | Đặc Tả Chi Tiết |
-| :--- | :--- | :--- | :--- |
-| **NFR-01** | Performance | Thời gian phản hồi API | Thời gian xử lý và trả lời của mọi endpoint RESTful API < 300ms trong môi trường mạng nội bộ. |
-| **NFR-02** | Reliability | Tính nhất quán dữ liệu | Không phát sinh tình trạng tranh chấp (race-condition) khi cập nhật lượt view/like; sử dụng toán tử atomic `$inc` của MongoDB. |
-| **NFR-03** | Usability | Thiết kế Responsive | Giao diện tương thích mượt mà từ màn hình Mobile (375px), Tablet (768px) đến Desktop (1200px+) nhờ Ant Design Grid System. |
-| **NFR-04** | Security | DTO Data Sanitization | Tự động loại bỏ các trường không mong muốn và kiểm tra kiểu dữ liệu đầu vào qua NestJS Global `ValidationPipe({ whitelist: true })`. |
-| **NFR-05** | Maintainability | Kiến trúc Module hóa | Backend tuân thủ nghiêm ngặt mô hình NestJS: Controller chỉ điều hướng, Service xử lý logic, Schema định nghĩa dữ liệu. |
-| **NFR-06** | Audio Usability | Độ trễ âm thanh Web Audio | Âm thanh bíp pop của bộ đếm hàng phản hồi ngay lập tức (< 10ms) không cần tải tệp mp3 ngoài thông qua Web Audio API. |
+| ID               | Nhóm Yêu Cầu | Tên Yêu Cầu                | Đặc Tả Chi Tiết                                                                                                                                      |
+| :--------------- | :-------------- | :---------------------------- | :------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **NFR-01** | Performance     | Thời gian phản hồi API     | Thời gian xử lý và trả lời của mọi endpoint RESTful API < 300ms trong môi trường mạng nội bộ.                                              |
+| **NFR-02** | Reliability     | Tính nhất quán dữ liệu   | Không phát sinh tình trạng tranh chấp (race-condition) khi cập nhật lượt view/like; sử dụng toán tử atomic `$inc` của MongoDB.           |
+| **NFR-03** | Usability       | Thiết kế Responsive         | Giao diện tương thích mượt mà từ màn hình Mobile (375px), Tablet (768px) đến Desktop (1200px+) nhờ Ant Design Grid System.                  |
+| **NFR-04** | Security        | DTO Data Sanitization         | Tự động loại bỏ các trường không mong muốn và kiểm tra kiểu dữ liệu đầu vào qua NestJS Global `ValidationPipe({ whitelist: true })`. |
+| **NFR-05** | Maintainability | Kiến trúc Module hóa       | Backend tuân thủ nghiêm ngặt mô hình NestJS: Controller chỉ điều hướng, Service xử lý logic, Schema định nghĩa dữ liệu.                |
+| **NFR-06** | Audio Usability | Độ trễ âm thanh Web Audio | Âm thanh bíp pop của bộ đếm hàng phản hồi ngay lập tức (< 10ms) không cần tải tệp mp3 ngoài thông qua Web Audio API.                    |
 
 ---
 
 ### II.5 Business Rules
 
-| ID | Tên Quy Tắc | Định Nghĩa Quy Tắc | Phân Loại | Nguồn Gốc |
-| :--- | :--- | :--- | :---: | :--- |
-| **BR-01** | Unique Category Slug | Mỗi danh mục phải có `slug` và `name` là duy nhất trên toàn hệ thống để định tuyến URL chuẩn SEO. | Constraint | System Design |
-| **BR-02** | Atomic Metric Update | Lượt xem (`view_count`) và lượt thích (`likes`) chỉ được phép tăng đơn vị nguyên (+1) thông qua toán tử `$inc`, không cho phép ghi đè tùy tiện. | Constraint | Data Integrity |
-| **BR-03** | Order Code Uniqueness | Mã đơn hàng phải được sinh tự động với tiền tố `ORD-` kèm hậu tố ngẫu nhiên và đảm bảo duy nhất tuyệt đối trong collection `orders`. | Fact | Order Policy |
-| **BR-04** | Valid Phone Format | Số điện thoại nhận hàng phải là chuỗi chữ số hợp lệ từ 10 đến 11 ký tự, không chứa ký tự đặc biệt hoặc chữ cái. | Constraint | Checkout Policy |
-| **BR-05** | Minimum Cart Threshold | Đơn hàng chỉ được phép khởi tạo khi giỏ hàng có tối thiểu một sản phẩm với số lượng $\ge 1$. | Constraint | Checkout Policy |
-| **BR-06** | Rating Constraints | Điểm đánh giá chất lượng mẫu chart bắt buộc nằm trong khoảng số nguyên từ 1 đến 5 sao. | Constraint | Review Policy |
+| ID              | Tên Quy Tắc              | Định Nghĩa Quy Tắc                                                                                                                                                                        | Phân Loại | Nguồn Gốc     |
+| :-------------- | :------------------------- | :-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | :---------: | :-------------- |
+| **BR-01** | Unique Category Slug       | Mỗi danh mục phải có `slug` và `name` là duy nhất trên toàn hệ thống để định tuyến URL chuẩn SEO.                                                                        | Constraint | System Design   |
+| **BR-02** | Atomic Metric Update       | Lượt xem (`view_count`) và lượt thích (`likes`) chỉ được phép tăng đơn vị nguyên (+1) thông qua toán tử `$inc`, không cho phép ghi đè tùy tiện.                | Constraint | Data Integrity  |
+| **BR-03** | Order Code Uniqueness      | Mã đơn hàng phải được sinh tự động với tiền tố `ORD-` kèm hậu tố ngẫu nhiên và đảm bảo duy nhất tuyệt đối trong collection `orders`.                           |    Fact    | Order Policy    |
+| **BR-04** | Valid Phone Format         | Số điện thoại nhận hàng phải là chuỗi chữ số hợp lệ từ 10 đến 11 ký tự, không chứa ký tự đặc biệt hoặc chữ cái.                                                   | Constraint | Checkout Policy |
+| **BR-05** | Minimum Cart Threshold     | Đơn hàng chỉ được phép khởi tạo khi giỏ hàng có tối thiểu một sản phẩm với số lượng $\ge 1$.                                                                          | Constraint | Checkout Policy |
+| **BR-06** | Rating Constraints         | Điểm đánh giá chất lượng mẫu chart bắt buộc nằm trong khoảng số nguyên từ 1 đến 5 sao.                                                                                      | Constraint | Review Policy   |
 | **BR-07** | Order Status State Machine | Trạng thái đơn hàng chỉ được chuyển đổi tuần tự hợp lệ: `Chờ xác nhận` $\rightarrow$ `Đang xử lý` $\rightarrow$ `Đã giao` hoặc chuyển sang `Đã hủy`. | Constraint | Workflow Policy |
-| **BR-08** | Price Positivity | Giá sản phẩm phụ kiện (`price`) bắt buộc phải là số thực dương $\ge 0$. | Constraint | Finance Policy |
+| **BR-08** | Price Positivity           | Giá sản phẩm phụ kiện (`price`) bắt buộc phải là số thực dương $\ge 0$.                                                                                                      | Constraint | Finance Policy  |
 
 ---
 
@@ -174,17 +176,18 @@ flowchart TD
 
 #### II.6.1 Actors
 
-| No | Actor | Phân Loại | Mô Tả Vai Trò |
-| :---: | :--- | :---: | :--- |
-| 1 | **Visitor / Crocheter** (Thợ Móc Len) | Primary | Người truy cập duyệt kho chart, xem hướng dẫn móc chi tiết, sử dụng bộ đếm hàng, thả tim và gửi bình luận đánh giá. |
-| 2 | **Customer** (Khách Mua Hàng) | Primary | Người mua dụng cụ/len sợi, quản lý giỏ hàng, thực hiện đặt hàng và tra cứu hành trình đơn hàng bằng số điện thoại. |
-| 3 | **Administrator** (Quản Trị Viên) | Primary | Người quản trị hệ thống có toàn quyền thực hiện các thao tác Create, Read, Update, Delete trên Chart, Sản phẩm và chuyển trạng thái Đơn hàng. |
+| No | Actor                                         | Phân Loại | Mô Tả Vai Trò                                                                                                                                                     |
+| :-: | :-------------------------------------------- | :---------: | :------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| 1 | **Visitor / Crocheter** (Thợ Móc Len) |   Primary   | Người truy cập duyệt kho chart, xem hướng dẫn móc chi tiết, sử dụng bộ đếm hàng, thả tim và gửi bình luận đánh giá.                           |
+| 2 | **Customer** (Khách Mua Hàng)         |   Primary   | Người mua dụng cụ/len sợi, quản lý giỏ hàng, thực hiện đặt hàng và tra cứu hành trình đơn hàng bằng số điện thoại.                         |
+| 3 | **Administrator** (Quản Trị Viên)    |   Primary   | Người quản trị hệ thống có toàn quyền thực hiện các thao tác Create, Read, Update, Delete trên Chart, Sản phẩm và chuyển trạng thái Đơn hàng. |
 
 ---
 
 #### II.6.2 Use Case Diagrams
 
 ##### Sơ đồ Tổng quan Hệ thống (System Use Case Diagram)
+
 ```mermaid
 flowchart LR
     Visitor(("👤 Visitor"))
@@ -227,6 +230,7 @@ flowchart LR
 #### II.6.3 Use Case Descriptions
 
 ##### UC-02: Xem Chi Tiết Chart & Công Thức Móc Len
+
 - **Use Case ID & Name:** `UC-02: View Pattern Detail and Instructions`
 - **Created By:** Thành viên 1
 - **Primary Actor:** Visitor / Crocheter
@@ -255,6 +259,7 @@ flowchart LR
 ---
 
 ##### UC-07: Đặt Hàng Trực Tuyến (Checkout Order)
+
 - **Use Case ID & Name:** `UC-07: Checkout Order`
 - **Created By:** Thành viên 2
 - **Primary Actor:** Customer
@@ -285,6 +290,7 @@ flowchart LR
 ---
 
 ##### UC-12: Quản Lý & Cập Nhật Trạng Thái Đơn Hàng
+
 - **Use Case ID & Name:** `UC-12: Manage and Update Order Status`
 - **Created By:** Thành viên 3
 - **Primary Actor:** Administrator
@@ -310,51 +316,53 @@ flowchart LR
 #### II.6.4 Activity Diagrams
 
 ##### Activity Diagram 1: Quy Trình Đặt Hàng Trực Tuyến (Checkout Workflow)
+
 ```mermaid
 stateDiagram-v2
     [*] --> DuyetGioHang: Khách kiểm tra giỏ hàng (/cart)
     DuyetGioHang --> KiemTraGio: Nhấn "Đặt Hàng Ngay"
-    
+  
     state KiemTraGio <<choice>>
     KiemTraGio --> BaoLoiGioRong: Giỏ hàng trống (length == 0)
     BaoLoiGioRong --> DuyetGioHang
-    
+  
     KiemTraGio --> NhapThongTin: Giỏ có sản phẩm
     NhapThongTin --> ValidateForm: Điền Tên, SĐT, Địa chỉ
-    
+  
     state ValidateForm <<choice>>
     ValidateForm --> NhapThongTin: Dữ liệu không hợp lệ (SĐT sai)
     ValidateForm --> GuiAPI: Dữ liệu chuẩn (CreateOrderDto)
-    
+  
     GuiAPI --> ServerXuLy: POST /api/orders
     ServerXuLy --> SinhMaDon: Sinh mã ORD-xxxx, set trạng thái 'Chờ xác nhận'
     SinhMaDon --> LuuMongoDB: Insert vào collection orders
     LuuMongoDB --> TraVeClient: Response 201 Created
-    
+  
     TraVeClient --> XoaGioHang: Xóa localStorage (clearCart)
     XoaGioHang --> HienThiModal: Hiển thị popup thành công + Mã đơn
     HienThiModal --> [*]
 ```
 
 ##### Activity Diagram 2: Quy Trình Móc Len Với Trợ Lý Đếm Hàng (Row Counter)
+
 ```mermaid
 stateDiagram-v2
     [*] --> MoChiTietChart: Mở trang chi tiết chart (/patterns/:id)
     MoChiTietChart --> DocLocalStorage: Đọc key crochet_row_patternId
-    
+  
     state DocLocalStorage <<choice>>
     DocLocalStorage --> SetR1: Chưa có dữ liệu cũ -> Khởi tạo R1
     DocLocalStorage --> KhoiPhucR: Đã có dữ liệu -> Khôi phục hàng đang móc (VD: R5)
-    
+  
     SetR1 --> SanSangMoc: Hiển thị lên màn hình
     KhoiPhucR --> SanSangMoc: Hiển thị lên màn hình
-    
+  
     SanSangMoc --> NhanNutTang: Thợ móc xong 1 hàng, bấm nút [+]
     NhanNutTang --> PhatTiengBeep: Web Audio API phát tần số sine 750Hz
     PhatTiengBeep --> TangState: State count = count + 1
     TangState --> GhiLocalStorage: Lưu count mới vào localStorage
     GhiLocalStorage --> SanSangMoc
-    
+  
     SanSangMoc --> NhanNutGiam: Móc sai cần tháo mũi, bấm nút [-]
     NhanNutGiam --> PhatBeepTram: Web Audio API phát tần số trầm 450Hz
     PhatBeepTram --> GiamState: State count = max(1, count - 1)
@@ -367,6 +375,7 @@ stateDiagram-v2
 ## III. ANALYSIS MODELS
 
 ### III.1 High-Level Class Diagram (Structural Model)
+
 Sơ đồ các thực thể dữ liệu phân tích (Entity Classes) phản ánh cấu trúc dữ liệu cốt lõi của hệ thống:
 
 ```mermaid
@@ -473,6 +482,7 @@ classDiagram
 #### III.2.1 Sequence Diagrams
 
 ##### Sequence Diagram 1: Đánh Giá & Bình Luận Chart Móc Len
+
 ```mermaid
 sequenceDiagram
     autonumber
@@ -497,6 +507,7 @@ sequenceDiagram
 ```
 
 ##### Sequence Diagram 2: Thả Tim Chart Với Toán Tử Atomic `$inc`
+
 ```mermaid
 sequenceDiagram
     autonumber
@@ -521,6 +532,7 @@ sequenceDiagram
 ---
 
 #### III.2.2 Communication Diagrams
+
 Sơ đồ truyền thông điệp tương tác khi Khách hàng thực hiện Đặt Hàng:
 
 ```mermaid
@@ -539,18 +551,19 @@ flowchart LR
 ---
 
 ### III.3 State Machine Diagram (Behavioral Model)
+
 Vòng đời và sự chuyển dịch trạng thái của một Đơn Hàng trong hệ thống:
 
 ```mermaid
 stateDiagram-v2
     [*] --> ChoXacNhan: Khách hoàn tất đặt hàng (POST /api/orders)
-    
+  
     ChoXacNhan --> DangXuLy: Admin duyệt đơn & đóng gói
     ChoXacNhan --> DaHuy: Khách báo hủy / Sai thông tin liên hệ
-    
+  
     DangXuLy --> DaGiao: Đơn vị vận chuyển giao hàng thành công
     DangXuLy --> DaHuy: Giao hàng thất bại / Khách từ chối nhận
-    
+  
     DaGiao --> [*]: Kết thúc chu trình đơn hàng thành công
     DaHuy --> [*]: Kết thúc chu trình đơn hàng thất bại
 ```
@@ -560,6 +573,7 @@ stateDiagram-v2
 ## IV. DESIGN SPECIFICATION
 
 ### IV.1 Integrated Communication Diagrams
+
 Sơ đồ tương tác tích hợp toàn hệ thống thể hiện luồng giao tiếp giữa 3 tầng (Client ➔ NestJS API ➔ Database):
 
 ```mermaid
@@ -613,6 +627,7 @@ flowchart TD
 ### IV.2 System High-Level Design (Client - Server Architecture)
 
 Hệ thống được thiết kế theo phong cách kiến trúc **Client - Server hiện đại**:
+
 1. **Frontend (Client Application):**
    - Công nghệ: React 18, Vite bundler, TypeScript.
    - Thư viện UI: Ant Design v5 với tùy biến Theme màu hồng phấn pastel (`#ff6584`), thân thiện với cộng đồng thủ công.
@@ -631,6 +646,7 @@ Hệ thống được thiết kế theo phong cách kiến trúc **Client - Serv
 ### IV.3 Component and Package Diagram
 
 #### IV.3.1 Component Diagram
+
 ```mermaid
 flowchart TD
     subgraph Browser["Web Browser (Client Environment)"]
@@ -638,7 +654,7 @@ flowchart TD
         AxiosClient["Axios HTTP Client"]
         WebAudio["HTML5 Web Audio API"]
         LocalStore["Browser LocalStorage"]
-        
+      
         SPA --> AxiosClient
         SPA --> WebAudio
         SPA --> LocalStore
@@ -650,7 +666,7 @@ flowchart TD
         Controllers["Feature Controllers"]
         Services["Domain Services Layer"]
         MongooseODM["Mongoose ODM Models"]
-        
+      
         APIGateway --> Pipe
         Pipe --> Controllers
         Controllers --> Services
@@ -695,16 +711,16 @@ flowchart TD
 
 ##### Bảng Mô Tả Gói (Package Descriptions)
 
-| No | Package | Thư Mục Vật Lý | Mô Tả Trách Nhiệm |
-| :---: | :--- | :--- | :--- |
-| 01 | `core` | `server/src/` | Chứa `main.ts` cấu hình khởi chạy, CORS, Global Prefix và `app.module.ts` kết nối MongoDB qua `ConfigService`. |
-| 02 | `categories` | `server/src/modules/categories/` | Quản lý danh mục phân loại cho chart và phụ kiện (`pattern`, `product`). |
-| 03 | `patterns` | `server/src/modules/patterns/` | Quản lý toàn bộ thông tin mẫu chart, lọc độ khó, regex search, tăng view/like và DTO validation. |
-| 04 | `products` | `server/src/modules/products/` | Quản lý phụ kiện len sợi, kim móc, tồn kho và danh mục sản phẩm. |
-| 05 | `blogs` | `server/src/modules/blogs/` | Quản lý bài viết cẩm nang kỹ thuật đan móc và truy vấn slug thân thiện SEO. |
-| 06 | `comments` | `server/src/modules/comments/` | Quản lý đánh giá số sao (1-5 sao) và nhận xét của người dùng gắn với từng mẫu chart. |
-| 07 | `orders` | `server/src/modules/orders/` | Quản lý đơn đặt hàng, sinh mã `ORD-xxxx`, tra cứu theo SĐT và luồng chuyển trạng thái đơn hàng. |
-| 08 | `scripts` | `server/src/scripts/` | Chứa `seed.ts` nạp tự động dữ liệu mẫu chuẩn chỉ vào MongoDB khi khởi tạo dự án. |
+| No | Package        | Thư Mục Vật Lý                 | Mô Tả Trách Nhiệm                                                                                                        |
+| :-: | :------------- | :--------------------------------- | :--------------------------------------------------------------------------------------------------------------------------- |
+| 01 | `core`       | `server/src/`                    | Chứa `main.ts` cấu hình khởi chạy, CORS, Global Prefix và `app.module.ts` kết nối MongoDB qua `ConfigService`. |
+| 02 | `categories` | `server/src/modules/categories/` | Quản lý danh mục phân loại cho chart và phụ kiện (`pattern`, `product`).                                         |
+| 03 | `patterns`   | `server/src/modules/patterns/`   | Quản lý toàn bộ thông tin mẫu chart, lọc độ khó, regex search, tăng view/like và DTO validation.                 |
+| 04 | `products`   | `server/src/modules/products/`   | Quản lý phụ kiện len sợi, kim móc, tồn kho và danh mục sản phẩm.                                                  |
+| 05 | `blogs`      | `server/src/modules/blogs/`      | Quản lý bài viết cẩm nang kỹ thuật đan móc và truy vấn slug thân thiện SEO.                                     |
+| 06 | `comments`   | `server/src/modules/comments/`   | Quản lý đánh giá số sao (1-5 sao) và nhận xét của người dùng gắn với từng mẫu chart.                        |
+| 07 | `orders`     | `server/src/modules/orders/`     | Quản lý đơn đặt hàng, sinh mã `ORD-xxxx`, tra cứu theo SĐT và luồng chuyển trạng thái đơn hàng.          |
+| 08 | `scripts`    | `server/src/scripts/`            | Chứa `seed.ts` nạp tự động dữ liệu mẫu chuẩn chỉ vào MongoDB khi khởi tạo dự án.                            |
 
 ---
 
@@ -713,6 +729,7 @@ flowchart TD
 Dưới đây là sơ đồ chi tiết mối quan hệ giữa Controller, Service, DTO và Mongoose Schema của các phân hệ chính:
 
 #### Implementation Class Diagram: Phân Hệ Kho Chart (Patterns Feature)
+
 ```mermaid
 classDiagram
     class PatternsController {
@@ -773,6 +790,7 @@ classDiagram
 ```
 
 #### Implementation Class Diagram: Phân Hệ Đơn Hàng (Orders Feature)
+
 ```mermaid
 classDiagram
     class OrdersController {
@@ -836,101 +854,107 @@ classDiagram
 Cơ sở dữ liệu NoSQL MongoDB được thiết kế gồm **06 Collections** tối ưu cho việc truy vấn lồng (Embedding) và tham chiếu (Referencing):
 
 #### 1. Collection: `categories` (Danh Mục Hệ Thống)
-| Tên Thuộc Tính | Kiểu Dữ Liệu | Ràng Buộc | Khóa / Chỉ Mục | Ý Nghĩa / Ví Dụ |
-| :--- | :--- | :--- | :---: | :--- |
-| `_id` | ObjectId | Auto-generated | PK | Khóa chính bản ghi danh mục |
-| `name` | String | Required, Trim | Unique Index | Tên danh mục (VD: 'Rau Củ', 'Len Sợi') |
-| `slug` | String | Required, Trim | Unique Index | URL slug (VD: 'rau-cu', 'len-soi') |
-| `type` | String | Enum: `['pattern', 'product']` | Index | Phân loại danh mục Chart hay Phụ kiện |
-| `description` | String | Optional, Default: '' | | Mô tả chi tiết danh mục |
-| `icon` | String | Optional, Default: '' | | Icon biểu tượng (VD: '🥦', '🧶') |
-| `createdAt` | Date | Auto-timestamp | | Thời điểm tạo bản ghi |
-| `updatedAt` | Date | Auto-timestamp | | Thời điểm cập nhật cuối |
+
+| Tên Thuộc Tính | Kiểu Dữ Liệu | Ràng Buộc                      | Khóa / Chỉ Mục | Ý Nghĩa / Ví Dụ                        |
+| :---------------- | :-------------- | :------------------------------- | :---------------: | :----------------------------------------- |
+| `_id`           | ObjectId        | Auto-generated                   |        PK        | Khóa chính bản ghi danh mục            |
+| `name`          | String          | Required, Trim                   |   Unique Index   | Tên danh mục (VD: 'Rau Củ', 'Len Sợi') |
+| `slug`          | String          | Required, Trim                   |   Unique Index   | URL slug (VD: 'rau-cu', 'len-soi')         |
+| `type`          | String          | Enum: `['pattern', 'product']` |       Index       | Phân loại danh mục Chart hay Phụ kiện |
+| `description`   | String          | Optional, Default: ''            |                  | Mô tả chi tiết danh mục                |
+| `icon`          | String          | Optional, Default: ''            |                  | Icon biểu tượng (VD: '🥦', '🧶')        |
+| `createdAt`     | Date            | Auto-timestamp                   |                  | Thời điểm tạo bản ghi                 |
+| `updatedAt`     | Date            | Auto-timestamp                   |                  | Thời điểm cập nhật cuối              |
 
 ---
 
 #### 2. Collection: `patterns` (Kho Chart Móc Len)
-| Tên Thuộc Tính | Kiểu Dữ Liệu | Ràng Buộc | Khóa / Chỉ Mục | Ý Nghĩa / Ví Dụ |
-| :--- | :--- | :--- | :---: | :--- |
-| `_id` | ObjectId | Auto-generated | PK | Khóa chính mẫu chart |
-| `name` | String | Required, Trim | Text Index | Tên mẫu chart (VD: 'Bé Súp Lơ Tóc Xù') |
-| `category` | ObjectId | Required, Ref: `Category` | FK Index | Tham chiếu sang bảng `categories` |
-| `difficulty` | String | Enum: `['Dễ', 'Vừa', 'Khó']` | Index | Phân cấp độ khó cho thợ móc |
-| `difficulty_stars`| Number | Min: 1, Max: 5, Default: 2 | | Số sao hiển thị tương ứng |
-| `image_url` | String | Required | | Đường dẫn ảnh mẫu thành phẩm |
-| `description` | String | Default: '' | Text Index | Đoạn văn mô tả đặc điểm mẫu móc |
-| `materials` | Array~String~ | Default: `[]` | Index | Danh sách len và nguyên liệu cần có |
-| `tools` | Array~String~ | Default: `[]` | | Danh sách dụng cụ (size kim móc, kéo...) |
-| `content` | Mixed Object | Default: `{}` | | Các bước móc chi tiết: `{ "Đầu": ["R1...", "R2..."] }` |
-| `is_free` | Boolean | Default: `true` | | Đánh dấu chart miễn phí |
-| `view_count` | Number | Min: 0, Default: 0 | Index (sort) | Số lượt xem mẫu chart (tăng qua `$inc`) |
-| `likes` | Number | Min: 0, Default: 0 | Index (sort) | Số lượt thả tim (tăng qua `$inc`) |
-| `author` | String | Default: 'Tiệm Len Xinh'| | Tên tác giả / thợ dịch chart |
+
+| Tên Thuộc Tính    | Kiểu Dữ Liệu | Ràng Buộc                       | Khóa / Chỉ Mục | Ý Nghĩa / Ví Dụ                                             |
+| :------------------- | :-------------- | :-------------------------------- | :---------------: | :-------------------------------------------------------------- |
+| `_id`              | ObjectId        | Auto-generated                    |        PK        | Khóa chính mẫu chart                                         |
+| `name`             | String          | Required, Trim                    |    Text Index    | Tên mẫu chart (VD: 'Bé Súp Lơ Tóc Xù')                   |
+| `category`         | ObjectId        | Required, Ref: `Category`       |     FK Index     | Tham chiếu sang bảng `categories`                           |
+| `difficulty`       | String          | Enum: `['Dễ', 'Vừa', 'Khó']` |       Index       | Phân cấp độ khó cho thợ móc                              |
+| `difficulty_stars` | Number          | Min: 1, Max: 5, Default: 2        |                  | Số sao hiển thị tương ứng                                 |
+| `image_url`        | String          | Required                          |                  | Đường dẫn ảnh mẫu thành phẩm                            |
+| `description`      | String          | Default: ''                       |    Text Index    | Đoạn văn mô tả đặc điểm mẫu móc                      |
+| `materials`        | Array~String~   | Default: `[]`                   |       Index       | Danh sách len và nguyên liệu cần có                       |
+| `tools`            | Array~String~   | Default: `[]`                   |                  | Danh sách dụng cụ (size kim móc, kéo...)                   |
+| `content`          | Mixed Object    | Default: `{}`                   |                  | Các bước móc chi tiết: `{ "Đầu": ["R1...", "R2..."] }` |
+| `is_free`          | Boolean         | Default: `true`                 |                  | Đánh dấu chart miễn phí                                    |
+| `view_count`       | Number          | Min: 0, Default: 0                |   Index (sort)   | Số lượt xem mẫu chart (tăng qua `$inc`)                  |
+| `likes`            | Number          | Min: 0, Default: 0                |   Index (sort)   | Số lượt thả tim (tăng qua `$inc`)                        |
+| `author`           | String          | Default: 'Tiệm Len Xinh'         |                  | Tên tác giả / thợ dịch chart                               |
 
 ---
 
 #### 3. Collection: `products` (Phụ Kiện & Dụng Cụ Len)
-| Tên Thuộc Tính | Kiểu Dữ Liệu | Ràng Buộc | Khóa / Chỉ Mục | Ý Nghĩa / Ví Dụ |
-| :--- | :--- | :--- | :---: | :--- |
-| `_id` | ObjectId | Auto-generated | PK | Khóa chính sản phẩm phụ kiện |
-| `name` | String | Required, Trim | Text Index | Tên sản phẩm (VD: 'Set len Milk Bò 50g') |
-| `category` | ObjectId | Required, Ref: `Category` | FK Index | Tham chiếu sang danh mục phụ kiện |
-| `price` | Number | Required, Min: 0 | Index (sort) | Giá bán thực tế (VNĐ) |
-| `original_price` | Number | Min: 0, Default: 0 | | Giá niêm yết ban đầu |
-| `image_url` | String | Required | | Ảnh chụp sản phẩm |
-| `stock_status` | String | Enum: `['Còn hàng', 'Sắp hết', 'Hết hàng']` | Index | Trạng thái tồn kho |
-| `short_desc` | String | Default: '' | | Mô tả ngắn gọn tính năng |
-| `description` | String | Default: '' | | Bài viết chi tiết công dụng sản phẩm |
-| `rating` | Number | Min: 0, Max: 5, Default: 5 | | Điểm đánh giá chất lượng |
+
+| Tên Thuộc Tính  | Kiểu Dữ Liệu | Ràng Buộc                                         | Khóa / Chỉ Mục | Ý Nghĩa / Ví Dụ                          |
+| :----------------- | :-------------- | :-------------------------------------------------- | :---------------: | :------------------------------------------- |
+| `_id`            | ObjectId        | Auto-generated                                      |        PK        | Khóa chính sản phẩm phụ kiện           |
+| `name`           | String          | Required, Trim                                      |    Text Index    | Tên sản phẩm (VD: 'Set len Milk Bò 50g') |
+| `category`       | ObjectId        | Required, Ref: `Category`                         |     FK Index     | Tham chiếu sang danh mục phụ kiện        |
+| `price`          | Number          | Required, Min: 0                                    |   Index (sort)   | Giá bán thực tế (VNĐ)                   |
+| `original_price` | Number          | Min: 0, Default: 0                                  |                  | Giá niêm yết ban đầu                    |
+| `image_url`      | String          | Required                                            |                  | Ảnh chụp sản phẩm                        |
+| `stock_status`   | String          | Enum: `['Còn hàng', 'Sắp hết', 'Hết hàng']` |       Index       | Trạng thái tồn kho                        |
+| `short_desc`     | String          | Default: ''                                         |                  | Mô tả ngắn gọn tính năng               |
+| `description`    | String          | Default: ''                                         |                  | Bài viết chi tiết công dụng sản phẩm  |
+| `rating`         | Number          | Min: 0, Max: 5, Default: 5                          |                  | Điểm đánh giá chất lượng             |
 
 ---
 
 #### 4. Collection: `orders` (Đơn Hàng Phụ Kiện)
-| Tên Thuộc Tính | Kiểu Dữ Liệu | Ràng Buộc | Khóa / Chỉ Mục | Ý Nghĩa / Ví Dụ |
-| :--- | :--- | :--- | :---: | :--- |
-| `_id` | ObjectId | Auto-generated | PK | Khóa chính đơn hàng |
-| `order_code` | String | Required, Unique | Unique Index | Mã tra cứu đơn tự sinh (VD: `ORD-882194`) |
-| `customer_name` | String | Required, Trim | | Họ tên người nhận hàng |
-| `phone` | String | Required, Trim | Index | Số điện thoại nhận hàng (dùng tra cứu đơn) |
-| `address` | String | Required, Trim | | Địa chỉ nhận bưu phẩm chi tiết |
-| `note` | String | Optional, Default: '' | | Ghi chú dặn dò shipper |
-| `items` | Array~SubDoc~| Required, Min 1 item | Embedded | Danh sách sản phẩm con đặt mua (Sub-document) |
-| `items.product_id`| ObjectId | Required, Ref: `Product` | | ID sản phẩm gốc |
-| `items.name` | String | Required | | Tên sản phẩm tại thời điểm đặt |
-| `items.price` | Number | Required, Min: 0 | | Đơn giá tại thời điểm đặt |
-| `items.quantity`| Number | Required, Min: 1 | | Số lượng đặt mua |
-| `items.image_url`| String | Default: '' | | Ảnh thumbnail sản phẩm |
-| `total_amount` | Number | Required, Min: 0 | | Tổng tiền thanh toán (VNĐ) |
-| `status` | String | Enum: `['Chờ xác nhận', 'Đang xử lý', 'Đã giao', 'Đã hủy']` | Index | Trạng thái chu trình xử lý đơn |
+
+| Tên Thuộc Tính    | Kiểu Dữ Liệu | Ràng Buộc                                                              | Khóa / Chỉ Mục | Ý Nghĩa / Ví Dụ                                  |
+| :------------------- | :-------------- | :----------------------------------------------------------------------- | :---------------: | :--------------------------------------------------- |
+| `_id`              | ObjectId        | Auto-generated                                                           |        PK        | Khóa chính đơn hàng                             |
+| `order_code`       | String          | Required, Unique                                                         |   Unique Index   | Mã tra cứu đơn tự sinh (VD: `ORD-882194`)     |
+| `customer_name`    | String          | Required, Trim                                                           |                  | Họ tên người nhận hàng                         |
+| `phone`            | String          | Required, Trim                                                           |       Index       | Số điện thoại nhận hàng (dùng tra cứu đơn) |
+| `address`          | String          | Required, Trim                                                           |                  | Địa chỉ nhận bưu phẩm chi tiết                |
+| `note`             | String          | Optional, Default: ''                                                    |                  | Ghi chú dặn dò shipper                            |
+| `items`            | Array~SubDoc~   | Required, Min 1 item                                                     |     Embedded     | Danh sách sản phẩm con đặt mua (Sub-document)   |
+| `items.product_id` | ObjectId        | Required, Ref: `Product`                                               |                  | ID sản phẩm gốc                                   |
+| `items.name`       | String          | Required                                                                 |                  | Tên sản phẩm tại thời điểm đặt              |
+| `items.price`      | Number          | Required, Min: 0                                                         |                  | Đơn giá tại thời điểm đặt                   |
+| `items.quantity`   | Number          | Required, Min: 1                                                         |                  | Số lượng đặt mua                                |
+| `items.image_url`  | String          | Default: ''                                                              |                  | Ảnh thumbnail sản phẩm                            |
+| `total_amount`     | Number          | Required, Min: 0                                                         |                  | Tổng tiền thanh toán (VNĐ)                       |
+| `status`           | String          | Enum: `['Chờ xác nhận', 'Đang xử lý', 'Đã giao', 'Đã hủy']` |       Index       | Trạng thái chu trình xử lý đơn                |
 
 ---
 
 #### 5. Collection: `comments` (Bình Luận & Đánh Giá Chart)
-| Tên Thuộc Tính | Kiểu Dữ Liệu | Ràng Buộc | Khóa / Chỉ Mục | Ý Nghĩa / Ví Dụ |
-| :--- | :--- | :--- | :---: | :--- |
-| `_id` | ObjectId | Auto-generated | PK | Khóa chính bình luận |
-| `pattern_id` | ObjectId | Required, Ref: `Pattern` | FK Index | Tham chiếu tới mẫu chart được đánh giá |
-| `author_name` | String | Required, Trim | | Tên người gửi nhận xét |
-| `avatar` | String | Default: Dicebear URL | | Link avatar hoạt hình sinh tự động |
-| `rating` | Number | Required, Min: 1, Max: 5 | | Số sao chấm điểm (1 - 5 sao) |
-| `content` | String | Required, Trim | | Nội dung cảm nhận sau khi móc |
-| `verified` | Boolean | Default: `true` | | Đánh dấu người dùng thật |
+
+| Tên Thuộc Tính | Kiểu Dữ Liệu | Ràng Buộc                | Khóa / Chỉ Mục | Ý Nghĩa / Ví Dụ                             |
+| :---------------- | :-------------- | :------------------------- | :---------------: | :---------------------------------------------- |
+| `_id`           | ObjectId        | Auto-generated             |        PK        | Khóa chính bình luận                        |
+| `pattern_id`    | ObjectId        | Required, Ref: `Pattern` |     FK Index     | Tham chiếu tới mẫu chart được đánh giá |
+| `author_name`   | String          | Required, Trim             |                  | Tên người gửi nhận xét                    |
+| `avatar`        | String          | Default: Dicebear URL      |                  | Link avatar hoạt hình sinh tự động         |
+| `rating`        | Number          | Required, Min: 1, Max: 5   |                  | Số sao chấm điểm (1 - 5 sao)                |
+| `content`       | String          | Required, Trim             |                  | Nội dung cảm nhận sau khi móc               |
+| `verified`      | Boolean         | Default: `true`          |                  | Đánh dấu người dùng thật                 |
 
 ---
 
 #### 6. Collection: `blogs` (Cẩm Nang & Mẹo Đan Móc)
-| Tên Thuộc Tính | Kiểu Dữ Liệu | Ràng Buộc | Khóa / Chỉ Mục | Ý Nghĩa / Ví Dụ |
-| :--- | :--- | :--- | :---: | :--- |
-| `_id` | ObjectId | Auto-generated | PK | Khóa chính bài viết |
-| `title` | String | Required, Trim | Text Index | Tiêu đề bài viết cẩm nang |
-| `slug` | String | Required, Trim, Unique | Unique Index | Đường dẫn thân thiện SEO (VD: `meo-giau-len-thua`) |
-| `excerpt` | String | Required | | Tóm tắt ngắn nội dung bài viết |
-| `content` | String | Required | | Nội dung toàn văn bài hướng dẫn |
-| `image_url` | String | Required | | Ảnh bìa bài viết |
-| `author` | String | Default: 'Bảo Vy' | | Tên tác giả bài viết |
-| `read_time` | String | Default: '5 phút đọc' | | Thời lượng ước tính để đọc |
-| `category` | String | Default: 'Mẹo hay' | Index | Phân loại chủ đề mẹo đan móc |
-| `views` | Number | Min: 0, Default: 0 | | Lượt đọc bài viết (tự tăng qua `$inc`) |
+
+| Tên Thuộc Tính | Kiểu Dữ Liệu | Ràng Buộc              | Khóa / Chỉ Mục | Ý Nghĩa / Ví Dụ                                        |
+| :---------------- | :-------------- | :----------------------- | :---------------: | :--------------------------------------------------------- |
+| `_id`           | ObjectId        | Auto-generated           |        PK        | Khóa chính bài viết                                    |
+| `title`         | String          | Required, Trim           |    Text Index    | Tiêu đề bài viết cẩm nang                            |
+| `slug`          | String          | Required, Trim, Unique   |   Unique Index   | Đường dẫn thân thiện SEO (VD: `meo-giau-len-thua`) |
+| `excerpt`       | String          | Required                 |                  | Tóm tắt ngắn nội dung bài viết                       |
+| `content`       | String          | Required                 |                  | Nội dung toàn văn bài hướng dẫn                     |
+| `image_url`     | String          | Required                 |                  | Ảnh bìa bài viết                                       |
+| `author`        | String          | Default: 'Bảo Vy'       |                  | Tên tác giả bài viết                                  |
+| `read_time`     | String          | Default: '5 phút đọc' |                  | Thời lượng ước tính để đọc                       |
+| `category`      | String          | Default: 'Mẹo hay'      |       Index       | Phân loại chủ đề mẹo đan móc                       |
+| `views`         | Number          | Min: 0, Default: 0       |                  | Lượt đọc bài viết (tự tăng qua `$inc`)           |
 
 ---
 
@@ -1010,8 +1034,10 @@ SDN-CraftYarnHub/
 ### V.2 Map Class Diagram and Interaction Diagram to Code
 
 #### Minh Họa 1: Ánh Xạ Logic Tăng Lượt Xem & Like Atomic (Pattern Interaction)
+
 - **Thiết kế Sequence Diagram:** Gửi request `GET /patterns/:id` hoặc `PATCH /patterns/:id/like` $\rightarrow$ Tăng trường dữ liệu trực tiếp tại database engine.
 - **Code Triển Khai (`server/src/modules/patterns/patterns.service.ts`):**
+
 ```typescript
 async findById(id: string): Promise<Pattern> {
   if (!Types.ObjectId.isValid(id)) {
@@ -1043,8 +1069,10 @@ async like(id: string): Promise<Pattern> {
 ```
 
 #### Minh Họa 2: Ánh Xạ Logic Tạo Đơn Hàng Sub-Document (`OrdersService`)
+
 - **Thiết kế Use Case UC-07:** Kiểm tra giỏ hàng, sinh mã `ORD-xxxx`, nhúng danh sách món và lưu vào database.
 - **Code Triển Khai (`server/src/modules/orders/orders.service.ts`):**
+
 ```typescript
 async create(dto: CreateOrderDto): Promise<Order> {
   if (!dto.items || dto.items.length === 0) {
@@ -1080,8 +1108,10 @@ async create(dto: CreateOrderDto): Promise<Order> {
 ```
 
 #### Minh Họa 3: Ánh Xạ Trợ Lý Đếm Hàng Web Audio API (`RowCounter.tsx`)
+
 - **Thiết kế Activity Diagram:** Bấm nút $\rightarrow$ Phát tần số âm thanh sine $\rightarrow$ Tăng dòng $\rightarrow$ Lưu `localStorage`.
 - **Code Triển Khai (`client/src/components/RowCounter.tsx`):**
+
 ```typescript
 export const RowCounter: React.FC<{ maxRows?: number; patternId?: string }> = ({
   patternId,
@@ -1142,13 +1172,17 @@ export const RowCounter: React.FC<{ maxRows?: number; patternId?: string }> = ({
 ### VI.1 Applying Service-Oriented Architecture (SOA) / Microservices
 
 #### 1. Vấn Đề Khi Quy Mô Hệ Thống Mở Rộng (Problem Identification)
-Hiện tại, hệ thống CraftYarnHub được đóng gói dưới dạng Monolithic Backend (Tất cả module Patterns, Orders, Products, Blogs cùng chia sẻ một tiến trình Node.js và một kết nối MongoDB). 
+
+Hiện tại, hệ thống CraftYarnHub được đóng gói dưới dạng Monolithic Backend (Tất cả module Patterns, Orders, Products, Blogs cùng chia sẻ một tiến trình Node.js và một kết nối MongoDB).
 Khi số lượng người dùng tăng đột biến (ví dụ trong các đợt flash-sale phụ kiện len hoặc khi một mẫu chart viral trên mạng xã hội):
+
 - Lưu lượng duyệt chart khổng lồ có thể làm cạn kiệt tài nguyên CPU/RAM của tiến trình server, gây nghẽn luôn luồng đặt hàng và thanh toán.
 - Đội ngũ phát triển gặp khó khăn khi triển khai độc lập (Deployment coupling): Sửa module Blog cũng phải deploy lại toàn bộ server.
 
 #### 2. Giải Pháp Tái Cấu Trúc Hướng Dịch Vụ (SOA / Microservices Solution)
+
 Tách hệ thống thành các dịch vụ độc lập giao tiếp qua giao thức HTTP RESTful hoặc Message Queue (RabbitMQ / Kafka):
+
 1. **API Gateway Service:** Tiếp nhận toàn bộ request từ Client React, làm nhiệm vụ Reverse Proxy, Rate Limiting, Authentication và điều hướng request.
 2. **Catalog & Pattern Service:** Chịu trách nhiệm quản lý Kho Chart, Đánh giá và Danh mục (Đọc nhiều, sử dụng Redis Cache để tăng tốc).
 3. **Product & Inventory Service:** Quản lý số lượng tồn kho phụ kiện và giá bán sản phẩm.
@@ -1156,6 +1190,7 @@ Tách hệ thống thành các dịch vụ độc lập giao tiếp qua giao th�
 5. **Notification Service:** Lắng nghe sự kiện `OrderCreated` để gửi tin nhắn SMS / Email xác nhận đơn cho khách hàng qua cơ chế hướng sự kiện (Event-Driven).
 
 #### 3. Sơ Đồ Kiến Trúc Đề Xuất (SOA Deployment Diagram)
+
 ```mermaid
 flowchart TD
     Client["Client Devices (React Web / Mobile App)"]
@@ -1198,15 +1233,19 @@ flowchart TD
 ### VI.2 Applying Service Discovery Pattern
 
 #### 1. Yêu Cầu Đặt Ra (Problem & Requirement)
+
 Trong kiến trúc phân tán nhiều dịch vụ (Microservices), các phiên bản (instances) của `Order Service` hay `Pattern Service` có thể tự động tăng giảm linh hoạt (Auto-scaling trên Kubernetes hoặc Docker Swarm). Địa chỉ IP và Port của từng instance thay đổi liên tục, khiến API Gateway hoặc các service khác không thể cấu hình cứng (hard-code) địa chỉ IP của nhau.
 
 #### 2. Tích Hợp Mẫu Thiết Kế Service Discovery
+
 Hệ thống áp dụng mẫu **Service Discovery Pattern** kết hợp với **Service Registry** (ví dụ: Netflix Eureka, HashiCorp Consul hoặc Kubernetes CoreDNS):
+
 - **Service Registration (Tự Đăng Ký):** Khi một service instance khởi động, nó tự động gửi thông tin (Tên dịch vụ, IP, Port, Health check URL) lên Service Registry.
 - **Heartbeat Check (Kiểm Tra Sức Khỏe):** Service định kỳ gửi tín hiệu "nhịp tim" (heartbeat) lên Registry. Nếu service bị crash, Registry tự động gỡ bỏ instance đó khỏi danh sách sẵn sàng.
 - **Service Discovery (Khám Phá Dịch Vụ):** Khi API Gateway cần chuyển tiếp request tới `Order Service`, nó truy vấn Registry để lấy danh sách các IP đang hoạt động và áp dụng thuật toán cân bằng tải (Client-side / Server-side Load Balancing như Round-Robin).
 
 #### 3. Sơ Đồ Khám Phá Dịch Vụ (Service Discovery Diagram)
+
 ```mermaid
 sequenceDiagram
     autonumber

@@ -1,0 +1,17 @@
+%% SƠ ĐỒ 01: SƠ ĐỒ NGỮ CẢNH HỆ THỐNG (SYSTEM CONTEXT DIAGRAM)
+%% Dự án: CraftYarnHub - Hệ thống Quản lý & Chia sẻ Chart Móc Len & Phụ Kiện
+flowchart TD
+    Guest["👤 Khách Vãng Lai / Thợ Móc Len\n(Visitor / Crocheter)"]
+    Customer["🛒 Khách Mua Hàng\n(Customer)"]
+    Admin["⚙️ Quản Trị Viên\n(System Administrator)"]
+    
+    System["📦 HỆ THỐNG CRAFTYARNHUB\n(SDN-CraftYarnHub System)"]
+    
+    Guest -->|"1. Tìm kiếm chart, xem công thức móc, đếm hàng, like"| System
+    System -->|"2. Trả về chi tiết chart, âm thanh bíp đếm hàng, bài viết mẹo hay"| Guest
+    
+    Customer -->|"3. Thêm giỏ hàng, đặt hàng trực tuyến, tra cứu đơn theo SĐT"| System
+    System -->|"4. Xác nhận đơn hàng, cấp mã ORD-xxxx, cập nhật trạng thái đơn"| Customer
+    
+    Admin -->|"5. Thêm/Sửa/Xóa Chart, Phụ kiện, Cập nhật trạng thái Đơn hàng"| System
+    System -->|"6. Cung cấp bảng quản trị CRUD, dữ liệu thống kê tổng quan"| Admin

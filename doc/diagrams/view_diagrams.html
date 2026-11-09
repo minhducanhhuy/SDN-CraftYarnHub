@@ -1,0 +1,666 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CraftYarnHub - Bộ Sơ Đồ Hệ Thống Chuẩn (System Diagrams)</title>
+  <script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@500;600;700&family=Nunito:wght@400;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --primary: #d81b60;
+      --primary-light: #fff0f3;
+      --border: #fbcfe8;
+      --text: #2c1810;
+      --text-muted: #666;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: 'Nunito', sans-serif;
+      background: #fdf2f8;
+      color: var(--text);
+      padding: 30px 20px;
+      line-height: 1.6;
+    }
+    .header {
+      max-width: 1200px;
+      margin: 0 auto 30px;
+      text-align: center;
+      background: white;
+      padding: 24px;
+      border-radius: 20px;
+      border: 1px solid var(--border);
+      box-shadow: 0 4px 20px rgba(216, 27, 96, 0.08);
+    }
+    .header h1 {
+      font-family: 'Quicksand', sans-serif;
+      color: var(--primary);
+      font-size: 28px;
+      margin-bottom: 8px;
+    }
+    .header p { color: var(--text-muted); font-size: 15px; }
+    .container { max-width: 1200px; margin: 0 auto; display: flex; flex-direction: column; gap: 32px; }
+    .diagram-card {
+      background: white;
+      border-radius: 20px;
+      padding: 28px;
+      border: 1px solid var(--border);
+      box-shadow: 0 4px 16px rgba(0,0,0,0.04);
+    }
+    .diagram-header {
+      border-bottom: 2px dashed #fce7f3;
+      padding-bottom: 12px;
+      margin-bottom: 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+    .diagram-title {
+      font-family: 'Quicksand', sans-serif;
+      font-size: 20px;
+      font-weight: 700;
+      color: var(--primary);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .diagram-badge {
+      background: var(--primary-light);
+      color: var(--primary);
+      padding: 4px 12px;
+      border-radius: 999px;
+      font-size: 12px;
+      font-weight: 700;
+      border: 1px solid var(--border);
+    }
+    .diagram-desc {
+      color: var(--text-muted);
+      font-size: 14px;
+      margin-bottom: 20px;
+      background: #fafafa;
+      padding: 10px 16px;
+      border-radius: 10px;
+      border-left: 4px solid var(--primary);
+    }
+    .mermaid {
+      background: #ffffff;
+      padding: 16px;
+      border-radius: 12px;
+      display: flex;
+      justify-content: center;
+      overflow-x: auto;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="header">
+    <h1>🧶 CRAFTYARNHUB - BỘ SƠ ĐỒ HỆ THỐNG ĐỒ ÁN SDN302</h1>
+    <p>Tổng hợp trực quan 11 sơ đồ phân tích và thiết kế phần mềm chuẩn UML (Client - Server: React + NestJS + MongoDB)</p>
+  </div>
+
+  <div class="container">
+
+    <!-- SƠ ĐỒ 01 -->
+    <div class="diagram-card">
+      <div class="diagram-header">
+        <div class="diagram-title"><span>📌 Sơ Đồ 01: Sơ Đồ Ngữ Cảnh Hệ Thống (System Context Diagram)</span></div>
+        <span class="diagram-badge">Phân Tích Ngữ Cảnh</span>
+      </div>
+      <div class="diagram-desc"><strong>Chú thích:</strong> Mô tả ranh giới tương tác hệ thống hộp đen CraftYarnHub với 3 tác nhân bên ngoài: Khách vãng lai/Thợ móc len, Khách mua hàng và Quản trị viên.</div>
+      <div class="mermaid">
+flowchart TD
+    Guest["👤 Khách Vãng Lai / Thợ Móc Len\n(Visitor / Crocheter)"]
+    Customer["🛒 Khách Mua Hàng\n(Customer)"]
+    Admin["⚙️ Quản Trị Viên\n(System Administrator)"]
+    System["📦 HỆ THỐNG CRAFTYARNHUB\n(SDN-CraftYarnHub System)"]
+    
+    Guest -->|"1. Tìm kiếm chart, xem công thức móc, đếm hàng, like"| System
+    System -->|"2. Trả về chi tiết chart, âm thanh bíp đếm hàng, bài viết mẹo hay"| Guest
+    Customer -->|"3. Thêm giỏ hàng, đặt hàng trực tuyến, tra cứu đơn theo SĐT"| System
+    System -->|"4. Xác nhận đơn hàng, cấp mã ORD-xxxx, cập nhật trạng thái đơn"| Customer
+    Admin -->|"5. Thêm/Sửa/Xóa Chart, Phụ kiện, Cập nhật trạng thái Đơn hàng"| System
+    System -->|"6. Cung cấp bảng quản trị CRUD, dữ liệu thống kê tổng quan"| Admin
+      </div>
+    </div>
+
+    <!-- SƠ ĐỒ 02 -->
+    <div class="diagram-card">
+      <div class="diagram-header">
+        <div class="diagram-title"><span>📌 Sơ Đồ 02: Sơ Đồ Use Case Tổng Quan (System Use Case Diagram)</span></div>
+        <span class="diagram-badge">Use Case Modeling</span>
+      </div>
+      <div class="diagram-desc"><strong>Chú thích:</strong> Tổng hợp đầy đủ 16 chức năng của hệ thống phân chia theo 3 tác nhân: Visitor, Customer, Admin.</div>
+      <div class="mermaid">
+flowchart LR
+    Visitor(("👤 Khách / Thợ Móc\n(Visitor)"))
+    Customer(("🛒 Khách Mua Hàng\n(Customer)"))
+    Admin(("⚙️ Quản Trị Viên\n(Admin)"))
+
+    subgraph "Hệ Thống CraftYarnHub"
+        subgraph "Kho Chart & Tương Tác"
+            UC01["UC-01: Duyệt & Lọc Kho Chart"]
+            UC02["UC-02: Xem Chi Tiết Chart & Công Thức"]
+            UC03["UC-03: Sử Dụng Trợ Lý Đếm Hàng"]
+            UC04["UC-04: Thả Tim Yêu Thích Chart"]
+            UC05["UC-05: Gửi Đánh Giá & Bình Luận"]
+            UC06["UC-06: Xem Bài Viết Cẩm Nang"]
+        end
+
+        subgraph "Gian Hàng & Đơn Hàng"
+            UC07["UC-07: Duyệt Phụ Kiện Len Sợi"]
+            UC08["UC-08: Xem Chi Tiết Phụ Kiện"]
+            UC09["UC-09: Quản Lý Giỏ Hàng"]
+            UC10["UC-10: Đặt Hàng Trực Tuyến"]
+            UC11["UC-11: Tra Cứu Đơn Hàng Qua SĐT"]
+        end
+
+        subgraph "Quản Trị Hệ Thống"
+            UC12["UC-12: Quản Lý Mẫu Chart (CRUD)"]
+            UC13["UC-13: Quản Lý Phụ Kiện Len (CRUD)"]
+            UC14["UC-14: Quản Lý & Cập Nhật Trạng Thái Đơn"]
+            UC15["UC-15: Quản Lý Danh Mục Hệ Thống"]
+            UC16["UC-16: Quản Lý Bài Viết Cẩm Nang"]
+        end
+    end
+
+    Visitor --> UC01
+    Visitor --> UC02
+    Visitor --> UC03
+    Visitor --> UC04
+    Visitor --> UC05
+    Visitor --> UC06
+
+    Customer --> UC07
+    Customer --> UC08
+    Customer --> UC09
+    Customer --> UC10
+    Customer --> UC11
+
+    Admin --> UC12
+    Admin --> UC13
+    Admin --> UC14
+    Admin --> UC15
+    Admin --> UC16
+      </div>
+    </div>
+
+    <!-- SƠ ĐỒ 03 -->
+    <div class="diagram-card">
+      <div class="diagram-header">
+        <div class="diagram-title"><span>📌 Sơ Đồ 03: Sơ Đồ Trình Tự Đặt Hàng Trực Tuyến (Checkout Sequence)</span></div>
+        <span class="diagram-badge">Sequence Diagram</span>
+      </div>
+      <div class="diagram-desc"><strong>Chú thích:</strong> Mô tả luồng xử lý từ lúc khách bấm Đặt Hàng, ValidationPipe kiểm tra DTO, sinh mã đơn ORD-xxxx và lưu vào collection orders.</div>
+      <div class="mermaid">
+sequenceDiagram
+    autonumber
+    actor Customer as Khách Hàng (Customer)
+    participant UI as React Client (CartPage)
+    participant Pipe as Global ValidationPipe
+    participant Controller as OrdersController
+    participant Service as OrdersService
+    participant DB as MongoDB (orders)
+
+    Customer->>UI: Điền Tên, SĐT, Địa chỉ nhận hàng & Bấm "Đặt Hàng Ngay"
+    UI->>UI: Kiểm tra giỏ hàng (items.length > 0) & đóng gói payload
+    UI->>Pipe: HTTP POST /api/orders (CreateOrderDto)
+    Note over Pipe: Kiểm tra validation @IsNotEmpty, @IsString, @ValidateNested
+    Pipe->>Controller: Forward DTO hợp lệ
+    Controller->>Service: create(createOrderDto)
+    Service->>Service: Sinh mã tự động dạng ORD-xxxx (BR-03)
+    Service->>Service: Mapping mảng Sub-documents items & set status='Chờ xác nhận'
+    Service->>DB: new OrderModel(orderData).save()
+    DB-->>Service: Bản ghi Order Document đã lưu kèm _id
+    Service-->>Controller: Trả về đối tượng Order
+    Controller-->>UI: HTTP 201 Created { success: true, data: Order, message: "Đặt hàng thành công!" }
+    UI->>UI: Gọi clearCart() xóa sạch giỏ hàng trong localStorage
+    UI-->>Customer: Hiển thị Modal chúc mừng kèm Mã đơn hàng ORD-xxxx
+      </div>
+    </div>
+
+    <!-- SƠ ĐỒ 04 -->
+    <div class="diagram-card">
+      <div class="diagram-header">
+        <div class="diagram-title"><span>📌 Sơ Đồ 04: Sơ Đồ Trình Tự Xem Chi Tiết & Thả Tim Chart (View & Like Sequence)</span></div>
+        <span class="diagram-badge">Sequence Diagram</span>
+      </div>
+      <div class="diagram-desc"><strong>Chú thích:</strong> Minh chứng kỹ thuật môn SDN302 với toán tử atomic <code>$inc</code> tự động tăng lượt xem và lượt thích trực tiếp tại database engine.</div>
+      <div class="mermaid">
+sequenceDiagram
+    autonumber
+    actor Crocheter as Thợ Móc Len (User)
+    participant UI as React Client (PatternDetailPage)
+    participant Controller as PatternsController
+    participant Service as PatternsService
+    participant DB as MongoDB (patterns)
+
+    Note over Crocheter,DB: 1. Luồng xem chi tiết & tự động tăng lượt xem (+1 view)
+    Crocheter->>UI: Bấm vào mẫu chart tại Trang chủ / Kho chart
+    UI->>Controller: HTTP GET /api/patterns/:id
+    Controller->>Service: findById(id)
+    Service->>DB: findByIdAndUpdate(id, { $inc: { view_count: 1 } }, { new: true }).populate('category')
+    DB-->>Service: Document Pattern kèm category object
+    Service-->>Controller: Dữ liệu chi tiết chart
+    Controller-->>UI: HTTP 200 OK { success: true, data: Pattern }
+    UI-->>Crocheter: Hiển thị ảnh, checklist nguyên liệu, các bước móc R1, R2...
+
+    Note over Crocheter,DB: 2. Luồng thả tim chart (+1 like)
+    Crocheter->>UI: Bấm nút "Yêu thích" (Heart Button)
+    UI->>Controller: HTTP PATCH /api/patterns/:id/like
+    Controller->>Service: like(id)
+    Service->>DB: findByIdAndUpdate(id, { $inc: { likes: 1 } }, { new: true })
+    DB-->>Service: Document Pattern với số like mới
+    Service-->>Controller: Dữ liệu Pattern đã cập nhật
+    Controller-->>UI: HTTP 200 OK { success: true, data: Pattern }
+    UI->>UI: Chuyển đổi icon sang HeartFilled, tăng số like hiển thị
+    UI-->>Crocheter: Hiển thị thông báo Toast "Đã thả tim chart!"
+      </div>
+    </div>
+
+    <!-- SƠ ĐỒ 05 -->
+    <div class="diagram-card">
+      <div class="diagram-header">
+        <div class="diagram-title"><span>📌 Sơ Đồ 05: Sơ Đồ Trình Tự Đánh Giá & Bình Luận (Submit Review Sequence)</span></div>
+        <span class="diagram-badge">Sequence Diagram</span>
+      </div>
+      <div class="diagram-desc"><strong>Chú thích:</strong> Luồng gửi nhận xét 1-5 sao, tự động tạo avatar Dicebear và chèn real-time vào đầu danh sách đánh giá.</div>
+      <div class="mermaid">
+sequenceDiagram
+    autonumber
+    actor Crocheter as Thợ Móc Len (User)
+    participant UI as React Client (PatternDetailPage)
+    participant Pipe as Global ValidationPipe
+    participant Controller as CommentsController
+    participant Service as CommentsService
+    participant DB as MongoDB (comments)
+
+    Crocheter->>UI: Nhập họ tên, chọn số sao (1-5), nhập nội dung đánh giá
+    Crocheter->>UI: Bấm nút "Gửi Đánh Giá"
+    UI->>Pipe: HTTP POST /api/comments (CreateCommentDto)
+    Note over Pipe: Kiểm tra validation @IsNotEmpty, @Min(1), @Max(5)
+    Pipe->>Controller: Forward DTO hợp lệ
+    Controller->>Service: create(dto)
+    Service->>Service: Tự động tạo Avatar hoạt hình qua Dicebear API theo tên tác giả
+    Service->>DB: new CommentModel(commentData).save()
+    DB-->>Service: Bản ghi Comment Document mới lưu kèm _id
+    Service-->>Controller: Dữ liệu bình luận vừa tạo
+    Controller-->>UI: HTTP 201 Created { success: true, data: Comment }
+    UI->>UI: Chèn bình luận mới vào đầu state comments (Real-time update)
+    UI-->>Crocheter: Reset Form & hiển thị thông báo "Cảm ơn bạn đã gửi đánh giá!"
+      </div>
+    </div>
+
+    <!-- SƠ ĐỒ 06 -->
+    <div class="diagram-card">
+      <div class="diagram-header">
+        <div class="diagram-title"><span>📌 Sơ Đồ 06: Sơ Đồ Hoạt Động Đặt Hàng Trực Tuyến (Checkout Activity)</span></div>
+        <span class="diagram-badge">Activity Diagram</span>
+      </div>
+      <div class="diagram-desc"><strong>Chú thích:</strong> Các bước rẽ nhánh kiểm tra giỏ hàng, validation form và hoàn tất giao dịch đơn hàng.</div>
+      <div class="mermaid">
+stateDiagram-v2
+    [*] --> DuyetGioHang: Khách mở trang Giỏ Hàng (/cart)
+    DuyetGioHang --> KiemTraGio: Bấm nút "Đặt Hàng Ngay"
+
+    state KiemTraGio <<choice>>
+    KiemTraGio --> BaoLoiGioRong: Giỏ hàng trống (cart.length == 0)
+    BaoLoiGioRong --> DuyetGioHang: Hiển thị cảnh báo & yêu cầu chọn đồ
+
+    KiemTraGio --> NhapThongTin: Giỏ có sản phẩm (cart.length > 0)
+    NhapThongTin --> KiemTraForm: Điền Tên, SĐT, Địa chỉ, Ghi chú
+
+    state KiemTraForm <<choice>>
+    KiemTraForm --> NhapThongTin: SĐT sai định dạng hoặc để trống trường bắt buộc
+    KiemTraForm --> DongGoiPayload: Dữ liệu hợp lệ theo CreateOrderDto
+
+    DongGoiPayload --> GuiAPI: Gửi HTTP POST /api/orders
+    GuiAPI --> ServerValidation: NestJS Global ValidationPipe kiểm tra
+    ServerValidation --> SinhMaDon: Tự động sinh mã duy nhất ORD-xxxx
+    SinhMaDon --> LuuMongoDB: Insert vào collection orders với status='Chờ xác nhận'
+    LuuMongoDB --> TraVeResponse: HTTP 201 Created
+
+    TraVeResponse --> XoaLocalStorage: Gọi clearCart() xóa sạch giỏ hàng
+    XoaLocalStorage --> HienThiModal: Mở popup thông báo thành công kèm Mã đơn
+    HienThiModal --> [*]: Khách về Trang chủ hoặc Tra cứu đơn
+      </div>
+    </div>
+
+    <!-- SƠ ĐỒ 07 -->
+    <div class="diagram-card">
+      <div class="diagram-header">
+        <div class="diagram-title"><span>📌 Sơ Đồ 07: Sơ Đồ Hoạt Động Trợ Lý Đếm Hàng (Row Counter Activity)</span></div>
+        <span class="diagram-badge">Activity Diagram</span>
+      </div>
+      <div class="diagram-desc"><strong>Chú thích:</strong> Cơ chế phát âm thanh bíp tần số sóng sin (Web Audio API) và lưu trữ cục bộ theo từng chart ID.</div>
+      <div class="mermaid">
+stateDiagram-v2
+    [*] --> MoChiTietChart: Mở trang chi tiết chart (/patterns/:id)
+    MoChiTietChart --> DocLocalStorage: Đọc key 'crochet_row_' + patternId
+
+    state DocLocalStorage <<choice>>
+    DocLocalStorage --> KhoiTaoR1: Chưa từng móc chart này -> count = 1
+    DocLocalStorage --> KhoiPhucR: Đã móc dở trước đó -> khôi phục hàng (VD: R8)
+
+    KhoiTaoR1 --> SanSangMoc: Hiển thị bộ đếm lên màn hình
+    KhoiPhucR --> SanSangMoc: Hiển thị bộ đếm lên màn hình
+
+    SanSangMoc --> NhanNutTang: Móc xong 1 hàng, bấm nút [+]
+    NhanNutTang --> PhatBeepCao: Web Audio API phát sóng sine 750Hz (bíp pop)
+    PhatBeepCao --> TangState: State count = count + 1
+    TangState --> GhiLocalStorage: Cập nhật key localStorage
+    GhiLocalStorage --> SanSangMoc
+
+    SanSangMoc --> NhanNutGiam: Móc sai cần tháo mũi, bấm nút [-]
+    NhanNutGiam --> PhatBeepTram: Web Audio API phát sóng sine 450Hz
+    PhatBeepTram --> GiamState: State count = Math.max(1, count - 1)
+    GiamState --> GhiLocalStorage: Cập nhật key localStorage
+    GhiLocalStorage --> SanSangMoc
+
+    SanSangMoc --> NhanReset: Muốn móc lại từ đầu, bấm nút Reset
+    NhanReset --> ResetState: State count = 1
+    ResetState --> GhiLocalStorage: Cập nhật key localStorage
+    GhiLocalStorage --> SanSangMoc
+      </div>
+    </div>
+
+    <!-- SƠ ĐỒ 08 -->
+    <div class="diagram-card">
+      <div class="diagram-header">
+        <div class="diagram-title"><span>📌 Sơ Đồ 08: Sơ Đồ Máy Trạng Thái Đơn Hàng (Order State Machine)</span></div>
+        <span class="diagram-badge">State Machine Diagram</span>
+      </div>
+      <div class="diagram-desc"><strong>Chú thích:</strong> Vòng đời đơn hàng từ Chờ xác nhận ➔ Đang xử lý ➔ Đã giao hoặc Hủy đơn (Quy tắc BR-07).</div>
+      <div class="mermaid">
+stateDiagram-v2
+    [*] --> ChoXacNhan: Khách hoàn tất đặt hàng (POST /api/orders)
+
+    ChoXacNhan --> DangXuLy: Admin duyệt đơn & chuyển qua đóng gói hàng
+    ChoXacNhan --> DaHuy: Khách yêu cầu hủy / Sai thông tin liên lạc
+
+    DangXuLy --> DaGiao: Đơn vị vận chuyển giao kiện hàng thành công
+    DangXuLy --> DaHuy: Giao hàng thất bại 3 lần / Khách từ chối nhận
+
+    DaGiao --> [*]: Kết thúc chu trình đơn hàng thành công
+    DaHuy --> [*]: Kết thúc chu trình đơn hàng thất bại
+      </div>
+    </div>
+
+    <!-- SƠ ĐỒ 09 -->
+    <div class="diagram-card">
+      <div class="diagram-header">
+        <div class="diagram-title"><span>📌 Sơ Đồ 09: Sơ Đồ Lớp Thực Thể Dữ Liệu (High-Level Entity Class Diagram)</span></div>
+        <span class="diagram-badge">Structural Model</span>
+      </div>
+      <div class="diagram-desc"><strong>Chú thích:</strong> Mô hình các thực thể dữ liệu Mongoose Schemas và quan hệ tham chiếu (Ref / Populate) và nhúng (Embedded).</div>
+      <div class="mermaid">
+classDiagram
+    class Category {
+        +ObjectId _id
+        +String name
+        +String slug
+        +String type
+        +String description
+        +String icon
+        +Date createdAt
+        +Date updatedAt
+    }
+
+    class Pattern {
+        +ObjectId _id
+        +String name
+        +ObjectId category
+        +String difficulty
+        +Number difficulty_stars
+        +String image_url
+        +String description
+        +String[] materials
+        +String[] tools
+        +Object content
+        +Boolean is_free
+        +Number view_count
+        +Number likes
+        +String author
+        +Date createdAt
+    }
+
+    class Comment {
+        +ObjectId _id
+        +ObjectId pattern_id
+        +String author_name
+        +String avatar
+        +Number rating
+        +String content
+        +Boolean verified
+        +Date createdAt
+    }
+
+    class Product {
+        +ObjectId _id
+        +String name
+        +ObjectId category
+        +Number price
+        +Number original_price
+        +String image_url
+        +String stock_status
+        +String short_desc
+        +String description
+        +Number rating
+        +Date createdAt
+    }
+
+    class Order {
+        +ObjectId _id
+        +String order_code
+        +String customer_name
+        +String phone
+        +String address
+        +String note
+        +OrderItem[] items
+        +Number total_amount
+        +String status
+        +Date createdAt
+    }
+
+    class OrderItem {
+        +ObjectId product_id
+        +String name
+        +Number price
+        +Number quantity
+        +String image_url
+    }
+
+    class Blog {
+        +ObjectId _id
+        +String title
+        +String slug
+        +String excerpt
+        +String content
+        +String image_url
+        +String author
+        +String read_time
+        +String category
+        +Number views
+        +Date createdAt
+    }
+
+    Category "1" <|-- "many" Pattern : classifies
+    Category "1" <|-- "many" Product : classifies
+    Pattern "1" <|-- "many" Comment : receives
+    Order "1" *-- "many" OrderItem : embeds
+    Product "1" <-- OrderItem : references
+      </div>
+    </div>
+
+    <!-- SƠ ĐỒ 10 -->
+    <div class="diagram-card">
+      <div class="diagram-header">
+        <div class="diagram-title"><span>📌 Sơ Đồ 10: Sơ Đồ Thành Phần Hệ Thống (System Component Diagram)</span></div>
+        <span class="diagram-badge">Component Diagram</span>
+      </div>
+      <div class="diagram-desc"><strong>Chú thích:</strong> Kiến trúc vật lý phân tầng: Trình duyệt React SPA ➔ Máy chủ ứng dụng NestJS API ➔ Cơ sở dữ liệu MongoDB.</div>
+      <div class="mermaid">
+flowchart TD
+    subgraph Browser["Môi Trường Trình Duyệt Web (Client Environment)"]
+        SPA["React Single Page Application (Port 5173)"]
+        Axios["Axios REST Client"]
+        WebAudio["HTML5 Web Audio API (Sine Wave Osc)"]
+        LocalStorage["Browser LocalStorage (Cart & Row State)"]
+        
+        SPA --> Axios
+        SPA --> WebAudio
+        SPA --> LocalStorage
+    end
+
+    subgraph ServerApp["Máy Chủ Ứng Dụng (NestJS Server Runtime :3000)"]
+        Gateway["REST API Router (/api/*)"]
+        CORS["CORS Middleware"]
+        Pipe["Global ValidationPipe (class-validator)"]
+        
+        Controllers["Controllers Layer (Patterns, Products, Orders, Blogs, Categories, Comments)"]
+        Services["Services Business Layer"]
+        Mongoose["Mongoose ODM Models Layer"]
+        
+        Gateway --> CORS
+        CORS --> Pipe
+        Pipe --> Controllers
+        Controllers --> Services
+        Services --> Mongoose
+    end
+
+    subgraph DataPersistence["Tầng Lưu Trữ Cơ Sở Dữ Liệu"]
+        MongoDB[("MongoDB Database Daemon :27017\n(chart_crochet_db)")]
+    end
+
+    Axios -->|"JSON over HTTP/HTTPS"| Gateway
+    Mongoose -->|"MongoDB Wire Protocol (TCP)"| MongoDB
+      </div>
+    </div>
+
+    <!-- SƠ ĐỒ 11 -->
+    <div class="diagram-card">
+      <div class="diagram-header">
+        <div class="diagram-title"><span>📌 Sơ Đồ 11: Sơ Đồ Quan Hệ Thực Thể CSDL (Database ERD Diagram)</span></div>
+        <span class="diagram-badge">Database Design</span>
+      </div>
+      <div class="diagram-desc"><strong>Chú thích:</strong> Đặc tả chi tiết các trường, kiểu dữ liệu BSON, khóa chính PK, khóa ngoại FK và mối liên kết giữa 6 collections.</div>
+      <div class="mermaid">
+erDiagram
+    categories ||--o{ patterns : "categorizes (1:N)"
+    categories ||--o{ products : "categorizes (1:N)"
+    patterns ||--o{ comments : "has_reviews (1:N)"
+    orders ||--|{ order_items : "embeds_subdocs (1:N)"
+    products ||--o{ order_items : "referenced_by (1:N)"
+
+    categories {
+        ObjectId _id PK "Unique Identifier"
+        string name "Unique category name"
+        string slug "Unique URL slug"
+        string type "Enum: pattern | product"
+        string description "Category details"
+        string icon "Visual emoji / icon"
+        date createdAt "Creation timestamp"
+        date updatedAt "Update timestamp"
+    }
+
+    patterns {
+        ObjectId _id PK "Unique Identifier"
+        string name "Pattern title"
+        ObjectId category FK "Ref to categories._id"
+        string difficulty "Enum: Dễ | Vừa | Khó"
+        int difficulty_stars "Stars rating 1-5"
+        string image_url "Thumbnail image"
+        string description "Long description"
+        array materials "Yarn and materials array"
+        array tools "Crochet hooks and tools array"
+        object content "Rounds and step instructions"
+        boolean is_free "Free pattern flag"
+        int view_count "View count (atomic inc)"
+        int likes "Likes count (atomic inc)"
+        string author "Creator name"
+        date createdAt "Creation timestamp"
+    }
+
+    products {
+        ObjectId _id PK "Unique Identifier"
+        string name "Product name"
+        ObjectId category FK "Ref to categories._id"
+        double price "Selling price (VND)"
+        double original_price "Original price"
+        string image_url "Product image"
+        string stock_status "Enum: Còn hàng | Sắp hết | Hết hàng"
+        string short_desc "Short summary"
+        string description "Full details"
+        double rating "Average rating"
+        date createdAt "Creation timestamp"
+    }
+
+    orders {
+        ObjectId _id PK "Unique Identifier"
+        string order_code "Unique ORD-xxxx code"
+        string customer_name "Recipient full name"
+        string phone "Phone number for lookup"
+        string address "Delivery address"
+        string note "Delivery note"
+        double total_amount "Total order value (VND)"
+        string status "Enum: Chờ xác nhận | Đang xử lý | Đã giao | Đã hủy"
+        date createdAt "Creation timestamp"
+    }
+
+    order_items {
+        ObjectId product_id FK "Ref to products._id"
+        string name "Snapshot product name"
+        double price "Snapshot unit price"
+        int quantity "Ordered quantity >= 1"
+        string image_url "Product thumbnail"
+    }
+
+    comments {
+        ObjectId _id PK "Unique Identifier"
+        ObjectId pattern_id FK "Ref to patterns._id"
+        string author_name "Reviewer name"
+        string avatar "Dicebear avatar link"
+        int rating "Rating 1 to 5 stars"
+        string content "Review feedback"
+        boolean verified "Verified crocheter"
+        date createdAt "Creation timestamp"
+    }
+
+    blogs {
+        ObjectId _id PK "Unique Identifier"
+        string title "Blog title"
+        string slug "Unique URL slug"
+        string excerpt "Summary excerpt"
+        string content "Full markdown/HTML article"
+        string image_url "Cover photo"
+        string author "Author name"
+        string read_time "Reading time estimation"
+        string category "Blog topic"
+        int views "View count (atomic inc)"
+        date createdAt "Creation timestamp"
+    }
+      </div>
+    </div>
+
+  </div>
+
+  <script>
+    mermaid.initialize({
+      startOnLoad: true,
+      theme: 'neutral',
+      themeVariables: {
+        primaryColor: '#ffccd5',
+        primaryBorderColor: '#ff758c',
+        primaryTextColor: '#2c1810',
+        lineColor: '#ff6584',
+        secondaryColor: '#fdf2f8',
+        tertiaryColor: '#fff',
+        fontFamily: "'Nunito', sans-serif"
+      }
+    });
+  </script>
+</body>
+</html>

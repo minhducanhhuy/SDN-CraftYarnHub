@@ -1,16 +1,18 @@
 import React from 'react';
 import { Card, Tag, Typography, Button, message } from 'antd';
-import { ShoppingCartOutlined } from '@ant-design/icons';
+import { ShoppingCartOutlined, EyeOutlined } from '@ant-design/icons';
+import { Link } from 'react-router-dom';
 import { Product } from '../types';
 import { useCart } from '../context/CartContext';
 
-const { Title, Paragraph, Text } = Typography;
+const { Title, Paragraph } = Typography;
 
 export const ProductCard: React.FC<{ product: Product }> = ({ product }) => {
   const { addToCart } = useCart();
 
   const handleAddToCart = (e: React.MouseEvent) => {
     e.preventDefault();
+    e.stopPropagation();
     addToCart(product, 1);
     message.success(`Đã thêm "${product.name}" vào giỏ hàng!`);
   };
@@ -32,7 +34,7 @@ export const ProductCard: React.FC<{ product: Product }> = ({ product }) => {
         flexDirection: 'column',
       }}
       cover={
-        <div style={{ position: 'relative', height: '220px', overflow: 'hidden' }}>
+        <Link to={`/accessories/${product._id}`} style={{ display: 'block', position: 'relative', height: '220px', overflow: 'hidden' }}>
           <img
             src={product.image_url}
             alt={product.name}
@@ -56,7 +58,7 @@ export const ProductCard: React.FC<{ product: Product }> = ({ product }) => {
           >
             {product.stock_status}
           </Tag>
-        </div>
+        </Link>
       }
       bodyStyle={{
         flex: 1,
@@ -67,17 +69,19 @@ export const ProductCard: React.FC<{ product: Product }> = ({ product }) => {
       }}
     >
       <div>
-        <Title
-          level={4}
-          style={{
-            fontSize: '16px',
-            marginBottom: '6px',
-            color: '#2c1810',
-            lineHeight: 1.3,
-          }}
-        >
-          {product.name}
-        </Title>
+        <Link to={`/accessories/${product._id}`} style={{ textDecoration: 'none' }}>
+          <Title
+            level={4}
+            style={{
+              fontSize: '16px',
+              marginBottom: '6px',
+              color: '#2c1810',
+              lineHeight: 1.3,
+            }}
+          >
+            {product.name}
+          </Title>
+        </Link>
         <Paragraph
           ellipsis={{ rows: 2 }}
           style={{ color: '#777', fontSize: '13px', marginBottom: '8px' }}
@@ -108,17 +112,25 @@ export const ProductCard: React.FC<{ product: Product }> = ({ product }) => {
           )}
         </div>
 
-        <Button
-          type="primary"
-          block
-          icon={<ShoppingCartOutlined />}
-          onClick={handleAddToCart}
-          style={{ borderRadius: '999px' }}
-        >
-          Thêm Vào Giỏ
-        </Button>
+        <div style={{ display: 'flex', gap: '8px' }}>
+          <Button
+            type="primary"
+            block
+            icon={<ShoppingCartOutlined />}
+            onClick={handleAddToCart}
+            style={{ borderRadius: '999px' }}
+          >
+            Thêm Vào Giỏ
+          </Button>
+          <Link to={`/accessories/${product._id}`}>
+            <Button
+              icon={<EyeOutlined />}
+              style={{ borderRadius: '999px' }}
+              title="Xem chi tiết"
+            />
+          </Link>
+        </div>
       </div>
     </Card>
   );
 };
-

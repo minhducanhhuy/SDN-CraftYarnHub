@@ -1,0 +1,96 @@
+%% SƠ ĐỒ 09: SƠ ĐỒ LỚP THỰC THỂ DỮ LIỆU (HIGH-LEVEL ENTITY CLASS DIAGRAM)
+classDiagram
+    class Category {
+        +ObjectId _id
+        +String name
+        +String slug
+        +String type
+        +String description
+        +String icon
+        +Date createdAt
+        +Date updatedAt
+    }
+
+    class Pattern {
+        +ObjectId _id
+        +String name
+        +ObjectId category
+        +String difficulty
+        +Number difficulty_stars
+        +String image_url
+        +String description
+        +String[] materials
+        +String[] tools
+        +Object content
+        +Boolean is_free
+        +Number view_count
+        +Number likes
+        +String author
+        +Date createdAt
+    }
+
+    class Comment {
+        +ObjectId _id
+        +ObjectId pattern_id
+        +String author_name
+        +String avatar
+        +Number rating
+        +String content
+        +Boolean verified
+        +Date createdAt
+    }
+
+    class Product {
+        +ObjectId _id
+        +String name
+        +ObjectId category
+        +Number price
+        +Number original_price
+        +String image_url
+        +String stock_status
+        +String short_desc
+        +String description
+        +Number rating
+        +Date createdAt
+    }
+
+    class Order {
+        +ObjectId _id
+        +String order_code
+        +String customer_name
+        +String phone
+        +String address
+        +String note
+        +OrderItem[] items
+        +Number total_amount
+        +String status
+        +Date createdAt
+    }
+
+    class OrderItem {
+        +ObjectId product_id
+        +String name
+        +Number price
+        +Number quantity
+        +String image_url
+    }
+
+    class Blog {
+        +ObjectId _id
+        +String title
+        +String slug
+        +String excerpt
+        +String content
+        +String image_url
+        +String author
+        +String read_time
+        +String category
+        +Number views
+        +Date createdAt
+    }
+
+    Category "1" <|-- "many" Pattern : classifies
+    Category "1" <|-- "many" Product : classifies
+    Pattern "1" <|-- "many" Comment : receives
+    Order "1" *-- "many" OrderItem : embeds
+    Product "1" <-- OrderItem : references
