@@ -40,5 +40,20 @@ export const ordersService = {
   delete: async (id: string): Promise<{ success: boolean; message: string }> => {
     return apiClient.delete(`/orders/${id}`);
   },
+
+  getStats: async (): Promise<{
+    success: boolean;
+    data: {
+      totalOrders: number;
+      newOrders: number;
+      totalRevenue: number;
+      totalPatterns: number;
+      totalProducts: number;
+      totalBlogs: number;
+    };
+    message: string;
+  }> => {
+    return apiClient.get('/orders/stats');
+  },
 };
 

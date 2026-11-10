@@ -12,6 +12,8 @@ import {
   HttpStatus,
 } from '@nestjs/common';
 import { CategoriesService } from './categories.service';
+import { CreateCategoryDto } from './dto/create-category.dto';
+import { UpdateCategoryDto } from './dto/update-category.dto';
 
 @Controller('categories')
 export class CategoriesController {
@@ -48,8 +50,8 @@ export class CategoriesController {
 
   @Post()
   @HttpCode(HttpStatus.CREATED)
-  async create(@Body() body: any) {
-    const data = await this.categoriesService.create(body);
+  async create(@Body() createCategoryDto: CreateCategoryDto) {
+    const data = await this.categoriesService.create(createCategoryDto);
     return {
       success: true,
       data,
@@ -58,8 +60,11 @@ export class CategoriesController {
   }
 
   @Put(':id')
-  async update(@Param('id') id: string, @Body() body: any) {
-    const data = await this.categoriesService.update(id, body);
+  async update(
+    @Param('id') id: string,
+    @Body() updateCategoryDto: UpdateCategoryDto,
+  ) {
+    const data = await this.categoriesService.update(id, updateCategoryDto);
     return {
       success: true,
       data,

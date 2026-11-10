@@ -2,6 +2,9 @@ import { Injectable, NotFoundException, BadRequestException } from '@nestjs/comm
 import { InjectModel } from '@nestjs/mongoose';
 import { Model, Types } from 'mongoose';
 import { Order, OrderDocument } from './schemas/order.schema';
+import { Pattern, PatternDocument } from '../patterns/schemas/pattern.schema';
+import { Product, ProductDocument } from '../products/schemas/product.schema';
+import { Blog, BlogDocument } from '../blogs/schemas/blog.schema';
 import { CreateOrderDto } from './dto/create-order.dto';
 
 @Injectable()
@@ -9,7 +12,49 @@ export class OrdersService {
   constructor(
     @InjectModel(Order.name)
     private orderModel: Model<OrderDocument>,
+    @InjectModel(Pattern.name)
+    private patternModel: Model<PatternDocument>,
+    @InjectModel(Product.name)
+    private productModel: Model<ProductDocument>,
+    @InjectModel(Blog.name)
+    private blogModel: Model<BlogDocument>,
   ) {}
+
+  async getStats(): Promise<{
+    totalOrders: number;
+    newOrders: number;
+    totalRevenue: number;
+    totalPatterns: number;
+    totalProducts: number;
+    totalBlogs: number;
+  }> {
+    const [
+      totalOrders,
+      newOrders,
+      totalPatterns,
+      totalProducts,
+      totalBlogs,
+      validOrders,
+    ] = await Promise.all([
+      this.orderModel.countDocuments().exec(),
+      this.orderModel.countDocuments({ status: 'Chờ xác nhận' }).exec(),
+      this.patternModel.countDocuments().exec(),
+      this.productModel.countDocuments().exec(),
+      this.blogModel.countDocuments().exec(),
+      this.orderModel.find({ status: { $ne: 'Đã hủy' } }).select('total_amount').exec(),
+    ]);
+
+    const totalRevenue = validOrders.reduce((sum, o) => sum + (o.total_amount || 0), 0);
+
+    return {
+      totalOrders,
+      newOrders,
+      totalRevenue,
+      totalPatterns,
+      totalProducts,
+      totalBlogs,
+    };
+  }
 
   async create(dto: CreateOrderDto): Promise<Order> {
     if (!dto.items || dto.items.length === 0) {
