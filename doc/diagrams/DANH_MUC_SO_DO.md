@@ -94,3 +94,4 @@
 ### 11. Sơ Đồ Quan Hệ Thực Thể CSDL MongoDB (Database ERD - DIA-11)
 - **Tệp hình ảnh:** `images/11_database_erd.png`
 - **Mục đích & Ý nghĩa:** Thể hiện chi tiết cấu trúc 6 Collections trong MongoDB (`categories`, `patterns`, `products`, `orders`, `comments`, `blogs`), bao gồm khóa chính `_id`, khóa ngoại `ObjectId ref`, các trường dữ liệu và quan hệ 1:N giữa các bảng.
+
