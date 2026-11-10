@@ -18,6 +18,8 @@ import {
   Col,
   Statistic,
   Tooltip,
+  Avatar,
+  Alert,
 } from 'antd';
 import {
   ShoppingOutlined,
@@ -31,17 +33,30 @@ import {
   DollarOutlined,
   CheckOutlined,
   CloseOutlined,
+  LockOutlined,
+  UserOutlined,
+  LogoutOutlined,
+  SafetyCertificateOutlined,
+  HomeOutlined,
 } from '@ant-design/icons';
+import { Link } from 'react-router-dom';
 import { ordersService } from '../services/orders.service';
 import { patternsService } from '../services/patterns.service';
 import { productsService } from '../services/products.service';
 import { categoriesService } from '../services/categories.service';
+import { authService, AdminUser } from '../services/auth.service';
 import { Order, Pattern, Product, Category } from '../types';
 
-const { Title, Text } = Typography;
+const { Title, Text, Paragraph } = Typography;
 const { Option } = Select;
 
 export const AdminPage: React.FC = () => {
+  // Authentication State
+  const [isAuthenticated, setIsAuthenticated] = useState<boolean>(() => authService.isAuthenticated());
+  const [currentUser, setCurrentUser] = useState<AdminUser | null>(() => authService.getCurrentUser());
+  const [loginLoading, setLoginLoading] = useState(false);
+  const [loginForm] = Form.useForm();
+
   // Tab 1: patterns, Tab 2: products, Tab 3: orders
   const [activeTab, setActiveTab] = useState('patterns');
 
@@ -113,8 +128,47 @@ export const AdminPage: React.FC = () => {
   };
 
   useEffect(() => {
-    loadData();
-  }, []);
+    if (isAuthenticated) {
+      loadData();
+    }
+  }, [isAuthenticated]);
+
+  // Xử lý đăng nhập Admin
+  const handleLogin = async (values: any) => {
+    try {
+      setLoginLoading(true);
+      const res = await authService.login({
+        username: values.username,
+        password: values.password,
+      });
+      if (res.success) {
+        message.success(`Chào mừng ${res.data.user.full_name} đã đăng nhập thành công!`);
+        setIsAuthenticated(true);
+        setCurrentUser(res.data.user);
+      }
+    } catch (err: any) {
+      const errMsg = err.response?.data?.message || 'Tên đăng nhập hoặc mật khẩu không chính xác';
+      message.error(errMsg);
+    } finally {
+      setLoginLoading(false);
+    }
+  };
+
+  // Điền nhanh tài khoản demo
+  const handleFillDemo = () => {
+    loginForm.setFieldsValue({
+      username: 'admin',
+      password: 'admin123',
+    });
+  };
+
+  // Xử lý đăng xuất
+  const handleLogout = () => {
+    authService.logout();
+    setIsAuthenticated(false);
+    setCurrentUser(null);
+    message.info('Đã đăng xuất khỏi tài khoản quản trị viên');
+  };
 
   // Xử lý cập nhật trạng thái đơn hàng (Duyệt đơn)
   const handleUpdateOrderStatus = async (id: string, newStatus: string) => {
@@ -159,7 +213,7 @@ export const AdminPage: React.FC = () => {
         content: {
           'Đầu / Thân': ['R1: MR 6X (6)', 'R2: 6V (12)', 'R3: (1X, 1V)*6 (18)'],
         },
-        author: values.author || 'Admin Tiệm Len',
+        author: values.author || currentUser?.full_name || 'Admin Tiệm Len',
       };
       const res = await patternsService.create(payload);
       if (res.success) {
@@ -253,6 +307,137 @@ export const AdminPage: React.FC = () => {
       message.error('Không thể xóa sản phẩm');
     }
   };
+
+  // ================= NẾU CHƯA ĐĂNG NHẬP: HIỂN THỊ MÀN HÌNH LOGIN =================
+  if (!isAuthenticated) {
+    return (
+      <div
+        style={{
+          minHeight: '80vh',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          padding: '24px 16px',
+          background: 'linear-gradient(135deg, #fff0f5 0%, #fffbf0 100%)',
+        }}
+      >
+        <Card
+          style={{
+            width: '100%',
+            maxWidth: '460px',
+            borderRadius: '24px',
+            boxShadow: '0 12px 32px rgba(255, 105, 180, 0.15)',
+            border: '1px solid #ffd6e0',
+            padding: '16px',
+          }}
+        >
+          <div style={{ textAlign: 'center', marginBottom: '28px' }}>
+            <div
+              style={{
+                width: '64px',
+                height: '64px',
+                margin: '0 auto 16px',
+                borderRadius: '50%',
+                background: 'linear-gradient(135deg, #ff758c 0%, #ff7eb3 100%)',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                boxShadow: '0 6px 16px rgba(255, 117, 140, 0.35)',
+              }}
+            >
+              <SafetyCertificateOutlined style={{ fontSize: '32px', color: '#fff' }} />
+            </div>
+
+            <Title level={2} style={{ color: '#d81b60', marginBottom: '6px', fontSize: '24px' }}>
+              Đăng Nhập Quản Trị Hệ Thống
+            </Title>
+            <Text style={{ color: '#777', fontSize: '14px' }}>
+              Cổng quản lý tập trung dành riêng cho Admin Tiệm Len Xinh (CraftYarnHub)
+            </Text>
+          </div>
+
+          <Alert
+            message="Tài khoản Quản Trị Viên (Demo)"
+            description={
+              <div>
+                <div>• Tên đăng nhập: <strong>admin</strong></div>
+                <div>• Mật khẩu: <strong>admin123</strong></div>
+                <Button
+                  size="small"
+                  type="link"
+                  onClick={handleFillDemo}
+                  style={{ padding: 0, marginTop: '4px', fontWeight: 600, color: '#d81b60' }}
+                >
+                  👉 Bấm vào đây để tự động điền tài khoản mẫu
+                </Button>
+              </div>
+            }
+            type="info"
+            showIcon
+            style={{ marginBottom: '24px', borderRadius: '12px', background: '#fff5f7', border: '1px solid #fed7aa' }}
+          />
+
+          <Form
+            form={loginForm}
+            layout="vertical"
+            onFinish={handleLogin}
+            initialValues={{ username: '', password: '' }}
+          >
+            <Form.Item
+              name="username"
+              label="Tên đăng nhập"
+              rules={[{ required: true, message: 'Vui lòng nhập tên đăng nhập!' }]}
+            >
+              <Input
+                size="large"
+                prefix={<UserOutlined style={{ color: '#ff758c' }} />}
+                placeholder="Nhập username (admin)"
+                style={{ borderRadius: '12px' }}
+              />
+            </Form.Item>
+
+            <Form.Item
+              name="password"
+              label="Mật khẩu bảo mật"
+              rules={[{ required: true, message: 'Vui lòng nhập mật khẩu!' }]}
+            >
+              <Input.Password
+                size="large"
+                prefix={<LockOutlined style={{ color: '#ff758c' }} />}
+                placeholder="Nhập mật khẩu (admin123)"
+                style={{ borderRadius: '12px' }}
+              />
+            </Form.Item>
+
+            <Button
+              type="primary"
+              htmlType="submit"
+              size="large"
+              block
+              loading={loginLoading}
+              style={{
+                borderRadius: '999px',
+                height: '46px',
+                fontSize: '16px',
+                fontWeight: 700,
+                marginTop: '12px',
+                background: 'linear-gradient(135deg, #ff758c 0%, #ff7eb3 100%)',
+                borderColor: '#ff758c',
+              }}
+            >
+              Đăng Nhập Quản Trị
+            </Button>
+          </Form>
+
+          <div style={{ textAlign: 'center', marginTop: '20px' }}>
+            <Link to="/" style={{ color: '#888', fontSize: '13px' }}>
+              <HomeOutlined /> Quay về trang chủ cửa hàng
+            </Link>
+          </div>
+        </Card>
+      </div>
+    );
+  }
 
   // ================= BẢNG 1: QUẢN LÝ CHART =================
   const patternColumns = [
@@ -502,7 +687,7 @@ export const AdminPage: React.FC = () => {
 
   return (
     <div style={{ maxWidth: '1240px', margin: '0 auto', padding: '24px 16px' }}>
-      {/* Header */}
+      {/* Header Dashboard kèm Thông tin Admin & Đăng Xuất */}
       <div
         style={{
           display: 'flex',
@@ -510,20 +695,54 @@ export const AdminPage: React.FC = () => {
           alignItems: 'center',
           marginBottom: '24px',
           flexWrap: 'wrap',
-          gap: '12px',
+          gap: '16px',
+          background: '#fff',
+          padding: '16px 20px',
+          borderRadius: '20px',
+          border: '1px solid #ffd6e0',
+          boxShadow: '0 4px 16px rgba(0,0,0,0.04)',
         }}
       >
         <div>
-          <Title level={2} style={{ color: '#d81b60', marginBottom: '4px' }}>
+          <Title level={2} style={{ color: '#d81b60', marginBottom: '2px', fontSize: '22px' }}>
             ⚙️ Cổng Quản Trị Hệ Thống (Admin Control Panel)
           </Title>
-          <Text style={{ color: '#666' }}>
-            Giao diện tập trung quản trị Kho Chart, Phụ Kiện và duyệt Đơn Hàng cho sinh viên bảo vệ môn SDN302
+          <Text style={{ color: '#666', fontSize: '13px' }}>
+            Quản trị tập trung Kho Chart, Phụ Kiện và duyệt Đơn Hàng cho sinh viên bảo vệ môn SDN302
           </Text>
         </div>
-        <Button icon={<ReloadOutlined />} onClick={loadData} loading={loading}>
-          Làm mới dữ liệu
-        </Button>
+
+        {/* Profile Admin & Nút Đăng Xuất */}
+        <div style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+            <Avatar
+              src={currentUser?.avatar || 'https://api.dicebear.com/7.x/adventurer/svg?seed=admin_master'}
+              size={40}
+              style={{ border: '2px solid #ff758c' }}
+            />
+            <div>
+              <div style={{ fontWeight: 700, color: '#333', fontSize: '14px' }}>
+                {currentUser?.full_name || 'Quản Trị Viên'}
+              </div>
+              <Tag color="magenta" style={{ fontSize: '11px', borderRadius: '4px', margin: 0 }}>
+                {currentUser?.role?.toUpperCase() || 'ADMIN'}
+              </Tag>
+            </div>
+          </div>
+
+          <Button icon={<ReloadOutlined />} onClick={loadData} loading={loading}>
+            Làm mới
+          </Button>
+
+          <Button
+            danger
+            icon={<LogoutOutlined />}
+            onClick={handleLogout}
+            style={{ borderRadius: '8px' }}
+          >
+            Đăng xuất
+          </Button>
+        </div>
       </div>
 
       {/* 4 Thống kê nhanh kết nối API /api/orders/stats */}

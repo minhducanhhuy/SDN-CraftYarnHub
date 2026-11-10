@@ -133,6 +133,18 @@ const BlogModel = mongoose.model('Blog', blogSchema);
 const CommentModel = mongoose.model('Comment', commentSchema);
 const OrderModel = mongoose.model('Order', orderSchema);
 
+const userSchema = new mongoose.Schema(
+  {
+    username: { type: String, required: true, unique: true, trim: true, lowercase: true },
+    password_hash: { type: String, required: true },
+    full_name: { type: String, default: 'Quản Trị Viên' },
+    role: { type: String, default: 'admin' },
+    avatar: String,
+  },
+  { timestamps: true }
+);
+const UserModel = mongoose.model('User', userSchema);
+
 async function seed() {
   console.log('🌱 Kết nối MongoDB để nạp dữ liệu seed:', MONGODB_URI);
   await mongoose.connect(MONGODB_URI);
@@ -143,6 +155,20 @@ async function seed() {
   await ProductModel.deleteMany({});
   await BlogModel.deleteMany({});
   await CommentModel.deleteMany({});
+  await OrderModel.deleteMany({});
+  await UserModel.deleteMany({});
+
+  console.log('👤 Tạo Tài khoản Admin Quản Trị (admin / admin123)...');
+  const cryptoModule = await import('crypto');
+  const passwordHash = cryptoModule.createHash('sha256').update('admin123').digest('hex');
+  const adminUser = new UserModel({
+    username: 'admin',
+    password_hash: passwordHash,
+    full_name: 'Quản Trị Viên Tiệm Len Xinh',
+    role: 'admin',
+    avatar: 'https://api.dicebear.com/7.x/adventurer/svg?seed=admin_master',
+  });
+  await adminUser.save();
   await OrderModel.deleteMany({});
 
   console.log('📁 Tạo Danh mục (Categories)...');
