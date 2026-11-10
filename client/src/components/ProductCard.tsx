@@ -39,6 +39,9 @@ export const ProductCard: React.FC<{ product: Product }> = ({ product }) => {
             <img
               src={product.image_url}
               alt={product.name}
+              onError={(e) => {
+                (e.target as HTMLImageElement).src = '/images/products/len-milk-bo.jpg';
+              }}
               style={{
                 width: '100%',
                 height: '100%',

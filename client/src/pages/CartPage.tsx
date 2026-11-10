@@ -165,6 +165,9 @@ export const CartPage: React.FC = () => {
                     <img
                       src={item.product.image_url}
                       alt={item.product.name}
+                      onError={(e) => {
+                        (e.target as HTMLImageElement).src = '/images/products/len-milk-bo.jpg';
+                      }}
                       style={{ width: '80px', height: '80px', borderRadius: '12px', objectFit: 'cover' }}
                     />
                     <div style={{ flex: '1 1 180px', minWidth: '160px' }}>
@@ -416,7 +419,14 @@ export const CartPage: React.FC = () => {
                           <div key={idx} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', fontSize: '13px', padding: '4px 0' }}>
                             <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
                               {it.image_url && (
-                                <img src={it.image_url} alt={it.name} style={{ width: 28, height: 28, borderRadius: 4, objectFit: 'cover' }} />
+                                <img
+                                  src={it.image_url}
+                                  alt={it.name}
+                                  onError={(e) => {
+                                    (e.target as HTMLImageElement).src = '/images/products/len-milk-bo.jpg';
+                                  }}
+                                  style={{ width: 28, height: 28, borderRadius: 4, objectFit: 'cover' }}
+                                />
                               )}
                               <span>{it.name} <Text type="secondary">x{it.quantity}</Text></span>
                             </div>

@@ -2,7 +2,7 @@
   "name": "chart-crochet-monorepo",
   "version": "1.0.0",
   "private": true,
-  "description": "SDN302 Course Project: Crochet Chart & Accessories Management (NestJS + React Vite + MongoDB)",
+  "description": "Tiệm Len Xinh - Crochet Chart & Accessories Management Platform (NestJS + React Vite + MongoDB)",
   "scripts": {
     "dev": "concurrently -n \"SERVER,CLIENT\" -c \"blue,magenta\" \"npm run dev:server\" \"npm run dev:client\"",
     "dev:server": "cd server && npm run start:dev",

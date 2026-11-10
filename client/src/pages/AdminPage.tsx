@@ -452,8 +452,7 @@ export const AdminPage: React.FC = () => {
           alt="chart"
           style={{ width: 48, height: 48, borderRadius: 8, objectFit: 'cover' }}
           onError={(e) => {
-            (e.target as HTMLImageElement).src =
-              'https://images.unsplash.com/photo-1544717305-2782549b5136?w=200';
+            (e.target as HTMLImageElement).src = '/images/patterns/chau-cay-huong-duong.jpg';
           }}
         />
       ),
@@ -517,8 +516,7 @@ export const AdminPage: React.FC = () => {
           alt="prod"
           style={{ width: 48, height: 48, borderRadius: 8, objectFit: 'cover' }}
           onError={(e) => {
-            (e.target as HTMLImageElement).src =
-              'https://images.unsplash.com/photo-1606822350810-7fa9b25bb7f5?w=200';
+            (e.target as HTMLImageElement).src = '/images/products/len-milk-bo.jpg';
           }}
         />
       ),
@@ -708,7 +706,7 @@ export const AdminPage: React.FC = () => {
             ⚙️ Cổng Quản Trị Hệ Thống (Admin Control Panel)
           </Title>
           <Text style={{ color: '#666', fontSize: '13px' }}>
-            Quản trị tập trung Kho Chart, Phụ Kiện và duyệt Đơn Hàng cho sinh viên bảo vệ môn SDN302
+            Quản trị tập trung Kho Chart móc len, Sản phẩm Phụ kiện & Duyệt Đơn hàng khách đặt
           </Text>
         </div>
 
@@ -1028,7 +1026,14 @@ export const AdminPage: React.FC = () => {
                 >
                   <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
                     {item.image_url && (
-                      <img src={item.image_url} alt={item.name} style={{ width: 40, height: 40, borderRadius: 6, objectFit: 'cover' }} />
+                      <img
+                        src={item.image_url}
+                        alt={item.name}
+                        onError={(e) => {
+                          (e.target as HTMLImageElement).src = '/images/products/len-milk-bo.jpg';
+                        }}
+                        style={{ width: 40, height: 40, borderRadius: 6, objectFit: 'cover' }}
+                      />
                     )}
                     <div>
                       <div style={{ fontWeight: 600 }}>{item.name}</div>

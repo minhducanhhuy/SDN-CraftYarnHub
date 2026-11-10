@@ -1,7 +1,7 @@
 {
   "name": "chart-crochet-server",
   "version": "1.0.0",
-  "description": "SDN302 NestJS Backend with Mongoose and MongoDB",
+  "description": "Tiệm Len Xinh - NestJS Backend with Mongoose and MongoDB",
   "private": true,
   "scripts": {
     "build": "nest build",

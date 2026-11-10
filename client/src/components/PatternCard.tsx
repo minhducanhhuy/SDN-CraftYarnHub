@@ -33,6 +33,9 @@ export const PatternCard: React.FC<{
                   <img
                     src={pattern.image_url || pattern.img}
                     alt={pattern.name}
+                    onError={(e) => {
+                      (e.target as HTMLImageElement).src = '/images/patterns/chau-cay-huong-duong.jpg';
+                    }}
                     style={{
                       width: '100%',
                       height: '100%',
