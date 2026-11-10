@@ -438,6 +438,7 @@ export const AdminPage: React.FC = () => {
                   rowKey="_id"
                   loading={loading}
                   pagination={{ pageSize: 8 }}
+                  scroll={{ x: 800 }}
                 />
               ),
             },
@@ -462,6 +463,7 @@ export const AdminPage: React.FC = () => {
                     rowKey="_id"
                     loading={loading}
                     pagination={{ pageSize: 8 }}
+                    scroll={{ x: 800 }}
                   />
                 </div>
               ),
@@ -487,6 +489,7 @@ export const AdminPage: React.FC = () => {
                     rowKey="_id"
                     loading={loading}
                     pagination={{ pageSize: 8 }}
+                    scroll={{ x: 800 }}
                   />
                 </div>
               ),
