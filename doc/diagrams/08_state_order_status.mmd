@@ -1,0 +1,12 @@
+%% SƠ ĐỒ 08: SƠ ĐỒ TRẠNG THÁI ĐƠN HÀNG (STATE MACHINE DIAGRAM - ORDER STATUS)
+stateDiagram-v2
+    [*] --> ChoXacNhan: Khách hoàn tất đặt hàng (POST /api/orders)
+
+    ChoXacNhan --> DangXuLy: Admin duyệt đơn & chuyển qua đóng gói hàng
+    ChoXacNhan --> DaHuy: Khách yêu cầu hủy / Sai thông tin liên lạc
+
+    DangXuLy --> DaGiao: Đơn vị vận chuyển giao kiện hàng thành công
+    DangXuLy --> DaHuy: Giao hàng thất bại 3 lần / Khách từ chối nhận
+
+    DaGiao --> [*]: Kết thúc chu trình đơn hàng thành công
+    DaHuy --> [*]: Kết thúc chu trình đơn hàng thất bại

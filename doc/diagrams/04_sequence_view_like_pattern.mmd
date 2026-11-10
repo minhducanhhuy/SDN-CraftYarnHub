@@ -1,0 +1,30 @@
+%% SƠ ĐỒ 04: SƠ ĐỒ TRÌNH TỰ XEM CHI TIẾT & THẢ TIM CHART (SEQUENCE DIAGRAM - VIEW & LIKE PATTERN)
+sequenceDiagram
+    autonumber
+    actor Crocheter as Thợ Móc Len (User)
+    participant UI as React Client (PatternDetailPage)
+    participant Controller as PatternsController
+    participant Service as PatternsService
+    participant DB as MongoDB (patterns collection)
+
+    Note over Crocheter,DB: 1. Luồng xem chi tiết & tự động tăng lượt xem (+1 view)
+    Crocheter->>UI: Bấm vào mẫu chart tại Trang chủ / Kho chart
+    UI->>Controller: HTTP GET /api/patterns/:id
+    Controller->>Service: findById(id)
+    Service->>DB: findByIdAndUpdate(id, { $inc: { view_count: 1 } }, { new: true }).populate('category')
+    Note over DB: Tăng atomic trực tiếp tại database engine
+    DB-->>Service: Document Pattern kèm category object
+    Service-->>Controller: Dữ liệu chi tiết chart
+    Controller-->>UI: HTTP 200 OK { success: true, data: Pattern }
+    UI-->>Crocheter: Hiển thị ảnh, checklist nguyên liệu, các bước móc R1, R2...
+
+    Note over Crocheter,DB: 2. Luồng thả tim chart (+1 like)
+    Crocheter->>UI: Bấm nút "Yêu thích" (Heart Button)
+    UI->>Controller: HTTP PATCH /api/patterns/:id/like
+    Controller->>Service: like(id)
+    Service->>DB: findByIdAndUpdate(id, { $inc: { likes: 1 } }, { new: true })
+    DB-->>Service: Document Pattern với số like mới
+    Service-->>Controller: Dữ liệu Pattern đã cập nhật
+    Controller-->>UI: HTTP 200 OK { success: true, data: Pattern }
+    UI->>UI: Chuyển đổi icon sang HeartFilled, tăng số like hiển thị
+    UI-->>Crocheter: Hiển thị thông báo Toast "Đã thả tim chart!"

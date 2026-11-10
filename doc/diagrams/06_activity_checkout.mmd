@@ -1,0 +1,25 @@
+%% SƠ ĐỒ 06: SƠ ĐỒ HOẠT ĐỘNG QUY TRÌNH ĐẶT HÀNG (ACTIVITY DIAGRAM - CHECKOUT WORKFLOW)
+stateDiagram-v2
+    [*] --> DuyetGioHang: Khách mở trang Giỏ Hàng (/cart)
+    DuyetGioHang --> KiemTraGio: Bấm nút "Đặt Hàng Ngay"
+
+    state KiemTraGio <<choice>>
+    KiemTraGio --> BaoLoiGioRong: Giỏ hàng trống (cart.length == 0)
+    BaoLoiGioRong --> DuyetGioHang: Hiển thị cảnh báo & yêu cầu chọn đồ
+
+    KiemTraGio --> NhapThongTin: Giỏ có sản phẩm (cart.length > 0)
+    NhapThongTin --> KiemTraForm: Điền Tên, SĐT, Địa chỉ, Ghi chú
+
+    state KiemTraForm <<choice>>
+    KiemTraForm --> NhapThongTin: SĐT sai định dạng hoặc để trống trường bắt buộc
+    KiemTraForm --> DongGoiPayload: Dữ liệu hợp lệ theo CreateOrderDto
+
+    DongGoiPayload --> GuiAPI: Gửi HTTP POST /api/orders
+    GuiAPI --> ServerValidation: NestJS Global ValidationPipe kiểm tra
+    ServerValidation --> SinhMaDon: Tự động sinh mã duy nhất ORD-xxxx
+    SinhMaDon --> LuuMongoDB: Insert vào collection orders với status='Chờ xác nhận'
+    LuuMongoDB --> TraVeResponse: HTTP 201 Created
+
+    TraVeResponse --> XoaLocalStorage: Gọi clearCart() xóa sạch giỏ hàng
+    XoaLocalStorage --> HienThiModal: Mở popup thông báo thành công kèm Mã đơn
+    HienThiModal --> [*]: Khách về Trang chủ hoặc Tra cứu đơn

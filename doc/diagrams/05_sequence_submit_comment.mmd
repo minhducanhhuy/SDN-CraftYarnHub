@@ -1,0 +1,23 @@
+%% SƠ ĐỒ 05: SƠ ĐỒ TRÌNH TỰ ĐÁNH GIÁ & BÌNH LUẬN CHART (SEQUENCE DIAGRAM - SUBMIT COMMENT)
+sequenceDiagram
+    autonumber
+    actor Crocheter as Thợ Móc Len (User)
+    participant UI as React Client (PatternDetailPage)
+    participant Pipe as Global ValidationPipe
+    participant Controller as CommentsController
+    participant Service as CommentsService
+    participant DB as MongoDB (comments collection)
+
+    Crocheter->>UI: Nhập họ tên, chọn số sao (1-5), nhập nội dung đánh giá
+    Crocheter->>UI: Bấm nút "Gửi Đánh Giá"
+    UI->>Pipe: HTTP POST /api/comments (CreateCommentDto)
+    Note over Pipe: Kiểm tra validation @IsNotEmpty, @Min(1), @Max(5)
+    Pipe->>Controller: Forward DTO hợp lệ
+    Controller->>Service: create(dto)
+    Service->>Service: Tự động tạo Avatar hoạt hình qua Dicebear API theo tên tác giả
+    Service->>DB: new CommentModel(commentData).save()
+    DB-->>Service: Bản ghi Comment Document mới lưu kèm _id
+    Service-->>Controller: Dữ liệu bình luận vừa tạo
+    Controller-->>UI: HTTP 201 Created { success: true, data: Comment }
+    UI->>UI: Chèn bình luận mới vào đầu state comments (Real-time update)
+    UI-->>Crocheter: Reset Form & hiển thị thông báo "Cảm ơn bạn đã gửi đánh giá!"

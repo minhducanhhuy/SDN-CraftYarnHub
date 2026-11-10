@@ -1,0 +1,52 @@
+%% SƠ ĐỒ 02: SƠ ĐỒ USE CASE TỔNG QUAN (SYSTEM USE CASE DIAGRAM)
+%% Dự án: CraftYarnHub
+flowchart LR
+    Visitor(("👤 Khách / Thợ Móc Len\n(Visitor)"))
+    Customer(("🛒 Khách Mua Hàng\n(Customer)"))
+    Admin(("⚙️ Quản Trị Viên\n(Admin)"))
+
+    subgraph "Hệ Thống CraftYarnHub"
+        subgraph "Phân Hệ Kho Chart & Tương Tác"
+            UC01["UC-01: Duyệt & Lọc Kho Chart"]
+            UC02["UC-02: Xem Chi Tiết Chart & Công Thức"]
+            UC03["UC-03: Sử Dụng Trợ Lý Đếm Hàng"]
+            UC04["UC-04: Thả Tim Yêu Thích Chart"]
+            UC05["UC-05: Gửi Đánh Giá & Bình Luận"]
+            UC06["UC-06: Xem Bài Viết Cẩm Nang"]
+        end
+
+        subgraph "Phân Hệ Gian Hàng & Đơn Hàng"
+            UC07["UC-07: Duyệt Phụ Kiện Len Sợi"]
+            UC08["UC-08: Xem Chi Tiết Phụ Kiện"]
+            UC09["UC-09: Quản Lý Giỏ Hàng"]
+            UC10["UC-10: Đặt Hàng Trực Tuyến"]
+            UC11["UC-11: Tra Cứu Đơn Hàng Qua SĐT"]
+        end
+
+        subgraph "Phân Hệ Quản Trị Hệ Thống"
+            UC12["UC-12: Quản Lý Mẫu Chart (CRUD)"]
+            UC13["UC-13: Quản Lý Phụ Kiện Len (CRUD)"]
+            UC14["UC-14: Quản Lý & Cập Nhật Trạng Thái Đơn"]
+            UC15["UC-15: Quản Lý Danh Mục Hệ Thống"]
+            UC16["UC-16: Quản Lý Bài Viết Cẩm Nang"]
+        end
+    end
+
+    Visitor --> UC01
+    Visitor --> UC02
+    Visitor --> UC03
+    Visitor --> UC04
+    Visitor --> UC05
+    Visitor --> UC06
+
+    Customer --> UC07
+    Customer --> UC08
+    Customer --> UC09
+    Customer --> UC10
+    Customer --> UC11
+
+    Admin --> UC12
+    Admin --> UC13
+    Admin --> UC14
+    Admin --> UC15
+    Admin --> UC16

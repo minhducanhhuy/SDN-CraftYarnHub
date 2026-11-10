@@ -1,0 +1,28 @@
+%% SƠ ĐỒ 07: SƠ ĐỒ HOẠT ĐỘNG TRỢ LÝ ĐẾM HÀNG (ACTIVITY DIAGRAM - ROW COUNTER)
+stateDiagram-v2
+    [*] --> MoChiTietChart: Mở trang chi tiết chart (/patterns/:id)
+    MoChiTietChart --> DocLocalStorage: Đọc key 'crochet_row_' + patternId
+
+    state DocLocalStorage <<choice>>
+    DocLocalStorage --> KhoiTaoR1: Chưa từng móc chart này -> count = 1
+    DocLocalStorage --> KhoiPhucR: Đã móc dở trước đó -> khôi phục hàng (VD: R8)
+
+    KhoiTaoR1 --> SanSangMoc: Hiển thị bộ đếm lên màn hình
+    KhoiPhucR --> SanSangMoc: Hiển thị bộ đếm lên màn hình
+
+    SanSangMoc --> NhanNutTang: Móc xong 1 hàng, bấm nút [+]
+    NhanNutTang --> PhatBeepCao: Web Audio API phát sóng sine 750Hz (bíp pop)
+    PhatBeepCao --> TangState: State count = count + 1
+    TangState --> GhiLocalStorage: Cập nhật key localStorage
+    GhiLocalStorage --> SanSangMoc
+
+    SanSangMoc --> NhanNutGiam: Móc sai cần tháo mũi, bấm nút [-]
+    NhanNutGiam --> PhatBeepTram: Web Audio API phát sóng sine 450Hz
+    PhatBeepTram --> GiamState: State count = Math.max(1, count - 1)
+    GiamState --> GhiLocalStorage: Cập nhật key localStorage
+    GhiLocalStorage --> SanSangMoc
+
+    SanSangMoc --> NhanReset: Muốn móc lại từ đầu, bấm nút Reset
+    NhanReset --> ResetState: State count = 1
+    ResetState --> GhiLocalStorage: Cập nhật key localStorage
+    GhiLocalStorage --> SanSangMoc

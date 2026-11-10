@@ -1,0 +1,24 @@
+%% SƠ ĐỒ 03: SƠ ĐỒ TRÌNH TỰ ĐẶT HÀNG TRỰC TUYẾN (SEQUENCE DIAGRAM - CHECKOUT ORDER)
+sequenceDiagram
+    autonumber
+    actor Customer as Khách Hàng (Customer)
+    participant UI as React Client (CartPage)
+    participant Pipe as Global ValidationPipe
+    participant Controller as OrdersController
+    participant Service as OrdersService
+    participant DB as MongoDB (orders collection)
+
+    Customer->>UI: Điền Tên, SĐT, Địa chỉ nhận hàng & Bấm "Đặt Hàng Ngay"
+    UI->>UI: Kiểm tra giỏ hàng (items.length > 0) & đóng gói payload
+    UI->>Pipe: HTTP POST /api/orders (CreateOrderDto)
+    Note over Pipe: Kiểm tra validation @IsNotEmpty, @IsString, @ValidateNested
+    Pipe->>Controller: Forward DTO hợp lệ
+    Controller->>Service: create(createOrderDto)
+    Service->>Service: Sinh mã tự động dạng ORD-xxxx (BR-03)
+    Service->>Service: Mapping mảng Sub-documents items & set status='Chờ xác nhận'
+    Service->>DB: new OrderModel(orderData).save()
+    DB-->>Service: Bản ghi Order Document đã lưu kèm _id
+    Service-->>Controller: Trả về đối tượng Order
+    Controller-->>UI: HTTP 201 Created { success: true, data: Order, message: "Đặt hàng thành công!" }
+    UI->>UI: Gọi clearCart() xóa sạch giỏ hàng trong localStorage
+    UI-->>Customer: Hiển thị Modal chúc mừng kèm Mã đơn hàng ORD-xxxx

@@ -1,0 +1,95 @@
+%% SƠ ĐỒ 11: SƠ ĐỒ QUAN HỆ THỰC THỂ CƠ SỞ DỮ LIỆU (DATABASE ERD DIAGRAM)
+erDiagram
+    categories ||--o{ patterns : "categorizes (1:N)"
+    categories ||--o{ products : "categorizes (1:N)"
+    patterns ||--o{ comments : "has_reviews (1:N)"
+    orders ||--|{ order_items : "embeds_subdocs (1:N)"
+    products ||--o{ order_items : "referenced_by (1:N)"
+
+    categories {
+        ObjectId _id PK "Unique Identifier"
+        string name "Unique category name"
+        string slug "Unique URL slug"
+        string type "Enum: pattern | product"
+        string description "Category details"
+        string icon "Visual emoji / icon"
+        date createdAt "Creation timestamp"
+        date updatedAt "Update timestamp"
+    }
+
+    patterns {
+        ObjectId _id PK "Unique Identifier"
+        string name "Pattern title"
+        ObjectId category FK "Ref to categories._id"
+        string difficulty "Enum: Dễ | Vừa | Khó"
+        int difficulty_stars "Stars rating 1-5"
+        string image_url "Thumbnail image"
+        string description "Long description"
+        array materials "Yarn and materials array"
+        array tools "Crochet hooks and tools array"
+        object content "Rounds and step instructions"
+        boolean is_free "Free pattern flag"
+        int view_count "View count (atomic inc)"
+        int likes "Likes count (atomic inc)"
+        string author "Creator name"
+        date createdAt "Creation timestamp"
+    }
+
+    products {
+        ObjectId _id PK "Unique Identifier"
+        string name "Product name"
+        ObjectId category FK "Ref to categories._id"
+        double price "Selling price (VND)"
+        double original_price "Original price"
+        string image_url "Product image"
+        string stock_status "Enum: Còn hàng | Sắp hết | Hết hàng"
+        string short_desc "Short summary"
+        string description "Full details"
+        double rating "Average rating"
+        date createdAt "Creation timestamp"
+    }
+
+    orders {
+        ObjectId _id PK "Unique Identifier"
+        string order_code "Unique ORD-xxxx code"
+        string customer_name "Recipient full name"
+        string phone "Phone number for lookup"
+        string address "Delivery address"
+        string note "Delivery note"
+        double total_amount "Total order value (VND)"
+        string status "Enum: Chờ xác nhận | Đang xử lý | Đã giao | Đã hủy"
+        date createdAt "Creation timestamp"
+    }
+
+    order_items {
+        ObjectId product_id FK "Ref to products._id"
+        string name "Snapshot product name"
+        double price "Snapshot unit price"
+        int quantity "Ordered quantity >= 1"
+        string image_url "Product thumbnail"
+    }
+
+    comments {
+        ObjectId _id PK "Unique Identifier"
+        ObjectId pattern_id FK "Ref to patterns._id"
+        string author_name "Reviewer name"
+        string avatar "Dicebear avatar link"
+        int rating "Rating 1 to 5 stars"
+        string content "Review feedback"
+        boolean verified "Verified crocheter"
+        date createdAt "Creation timestamp"
+    }
+
+    blogs {
+        ObjectId _id PK "Unique Identifier"
+        string title "Blog title"
+        string slug "Unique URL slug"
+        string excerpt "Summary excerpt"
+        string content "Full markdown/HTML article"
+        string image_url "Cover photo"
+        string author "Author name"
+        string read_time "Reading time estimation"
+        string category "Blog topic"
+        int views "View count (atomic inc)"
+        date createdAt "Creation timestamp"
+    }

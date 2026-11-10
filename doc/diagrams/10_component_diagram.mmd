@@ -1,0 +1,35 @@
+%% SƠ ĐỒ 10: SƠ ĐỒ THÀNH PHẦN HỆ THỐNG (SYSTEM COMPONENT DIAGRAM)
+flowchart TD
+    subgraph Browser["Môi Trường Trình Duyệt Web (Client Environment)"]
+        SPA["React Single Page Application (Port 5173)"]
+        Axios["Axios REST Client"]
+        WebAudio["HTML5 Web Audio API (Sine Wave Osc)"]
+        LocalStorage["Browser LocalStorage (Cart & Row State)"]
+        
+        SPA --> Axios
+        SPA --> WebAudio
+        SPA --> LocalStorage
+    end
+
+    subgraph ServerApp["Máy Chủ Ứng Dụng (NestJS Server Runtime :3000)"]
+        Gateway["REST API Router (/api/*)"]
+        CORS["CORS Middleware"]
+        Pipe["Global ValidationPipe (class-validator)"]
+        
+        Controllers["Controllers Layer (Patterns, Products, Orders, Blogs, Categories, Comments)"]
+        Services["Services Business Layer"]
+        Mongoose["Mongoose ODM Models Layer"]
+        
+        Gateway --> CORS
+        CORS --> Pipe
+        Pipe --> Controllers
+        Controllers --> Services
+        Services --> Mongoose
+    end
+
+    subgraph DataPersistence["Tầng Lưu Trữ Cơ Sở Dữ Liệu"]
+        MongoDB[("MongoDB Database Daemon :27017\n(chart_crochet_db)")]
+    end
+
+    Axios -->|"JSON over HTTP/HTTPS"| Gateway
+    Mongoose -->|"MongoDB Wire Protocol (TCP)"| MongoDB
