@@ -17,6 +17,7 @@ import {
   Row,
   Col,
   Statistic,
+  Tooltip,
 } from 'antd';
 import {
   ShoppingOutlined,
@@ -27,6 +28,9 @@ import {
   ReloadOutlined,
   EyeOutlined,
   CheckCircleOutlined,
+  DollarOutlined,
+  CheckOutlined,
+  CloseOutlined,
 } from '@ant-design/icons';
 import { ordersService } from '../services/orders.service';
 import { patternsService } from '../services/patterns.service';
@@ -38,7 +42,8 @@ const { Title, Text } = Typography;
 const { Option } = Select;
 
 export const AdminPage: React.FC = () => {
-  const [activeTab, setActiveTab] = useState('orders');
+  // Tab 1: patterns, Tab 2: products, Tab 3: orders
+  const [activeTab, setActiveTab] = useState('patterns');
 
   // State data
   const [orders, setOrders] = useState<Order[]>([]);
@@ -46,6 +51,16 @@ export const AdminPage: React.FC = () => {
   const [products, setProducts] = useState<Product[]>([]);
   const [categories, setCategories] = useState<Category[]>([]);
   const [loading, setLoading] = useState(false);
+
+  // Thống kê từ API /api/orders/stats
+  const [stats, setStats] = useState({
+    totalOrders: 0,
+    newOrders: 0,
+    totalRevenue: 0,
+    totalPatterns: 0,
+    totalProducts: 0,
+    totalBlogs: 0,
+  });
 
   // Modal Thêm Chart
   const [isPatternModalOpen, setIsPatternModalOpen] = useState(false);
@@ -55,23 +70,40 @@ export const AdminPage: React.FC = () => {
   const [isProductModalOpen, setIsProductModalOpen] = useState(false);
   const [productForm] = Form.useForm();
 
+  // Modal Sửa Giá Sản Phẩm Nhanh
+  const [editingProduct, setEditingProduct] = useState<Product | null>(null);
+  const [editPrice, setEditPrice] = useState<number>(0);
+
   // Modal Chi tiết Đơn hàng
   const [selectedOrder, setSelectedOrder] = useState<Order | null>(null);
 
   const loadData = async () => {
     try {
       setLoading(true);
-      const [ordersRes, patternsRes, productsRes, catsRes] = await Promise.all([
+      const [ordersRes, patternsRes, productsRes, catsRes, statsRes] = await Promise.all([
         ordersService.getAll(),
         patternsService.getAll(),
         productsService.getAll(),
         categoriesService.getAll(),
+        ordersService.getStats().catch(() => null),
       ]);
 
       if (ordersRes.success) setOrders(ordersRes.data);
       if (patternsRes.success) setPatterns(patternsRes.data);
       if (productsRes.success) setProducts(productsRes.data);
       if (catsRes.success) setCategories(catsRes.data);
+      if (statsRes?.success) {
+        setStats(statsRes.data);
+      } else {
+        setStats({
+          totalOrders: ordersRes.data?.length || 0,
+          newOrders: ordersRes.data?.filter((o: Order) => o.status === 'Chờ xác nhận').length || 0,
+          totalRevenue: ordersRes.data?.reduce((sum: number, o: Order) => sum + (o.total_amount || 0), 0) || 0,
+          totalPatterns: patternsRes.data?.length || 0,
+          totalProducts: productsRes.data?.length || 0,
+          totalBlogs: 4,
+        });
+      }
     } catch (err) {
       console.error(err);
       message.error('Lỗi khi tải dữ liệu quản trị');
@@ -84,18 +116,19 @@ export const AdminPage: React.FC = () => {
     loadData();
   }, []);
 
-  // Xử lý cập nhật trạng thái đơn hàng
+  // Xử lý cập nhật trạng thái đơn hàng (Duyệt đơn)
   const handleUpdateOrderStatus = async (id: string, newStatus: string) => {
     try {
       const res = await ordersService.updateStatus(id, newStatus);
       if (res.success) {
-        message.success(`Đã chuyển trạng thái đơn sang "${newStatus}"`);
+        message.success(`Đã cập nhật trạng thái đơn: "${newStatus}"`);
         setOrders((prev) =>
           prev.map((o) => (o._id === id ? { ...o, status: newStatus as any } : o))
         );
+        loadData();
       }
     } catch (err) {
-      message.error('Không thể cập nhật trạng thái');
+      message.error('Không thể cập nhật trạng thái đơn hàng');
     }
   };
 
@@ -105,6 +138,7 @@ export const AdminPage: React.FC = () => {
       await ordersService.delete(id);
       message.success('Đã xóa đơn hàng');
       setOrders((prev) => prev.filter((o) => o._id !== id));
+      loadData();
     } catch (err) {
       message.error('Không thể xóa đơn hàng');
     }
@@ -145,6 +179,7 @@ export const AdminPage: React.FC = () => {
       await patternsService.delete(id);
       message.success('Đã xóa Chart thành công');
       setPatterns((prev) => prev.filter((p) => p._id !== id));
+      loadData();
     } catch (err) {
       message.error('Không thể xóa Chart');
     }
@@ -174,24 +209,214 @@ export const AdminPage: React.FC = () => {
     }
   };
 
+  // Cập nhật giá sản phẩm nhanh
+  const handleSaveProductPrice = async () => {
+    if (!editingProduct) return;
+    try {
+      const res = await productsService.update(editingProduct._id, { price: editPrice });
+      if (res.success) {
+        message.success(`Đã cập nhật giá mới: ${new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(editPrice)}`);
+        setProducts((prev) =>
+          prev.map((p) => (p._id === editingProduct._id ? { ...p, price: editPrice } : p))
+        );
+        setEditingProduct(null);
+      }
+    } catch (err) {
+      message.error('Lỗi khi cập nhật giá');
+    }
+  };
+
+  // Đổi trạng thái kho nhanh (Còn hàng / Hết hàng)
+  const handleToggleStockStatus = async (id: string, currentStatus: string) => {
+    const nextStatus = currentStatus === 'Còn hàng' ? 'Hết hàng' : 'Còn hàng';
+    try {
+      const res = await productsService.update(id, { stock_status: nextStatus });
+      if (res.success) {
+        message.success(`Đã đổi trạng thái kho thành "${nextStatus}"`);
+        setProducts((prev) =>
+          prev.map((p) => (p._id === id ? { ...p, stock_status: nextStatus } : p))
+        );
+      }
+    } catch (err) {
+      message.error('Lỗi khi cập nhật trạng thái kho');
+    }
+  };
+
   // Xóa Sản phẩm
   const handleDeleteProduct = async (id: string) => {
     try {
       await productsService.delete(id);
-      message.success('Đã xóa phụ kiện thành công');
+      message.success('Đã xóa sản phẩm thành công');
       setProducts((prev) => prev.filter((p) => p._id !== id));
+      loadData();
     } catch (err) {
       message.error('Không thể xóa sản phẩm');
     }
   };
 
-  // Cột bảng Đơn Hàng
+  // ================= BẢNG 1: QUẢN LÝ CHART =================
+  const patternColumns = [
+    {
+      title: 'Hình ảnh',
+      dataIndex: 'image_url',
+      key: 'image_url',
+      width: 70,
+      render: (url: string) => (
+        <img
+          src={url}
+          alt="chart"
+          style={{ width: 48, height: 48, borderRadius: 8, objectFit: 'cover' }}
+          onError={(e) => {
+            (e.target as HTMLImageElement).src =
+              'https://images.unsplash.com/photo-1544717305-2782549b5136?w=200';
+          }}
+        />
+      ),
+    },
+    {
+      title: 'Tên mẫu Chart',
+      dataIndex: 'name',
+      key: 'name',
+      render: (text: string) => <span style={{ fontWeight: 600 }}>{text}</span>,
+    },
+    {
+      title: 'Danh mục',
+      key: 'category',
+      render: (_: any, r: Pattern) => <Tag color="pink">{r.category?.name || 'Móc len'}</Tag>,
+    },
+    {
+      title: 'Độ khó',
+      dataIndex: 'difficulty',
+      key: 'difficulty',
+      render: (d: string) => (
+        <Tag color={d === 'Dễ' ? 'green' : d === 'Vừa' ? 'gold' : 'red'}>{d}</Tag>
+      ),
+    },
+    {
+      title: 'Lượt xem & Thích',
+      key: 'stats',
+      render: (_: any, r: Pattern) => (
+        <span style={{ fontSize: '13px', color: '#666' }}>
+          👁 {r.view_count || 0} xem • ❤️ {r.likes || 0} tim
+        </span>
+      ),
+    },
+    {
+      title: 'Thao tác',
+      key: 'action',
+      render: (_: any, r: Pattern) => (
+        <Popconfirm
+          title="Xác nhận xóa mẫu Chart này khỏi hệ thống?"
+          onConfirm={() => handleDeletePattern(r._id)}
+          okText="Xóa"
+          cancelText="Hủy"
+        >
+          <Button size="small" danger icon={<DeleteOutlined />}>
+            Xóa
+          </Button>
+        </Popconfirm>
+      ),
+    },
+  ];
+
+  // ================= BẢNG 2: QUẢN LÝ PHỤ KIỆN =================
+  const productColumns = [
+    {
+      title: 'Hình ảnh',
+      dataIndex: 'image_url',
+      key: 'image_url',
+      width: 70,
+      render: (url: string) => (
+        <img
+          src={url}
+          alt="prod"
+          style={{ width: 48, height: 48, borderRadius: 8, objectFit: 'cover' }}
+          onError={(e) => {
+            (e.target as HTMLImageElement).src =
+              'https://images.unsplash.com/photo-1606822350810-7fa9b25bb7f5?w=200';
+          }}
+        />
+      ),
+    },
+    {
+      title: 'Tên phụ kiện / len',
+      dataIndex: 'name',
+      key: 'name',
+      render: (text: string) => <span style={{ fontWeight: 600 }}>{text}</span>,
+    },
+    {
+      title: 'Danh mục',
+      key: 'category',
+      render: (_: any, r: Product) => <Tag color="cyan">{r.category?.name || 'Phụ kiện'}</Tag>,
+    },
+    {
+      title: 'Giá bán',
+      dataIndex: 'price',
+      key: 'price',
+      render: (p: number, r: Product) => (
+        <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+          <span style={{ color: '#e11d48', fontWeight: 700 }}>
+            {new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(p)}
+          </span>
+          <Tooltip title="Cập nhật giá bán nhanh">
+            <Button
+              size="small"
+              icon={<DollarOutlined />}
+              onClick={() => {
+                setEditingProduct(r);
+                setEditPrice(r.price);
+              }}
+            />
+          </Tooltip>
+        </div>
+      ),
+    },
+    {
+      title: 'Tình trạng kho (Bấm để đổi)',
+      dataIndex: 'stock_status',
+      key: 'stock_status',
+      render: (st: string, r: Product) => (
+        <Tooltip title="Nhấp để đổi trạng thái Còn hàng / Hết hàng">
+          <Button
+            size="small"
+            style={{
+              borderColor: st === 'Còn hàng' ? '#52c41a' : '#ff4d4f',
+              color: st === 'Còn hàng' ? '#52c41a' : '#ff4d4f',
+              borderRadius: '999px',
+              fontWeight: 600,
+            }}
+            onClick={() => handleToggleStockStatus(r._id, st)}
+          >
+            {st === 'Còn hàng' ? <CheckOutlined /> : <CloseOutlined />} {st || 'Còn hàng'}
+          </Button>
+        </Tooltip>
+      ),
+    },
+    {
+      title: 'Thao tác',
+      key: 'action',
+      render: (_: any, r: Product) => (
+        <Popconfirm
+          title="Xác nhận xóa sản phẩm này?"
+          onConfirm={() => handleDeleteProduct(r._id)}
+          okText="Xóa"
+          cancelText="Hủy"
+        >
+          <Button size="small" danger icon={<DeleteOutlined />}>
+            Xóa
+          </Button>
+        </Popconfirm>
+      ),
+    },
+  ];
+
+  // ================= BẢNG 3: QUẢN LÝ ĐƠN HÀNG =================
   const orderColumns = [
     {
       title: 'Mã đơn',
       dataIndex: 'order_code',
       key: 'order_code',
-      render: (code: string) => <Tag color="magenta" style={{ fontWeight: 700 }}>{code}</Tag>,
+      render: (text: string) => <Tag color="blue" style={{ fontWeight: 700 }}>{text}</Tag>,
     },
     {
       title: 'Khách hàng',
@@ -236,10 +461,24 @@ export const AdminPage: React.FC = () => {
       ),
     },
     {
-      title: 'Thao tác',
+      title: 'Thao tác & Duyệt đơn',
       key: 'action',
       render: (_: any, record: Order) => (
-        <Space>
+        <Space size={8}>
+          {record.status === 'Chờ xác nhận' && (
+            <Tooltip title="Duyệt đơn và chuyển sang trạng thái Đang xử lý">
+              <Button
+                type="primary"
+                size="small"
+                icon={<CheckCircleOutlined />}
+                style={{ background: '#52c41a', borderColor: '#52c41a', borderRadius: '6px' }}
+                onClick={() => handleUpdateOrderStatus(record._id, 'Đang xử lý')}
+              >
+                Duyệt đơn
+              </Button>
+            </Tooltip>
+          )}
+
           <Button
             size="small"
             icon={<EyeOutlined />}
@@ -247,6 +486,7 @@ export const AdminPage: React.FC = () => {
           >
             Chi tiết
           </Button>
+
           <Popconfirm
             title="Xác nhận xóa đơn hàng này?"
             onConfirm={() => handleDeleteOrder(record._id)}
@@ -260,127 +500,25 @@ export const AdminPage: React.FC = () => {
     },
   ];
 
-  // Cột bảng Chart
-  const patternColumns = [
-    {
-      title: 'Hình ảnh',
-      dataIndex: 'image_url',
-      key: 'image_url',
-      width: 70,
-      render: (url: string) => (
-        <img src={url} alt="chart" style={{ width: 44, height: 44, borderRadius: 8, objectFit: 'cover' }} />
-      ),
-    },
-    {
-      title: 'Tên mẫu Chart',
-      dataIndex: 'name',
-      key: 'name',
-      render: (text: string) => <span style={{ fontWeight: 600 }}>{text}</span>,
-    },
-    {
-      title: 'Danh mục',
-      key: 'category',
-      render: (_: any, r: Pattern) => <Tag color="pink">{r.category?.name || 'Móc len'}</Tag>,
-    },
-    {
-      title: 'Độ khó',
-      dataIndex: 'difficulty',
-      key: 'difficulty',
-      render: (d: string) => (
-        <Tag color={d === 'Dễ' ? 'green' : d === 'Vừa' ? 'gold' : 'red'}>{d}</Tag>
-      ),
-    },
-    {
-      title: 'Thống kê',
-      key: 'stats',
-      render: (_: any, r: Pattern) => (
-        <span style={{ fontSize: '13px', color: '#666' }}>
-          👁 {r.view_count || 0} lượt xem • ❤️ {r.likes || 0} like
-        </span>
-      ),
-    },
-    {
-      title: 'Thao tác',
-      key: 'action',
-      render: (_: any, r: Pattern) => (
-        <Popconfirm
-          title="Xác nhận xóa Chart này?"
-          onConfirm={() => handleDeletePattern(r._id)}
-          okText="Xóa"
-          cancelText="Hủy"
-        >
-          <Button size="small" danger icon={<DeleteOutlined />}>Xóa</Button>
-        </Popconfirm>
-      ),
-    },
-  ];
-
-  // Cột bảng Phụ Kiện
-  const productColumns = [
-    {
-      title: 'Hình ảnh',
-      dataIndex: 'image_url',
-      key: 'image_url',
-      width: 70,
-      render: (url: string) => (
-        <img src={url} alt="prod" style={{ width: 44, height: 44, borderRadius: 8, objectFit: 'cover' }} />
-      ),
-    },
-    {
-      title: 'Tên sản phẩm',
-      dataIndex: 'name',
-      key: 'name',
-      render: (text: string) => <span style={{ fontWeight: 600 }}>{text}</span>,
-    },
-    {
-      title: 'Danh mục',
-      key: 'category',
-      render: (_: any, r: Product) => <Tag color="cyan">{r.category?.name || 'Phụ kiện'}</Tag>,
-    },
-    {
-      title: 'Giá bán',
-      dataIndex: 'price',
-      key: 'price',
-      render: (p: number) => (
-        <span style={{ color: '#e11d48', fontWeight: 700 }}>
-          {new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(p)}
-        </span>
-      ),
-    },
-    {
-      title: 'Kho hàng',
-      dataIndex: 'stock_status',
-      key: 'stock_status',
-      render: (st: string) => (
-        <Tag color={st === 'Còn hàng' ? 'green' : st === 'Sắp hết' ? 'gold' : 'red'}>{st}</Tag>
-      ),
-    },
-    {
-      title: 'Thao tác',
-      key: 'action',
-      render: (_: any, r: Product) => (
-        <Popconfirm
-          title="Xác nhận xóa sản phẩm này?"
-          onConfirm={() => handleDeleteProduct(r._id)}
-          okText="Xóa"
-          cancelText="Hủy"
-        >
-          <Button size="small" danger icon={<DeleteOutlined />}>Xóa</Button>
-        </Popconfirm>
-      ),
-    },
-  ];
-
   return (
     <div style={{ maxWidth: '1240px', margin: '0 auto', padding: '24px 16px' }}>
       {/* Header */}
-      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '24px' }}>
+      <div
+        style={{
+          display: 'flex',
+          justifyContent: 'space-between',
+          alignItems: 'center',
+          marginBottom: '24px',
+          flexWrap: 'wrap',
+          gap: '12px',
+        }}
+      >
         <div>
           <Title level={2} style={{ color: '#d81b60', marginBottom: '4px' }}>
-            ⚙️ Trang Quản Trị Hệ Thống (Admin Control Panel)
+            ⚙️ Cổng Quản Trị Hệ Thống (Admin Control Panel)
           </Title>
           <Text style={{ color: '#666' }}>
-            Dành cho sinh viên demo đầy đủ 4 thao tác CRUD (Create - Read - Update - Delete) trên MongoDB
+            Giao diện tập trung quản trị Kho Chart, Phụ Kiện và duyệt Đơn Hàng cho sinh viên bảo vệ môn SDN302
           </Text>
         </div>
         <Button icon={<ReloadOutlined />} onClick={loadData} loading={loading}>
@@ -388,66 +526,67 @@ export const AdminPage: React.FC = () => {
         </Button>
       </div>
 
-      {/* Thống kê nhanh */}
+      {/* 4 Thống kê nhanh kết nối API /api/orders/stats */}
       <Row gutter={[16, 16]} style={{ marginBottom: '24px' }}>
-        <Col xs={24} sm={8}>
+        <Col xs={12} sm={6}>
           <Card style={{ borderRadius: '16px', border: '1px solid #ffd6e0' }}>
             <Statistic
-              title="Tổng Đơn Hàng"
-              value={orders.length}
-              prefix={<ShoppingOutlined style={{ color: '#d81b60' }} />}
+              title="Tổng Mẫu Chart"
+              value={stats.totalPatterns}
+              prefix={<ReadOutlined style={{ color: '#d81b60' }} />}
               valueStyle={{ color: '#d81b60', fontWeight: 700 }}
             />
           </Card>
         </Col>
-        <Col xs={24} sm={8}>
+
+        <Col xs={12} sm={6}>
           <Card style={{ borderRadius: '16px', border: '1px solid #d1fae5' }}>
             <Statistic
-              title="Tổng Mẫu Chart"
-              value={patterns.length}
-              prefix={<ReadOutlined style={{ color: '#10b981' }} />}
+              title="Tổng Phụ Kiện"
+              value={stats.totalProducts}
+              prefix={<InboxOutlined style={{ color: '#10b981' }} />}
               valueStyle={{ color: '#10b981', fontWeight: 700 }}
             />
           </Card>
         </Col>
-        <Col xs={24} sm={8}>
+
+        <Col xs={12} sm={6}>
+          <Card style={{ borderRadius: '16px', border: '1px solid #fed7aa' }}>
+            <Statistic
+              title="Đơn Mới / Tổng Đơn"
+              value={`${stats.newOrders} / ${stats.totalOrders}`}
+              prefix={<ShoppingOutlined style={{ color: '#f97316' }} />}
+              valueStyle={{ color: '#f97316', fontWeight: 700 }}
+            />
+          </Card>
+        </Col>
+
+        <Col xs={12} sm={6}>
           <Card style={{ borderRadius: '16px', border: '1px solid #e0e7ff' }}>
             <Statistic
-              title="Tổng Phụ Kiện & Dụng Cụ"
-              value={products.length}
-              prefix={<InboxOutlined style={{ color: '#6366f1' }} />}
+              title="Tổng Doanh Thu"
+              value={new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(stats.totalRevenue)}
+              prefix={<DollarOutlined style={{ color: '#6366f1' }} />}
               valueStyle={{ color: '#6366f1', fontWeight: 700 }}
             />
           </Card>
         </Col>
       </Row>
 
-      {/* Tabs Quản Trị */}
+      {/* Tabs Quản Trị Theo Chuẩn 3 Tab */}
       <Card style={{ borderRadius: '20px', border: '1px solid #ffe4e6' }}>
         <Tabs
           activeKey={activeTab}
           onChange={(key) => setActiveTab(key)}
           items={[
-            {
-              key: 'orders',
-              label: `🛒 Quản Lý Đơn Hàng (${orders.length})`,
-              children: (
-                <Table
-                  dataSource={orders}
-                  columns={orderColumns}
-                  rowKey="_id"
-                  loading={loading}
-                  pagination={{ pageSize: 8 }}
-                  scroll={{ x: 800 }}
-                />
-              ),
-            },
+            // TAB 1: Quản lý Kho Chart
             {
               key: 'patterns',
-              label: `🧶 Quản Lý Kho Chart (${patterns.length})`,
+              label: `🧶 Tab 1: Quản Lý Chart (${patterns.length})`,
               children: (
                 <div>
-                  <div style={{ marginBottom: '16px', textAlign: 'right' }}>
+                  <div style={{ marginBottom: '16px', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                    <Text type="secondary">Bảng danh sách mẫu chart móc len từ MongoDB. Hỗ trợ xem, thêm mới và xóa.</Text>
                     <Button
                       type="primary"
                       icon={<PlusOutlined />}
@@ -462,18 +601,21 @@ export const AdminPage: React.FC = () => {
                     columns={patternColumns}
                     rowKey="_id"
                     loading={loading}
-                    pagination={{ pageSize: 8 }}
+                    pagination={{ pageSize: 6 }}
                     scroll={{ x: 800 }}
                   />
                 </div>
               ),
             },
+
+            // TAB 2: Quản lý Phụ Kiện
             {
               key: 'products',
-              label: `🛍️ Quản Lý Phụ Kiện (${products.length})`,
+              label: `🛍️ Tab 2: Quản Lý Phụ Kiện (${products.length})`,
               children: (
                 <div>
-                  <div style={{ marginBottom: '16px', textAlign: 'right' }}>
+                  <div style={{ marginBottom: '16px', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                    <Text type="secondary">Bảng phụ kiện đan len. Hỗ trợ cập nhật nhanh giá tiền và đổi trạng thái Còn hàng / Hết hàng.</Text>
                     <Button
                       type="primary"
                       icon={<PlusOutlined />}
@@ -488,7 +630,28 @@ export const AdminPage: React.FC = () => {
                     columns={productColumns}
                     rowKey="_id"
                     loading={loading}
-                    pagination={{ pageSize: 8 }}
+                    pagination={{ pageSize: 6 }}
+                    scroll={{ x: 800 }}
+                  />
+                </div>
+              ),
+            },
+
+            // TAB 3: Quản lý Đơn Hàng
+            {
+              key: 'orders',
+              label: `🛒 Tab 3: Quản Lý Đơn Hàng (${orders.length})`,
+              children: (
+                <div>
+                  <div style={{ marginBottom: '16px' }}>
+                    <Text type="secondary">Danh sách đơn hàng khách vừa đặt từ giỏ hàng. Có nút bấm "Duyệt đơn" chuyển ngay sang Đang xử lý.</Text>
+                  </div>
+                  <Table
+                    dataSource={orders}
+                    columns={orderColumns}
+                    rowKey="_id"
+                    loading={loading}
+                    pagination={{ pageSize: 6 }}
                     scroll={{ x: 800 }}
                   />
                 </div>
@@ -571,7 +734,6 @@ export const AdminPage: React.FC = () => {
           <Form.Item name="stock_status" label="Tình trạng kho" initialValue="Còn hàng">
             <Select>
               <Option value="Còn hàng">Còn hàng</Option>
-              <Option value="Sắp hết">Sắp hết</Option>
               <Option value="Hết hàng">Hết hàng</Option>
             </Select>
           </Form.Item>
@@ -588,6 +750,29 @@ export const AdminPage: React.FC = () => {
             Thêm Sản Phẩm
           </Button>
         </Form>
+      </Modal>
+
+      {/* Modal Sửa Giá Sản Phẩm Nhanh */}
+      <Modal
+        title={`Cập nhật giá bán: ${editingProduct?.name}`}
+        open={!!editingProduct}
+        onCancel={() => setEditingProduct(null)}
+        onOk={handleSaveProductPrice}
+        okText="Lưu giá mới"
+        cancelText="Hủy"
+      >
+        <div style={{ padding: '16px 0' }}>
+          <Text strong style={{ display: 'block', marginBottom: '8px' }}>Nhập giá bán mới (VNĐ):</Text>
+          <InputNumber
+            style={{ width: '100%' }}
+            min={1000}
+            step={5000}
+            value={editPrice}
+            onChange={(val) => setEditPrice(val || 0)}
+            formatter={(value) => `${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
+            parser={(value) => Number(value?.replace(/\$\s?|(,*)/g, ''))}
+          />
+        </div>
       </Modal>
 
       {/* Modal Chi Tiết Đơn Hàng */}
@@ -650,4 +835,3 @@ export const AdminPage: React.FC = () => {
     </div>
   );
 };
-

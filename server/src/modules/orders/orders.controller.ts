@@ -60,6 +60,16 @@ export class OrdersController {
     };
   }
 
+  @Get('stats')
+  async getStats() {
+    const data = await this.ordersService.getStats();
+    return {
+      success: true,
+      data,
+      message: 'Lấy dữ liệu thống kê tổng quan thành công',
+    };
+  }
+
   @Get(':id')
   async getById(@Param('id') id: string) {
     const data = await this.ordersService.findById(id);
