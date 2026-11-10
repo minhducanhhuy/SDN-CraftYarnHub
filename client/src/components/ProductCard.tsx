@@ -20,7 +20,7 @@ export const ProductCard: React.FC<{ product: Product }> = ({ product }) => {
   const formattedPrice = new Intl.NumberFormat('vi-VN', {
     style: 'currency',
     currency: 'VND',
-  }).format(product.price);
+  }).format(product.price || 0);
 
   return (
     <Card
@@ -34,30 +34,38 @@ export const ProductCard: React.FC<{ product: Product }> = ({ product }) => {
         flexDirection: 'column',
       }}
       cover={
-        <Link to={`/accessories/${product._id}`} style={{ display: 'block', position: 'relative', height: '220px', overflow: 'hidden' }}>
-          <img
-            src={product.image_url}
-            alt={product.name}
-            style={{
-              width: '100%',
-              height: '100%',
-              objectFit: 'cover',
-            }}
-          />
-          <Tag
-            color={product.stock_status === 'Còn hàng' ? 'success' : 'warning'}
-            style={{
-              position: 'absolute',
-              top: '12px',
-              left: '12px',
-              borderRadius: '999px',
-              fontWeight: 700,
-              border: 'none',
-              padding: '2px 10px',
-            }}
-          >
-            {product.stock_status}
-          </Tag>
+        <Link to={`/accessories/${product._id}`} style={{ display: 'block' }}>
+          <div style={{ position: 'relative', height: '220px', overflow: 'hidden' }}>
+            <img
+              src={product.image_url}
+              alt={product.name}
+              onError={(e) => {
+                (e.target as HTMLImageElement).src = '/images/products/len-milk-bo.jpg';
+              }}
+              style={{
+                width: '100%',
+                height: '100%',
+                objectFit: 'cover',
+                transition: 'transform 0.4s ease',
+              }}
+              onMouseOver={(e) => ((e.target as HTMLElement).style.transform = 'scale(1.08)')}
+              onMouseOut={(e) => ((e.target as HTMLElement).style.transform = 'scale(1)')}
+            />
+            <Tag
+              color={product.stock_status === 'Còn hàng' ? 'success' : 'warning'}
+              style={{
+                position: 'absolute',
+                top: '12px',
+                left: '12px',
+                borderRadius: '999px',
+                fontWeight: 700,
+                border: 'none',
+                padding: '2px 10px',
+              }}
+            >
+              {product.stock_status || 'Còn hàng'}
+            </Tag>
+          </div>
         </Link>
       }
       bodyStyle={{
@@ -77,6 +85,7 @@ export const ProductCard: React.FC<{ product: Product }> = ({ product }) => {
               marginBottom: '6px',
               color: '#2c1810',
               lineHeight: 1.3,
+              cursor: 'pointer',
             }}
           >
             {product.name}

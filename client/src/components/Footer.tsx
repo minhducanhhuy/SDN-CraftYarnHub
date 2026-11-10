@@ -60,14 +60,14 @@ export const Footer: React.FC = () => {
 
           <Col xs={24} sm={12} md={5}>
             <Title level={5} style={{ color: '#d81b60', marginBottom: '16px' }}>
-              Học Phần SDN302
+              Dịch Vụ & Hỗ Trợ
             </Title>
             <div style={{ display: 'flex', flexDirection: 'column', gap: '8px', color: '#666', fontSize: '13px' }}>
-              <div>• Mô hình: Client - Server</div>
-              <div>• Frontend: React + Vite</div>
-              <div>• Backend: NestJS REST API</div>
-              <div>• Database: MongoDB + Mongoose</div>
-              <div>• FPT University 2026</div>
+              <div>• Hướng dẫn đặt hàng & thanh toán</div>
+              <div>• Chính sách đổi trả & bảo hành</div>
+              <div>• Giao hàng hỏa tốc toàn quốc</div>
+              <div>• Cam kết len sợi & phụ kiện chuẩn</div>
+              <div>• Hotline: 1900 8888 (8:00 - 21:00)</div>
             </div>
           </Col>
 
@@ -102,7 +102,7 @@ export const Footer: React.FC = () => {
             fontSize: '13px',
           }}
         >
-          © 2026 Tiệm Len Xinh. Đồ án môn học SDN302 - Server-side Development with NodeJS, Express & MongoDB.
+          © 2026 Tiệm Len Xinh - Nền tảng chia sẻ chart móc len & phụ kiện thủ công handmade. All rights reserved.
         </div>
       </div>
     </footer>

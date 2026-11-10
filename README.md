@@ -1,9 +1,8 @@
-# ĐỒ ÁN MÔN HỌC SDN302: TIỆM LEN XINH (CRAFTYARNHUB)
-## HỆ THỐNG QUẢN LÝ & CHIA SẺ CHART MÓC LEN & PHỤ KIỆN HANDMADE
+# TIỆM LEN XINH (CRAFTYARNHUB)
+## HỆ THỐNG QUẢN LÝ & CHIA SẺ CHART MÓC LEN & PHỤ KIỆN THỦ CÔNG
 
-> **Môn học:** SDN302 – Server-side Development with NodeJS, Express & MongoDB (FPT University)  
 > **Kiến trúc:** Client - Server Architecture (React Vite + NestJS + Mongoose ODM + MongoDB)  
-> **Cam kết:** 100% dữ liệu động từ MongoDB (Nói không với Mock Data), chuẩn RESTful API, đầy đủ 4 thao tác CRUD và DTO Validation Pipe.
+> **Dữ liệu:** 100% dữ liệu động từ MongoDB, chuẩn RESTful API, đầy đủ các thao tác CRUD và DTO Validation Pipe.
 
 ---
 
@@ -66,45 +65,45 @@ Hệ thống sẽ tự động khởi chạy song song:
 
 ---
 
-## 3. PHÂN CHIA TRÁCH NHIỆM THÀNH VIÊN TRONG NHÓM (3 THÀNH VIÊN)
+## 3. CÁC PHÂN HỆ CHỨC NĂNG HỆ THỐNG (SYSTEM MODULES)
 
-Dự án áp dụng mô hình phân chia theo **Chiều dọc (Full-stack theo Feature)** để mỗi thành viên đều có đóng góp trọn vẹn ở cả Backend (NestJS, Mongoose) lẫn Frontend (React Ant Design):
+Hệ thống được thiết kế theo mô hình phân hệ khép kín (Full-stack theo Feature), tích hợp đồng bộ giữa Backend (NestJS, Mongoose) và Frontend (React Ant Design):
 
-### 👤 THÀNH VIÊN 1: Module Kho Chart & Tương Tác (Trưởng nhóm)
-- **Nhánh Git:** `dev_trangdtt` (hoặc `feature/member-1`)
+### 🧶 Phân hệ 1: Quản Lý Kho Chart Móc Len & Tương Tác
 - **Backend:** 
-  - Module Patterns: Viết đầy đủ API CRUD (`GET`, `POST`, `PUT`, `DELETE /api/patterns`), tìm kiếm Regex theo tên/nguyên liệu, lọc Category & Difficulty, tăng view và like bằng toán tử atomic `$inc`. DTOs `CreatePatternDto`, `UpdatePatternDto`.
-  - Module Comments: Viết API `GET /api/comments?patternId=...` và `POST /api/comments`, validate `CreateCommentDto`, tự động sinh avatar Dicebear.
+  - Module Patterns: Đầy đủ API CRUD (`GET`, `POST`, `PUT`, `DELETE /api/patterns`), tìm kiếm Regex theo tên/nguyên liệu, lọc Category & Difficulty, tăng view và like bằng toán tử atomic `$inc`. DTOs `CreatePatternDto`, `UpdatePatternDto`.
+  - Module Comments: API `GET /api/comments?patternId=...` và `POST /api/comments`, validate `CreateCommentDto`, tự động sinh avatar Dicebear.
 - **Frontend:**
   - Trang Chủ (`HomePage.tsx`): Carousel Banner, Mẫu Chart Nổi Bật.
   - Kho Chart (`PatternsPage.tsx`): Bộ lọc danh mục, độ khó, thanh tìm kiếm Debounce 250ms, đồng bộ URL params hai chiều.
   - Chi Tiết Chart (`PatternDetailPage.tsx`): Xem công thức móc R1, R2... theo từng bộ phận, checklist nguyên liệu/dụng cụ dạng checkbox, nút Thả tim gọi API, form gửi đánh giá sao kèm reload danh sách tức thì.
   - Widget Đếm Hàng (`RowCounter.tsx`): Âm thanh tiếng bíp chân thực (Web Audio API) + Lưu tiến độ theo từng mẫu chart vào `localStorage`.
 
-### 👤 THÀNH VIÊN 2: Module Gian Hàng, Giỏ Hàng & Đơn Hàng (E-Commerce)
-- **Nhánh Git:** `feature/member-2`
+### 🛍️ Phân hệ 2: Gian Hàng Phụ Kiện, Giỏ Hàng & Đơn Hàng (E-Commerce)
 - **Backend:**
-  - Module Products: Viết đầy đủ API CRUD (`GET`, `POST`, `PUT`, `DELETE /api/products`), lọc danh mục phụ kiện, tìm kiếm sản phẩm.
-  - Module Orders: Xây dựng mới `OrderSchema` (sub-document `items`), API `POST /api/orders` tạo đơn hàng, sinh mã tự động `ORD-XXXXXX`, API `GET /api/orders/lookup` tra cứu theo SĐT/mã đơn, API `PATCH /api/orders/:id/status` đổi trạng thái. DTO `CreateOrderDto`.
+  - Module Products: Đầy đủ API CRUD (`GET`, `POST`, `PUT`, `DELETE /api/products`), lọc danh mục phụ kiện, tìm kiếm sản phẩm.
+  - Module Orders: `OrderSchema` (sub-document `items`), API `POST /api/orders` tạo đơn hàng, sinh mã tự động `ORD-XXXXXX`, API `GET /api/orders/lookup` tra cứu theo SĐT/mã đơn, API `PATCH /api/orders/:id/status` đổi trạng thái. DTO `CreateOrderDto`.
 - **Frontend:**
   - Trang Phụ Kiện (`AccessoriesPage.tsx`): Tabs danh mục, thẻ sản phẩm, nút thêm giỏ hàng.
   - Chi Tiết Sản Phẩm (`ProductDetailPage.tsx`): Xem ảnh to, giá khuyến mãi, chọn số lượng, nút Mua ngay.
   - Giỏ Hàng & Đặt Hàng (`CartPage.tsx`): Quản lý số lượng, tính tổng tiền VNĐ, form nhận hàng kết nối API tạo đơn thật và popup hiển thị mã đơn hàng.
   - Tra cứu đơn hàng: Popup tra cứu lịch sử mua hàng qua Số điện thoại.
 
-### 👤 THÀNH VIÊN 3: Module Cẩm Nang Blog & Trang Quản Trị (Admin Dashboard)
-- **Nhánh Git:** `feature/member-3`
+### ⚙️ Phân hệ 3: Cẩm Nang Blog & Cổng Quản Trị (Admin Control Panel)
 - **Backend:**
-  - Module Blogs: Viết đầy đủ API CRUD (`GET`, `POST`, `PUT`, `DELETE /api/blogs`), chi tiết bài viết tăng view theo slug.
-  - Module Categories: Viết đầy đủ API CRUD (`GET`, `POST`, `PUT`, `DELETE /api/categories`) cho cả chart và phụ kiện.
-  - Tối ưu cấu hình: Bật Global `ValidationPipe`, xử lý Exception Filter toàn cục.
+  - Module Blogs: Đầy đủ API CRUD (`GET`, `POST`, `PUT`, `DELETE /api/blogs`), chi tiết bài viết tăng view theo slug.
+  - Module Categories: Đầy đủ API CRUD (`GET`, `POST`, `PUT`, `DELETE /api/categories`) cho cả chart và phụ kiện.
+  - Module Auth: Đăng nhập quản trị viên an toàn với mã hóa SHA256 (`POST /api/auth/login`, `GET /api/auth/me`).
+  - Thống kê: `GET /api/orders/stats` cung cấp số liệu tổng quan thời gian thực.
+  - Tối ưu cấu hình: Bật Global `ValidationPipe`, phục vụ static assets tĩnh.
 - **Frontend:**
   - Trang Blog (`BlogPage.tsx`, `BlogDetailPage.tsx`): Cẩm nang mẹo hay đan móc, đọc bài theo slug thân thiện SEO.
-  - Trang Quản Trị Tối Giản (`AdminPage.tsx`):
-    - 3 Thẻ thống kê tổng quan (Đơn hàng, Mẫu chart, Phụ kiện).
-    - Tab Quản lý Đơn hàng: Đổi trạng thái đơn, xem chi tiết món đặt, xóa đơn.
-    - Tab Quản lý Chart: Xem bảng, Modal thêm mới chart, nút xóa chart.
-    - Tab Quản lý Phụ kiện: Xem bảng, Modal thêm mới sản phẩm, cập nhật kho, xóa sản phẩm.
+  - Cổng Quản Trị Hệ Thống (`AdminPage.tsx`):
+    - Bảo mật bằng màn hình Login riêng biệt.
+    - 4 Thẻ thống kê tổng quan (Tổng doanh thu, Đơn hàng, Mẫu chart, Phụ kiện).
+    - Tab 1: Quản lý Kho Chart (Xem bảng, Thêm mới chart, Xóa chart).
+    - Tab 2: Quản lý Phụ Kiện (Xem bảng, Cập nhật giá nhanh, Bật/Tắt trạng thái Còn hàng).
+    - Tab 3: Quản lý Đơn Hàng (Xem danh sách đơn, Nút bấm 1-click Duyệt đơn, Xem chi tiết món đặt, Xóa đơn).
 
 ---
 
@@ -112,6 +111,9 @@ Dự án áp dụng mô hình phân chia theo **Chiều dọc (Full-stack theo F
 
 | Nhóm | Phương thức | Đường dẫn (Endpoint) | Chức năng |
 | :--- | :--- | :--- | :--- |
+| **Auth** | `POST` | `/api/auth/login` | Đăng nhập tài khoản Admin |
+| | `GET` | `/api/auth/me` | Lấy thông tin tài khoản hiện tại |
+| | `POST` | `/api/auth/logout` | Đăng xuất |
 | **Patterns** | `GET` | `/api/patterns` | Danh sách chart (tìm kiếm `q`, lọc `category`, `difficulty`) |
 | | `GET` | `/api/patterns/featured` | Top chart nhiều lượt xem và yêu thích nhất |
 | | `GET` | `/api/patterns/:id` | Chi tiết chart (tự động tăng view qua `$inc`) |
@@ -128,6 +130,7 @@ Dự án áp dụng mô hình phân chia theo **Chiều dọc (Full-stack theo F
 | | `DELETE`| `/api/products/:id` | Xóa sản phẩm khỏi database |
 | **Orders** | `POST` | `/api/orders` | Khách gửi đơn đặt hàng từ giỏ hàng |
 | | `GET` | `/api/orders` | Lấy danh sách toàn bộ đơn hàng (cho Admin) |
+| | `GET` | `/api/orders/stats` | Thống kê số lượng chart, sản phẩm, đơn hàng, doanh thu |
 | | `GET` | `/api/orders/lookup?q=...` | Tra cứu đơn hàng theo Mã đơn hoặc Số điện thoại |
 | | `PATCH` | `/api/orders/:id/status` | Đổi trạng thái (`Chờ xác nhận`, `Đang xử lý`, `Đã giao`, `Đã hủy`) |
 | | `DELETE`| `/api/orders/:id` | Xóa đơn hàng |
@@ -139,7 +142,7 @@ Dự án áp dụng mô hình phân chia theo **Chiều dọc (Full-stack theo F
 
 ---
 
-## 5. ĐÁP ỨNG TIÊU CHUẨN ĐỒ ÁN MÔN SDN302
+## 5. CÔNG NGHỆ & ĐẶC TÍNH NỔI BẬT
 
 1. **Kiến trúc Module - Controller - Service - Schema:** Tách biệt rõ ràng từng lớp nghiệp vụ theo chuẩn NestJS hiện đại.
 2. **Quan hệ Mongoose & Populate:** Áp dụng liên kết giữa `Category` ref `Pattern`, `Category` ref `Product`, `Pattern` ref `Comment` bằng `Types.ObjectId` và gọi `.populate()`.

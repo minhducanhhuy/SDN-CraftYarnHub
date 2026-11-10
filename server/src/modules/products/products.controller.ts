@@ -11,6 +11,8 @@ import {
   HttpStatus,
 } from '@nestjs/common';
 import { ProductsService } from './products.service';
+import { CreateProductDto } from './dto/create-product.dto';
+import { UpdateProductDto } from './dto/update-product.dto';
 
 @Controller('products')
 export class ProductsController {
@@ -42,8 +44,8 @@ export class ProductsController {
 
   @Post()
   @HttpCode(HttpStatus.CREATED)
-  async create(@Body() body: any) {
-    const data = await this.productsService.create(body);
+  async create(@Body() createProductDto: CreateProductDto) {
+    const data = await this.productsService.create(createProductDto);
     return {
       success: true,
       data,
@@ -52,8 +54,11 @@ export class ProductsController {
   }
 
   @Put(':id')
-  async update(@Param('id') id: string, @Body() body: any) {
-    const data = await this.productsService.update(id, body);
+  async update(
+    @Param('id') id: string,
+    @Body() updateProductDto: UpdateProductDto,
+  ) {
+    const data = await this.productsService.update(id, updateProductDto);
     return {
       success: true,
       data,
@@ -71,4 +76,5 @@ export class ProductsController {
     };
   }
 }
+
 

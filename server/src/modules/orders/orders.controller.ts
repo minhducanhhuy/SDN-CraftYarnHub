@@ -12,6 +12,7 @@ import {
 } from '@nestjs/common';
 import { OrdersService } from './orders.service';
 import { CreateOrderDto } from './dto/create-order.dto';
+import { UpdateOrderStatusDto } from './dto/update-order-status.dto';
 
 @Controller('orders')
 export class OrdersController {
@@ -59,6 +60,16 @@ export class OrdersController {
     };
   }
 
+  @Get('stats')
+  async getStats() {
+    const data = await this.ordersService.getStats();
+    return {
+      success: true,
+      data,
+      message: 'Lấy dữ liệu thống kê tổng quan thành công',
+    };
+  }
+
   @Get(':id')
   async getById(@Param('id') id: string) {
     const data = await this.ordersService.findById(id);
@@ -72,9 +83,9 @@ export class OrdersController {
   @Patch(':id/status')
   async updateStatus(
     @Param('id') id: string,
-    @Body('status') status: string,
+    @Body() updateOrderStatusDto: UpdateOrderStatusDto,
   ) {
-    const data = await this.ordersService.updateStatus(id, status);
+    const data = await this.ordersService.updateStatus(id, updateOrderStatusDto.status);
     return {
       success: true,
       data,
@@ -92,3 +103,4 @@ export class OrdersController {
     };
   }
 }
+
