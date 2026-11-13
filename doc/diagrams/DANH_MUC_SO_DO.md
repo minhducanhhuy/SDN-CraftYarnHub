@@ -3,6 +3,10 @@
 
 **Dự án:** CraftYarnHub – Hệ Thống Quản Lý & Chia Sẻ Chart Móc Len & Phụ Kiện Handmade  
 **Môn học:** SDN302 – Server-side Development with NodeJS, Express & MongoDB (FPT University)  
+**Nhóm sinh viên thực hiện:**  
+- **Thành viên 1 (Trưởng nhóm):** Đinh Thị Thu Trang – MSSV: HE195077  
+- **Thành viên 2:** Nguyễn Thị Thắm – MSSV: HE191525  
+- **Thành viên 3:** Nguyễn Minh Đức – MSSV: HE194336  
 **Phiên bản:** 1.0 Final  
 **Định dạng hình ảnh:** Hỗ trợ song song cả **PNG** (ảnh độ nét cao nhúng báo cáo Word/PDF) và **SVG** (ảnh vector phóng to không vỡ nét).  
 **Trang xem trực quan tương tác:** [`view_diagrams.html`](./view_diagrams.html)

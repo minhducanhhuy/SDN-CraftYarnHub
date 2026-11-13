@@ -4,6 +4,10 @@
 **Dự án:** CraftYarnHub – Hệ Thống Quản Lý & Chia Sẻ Chart Móc Len & Phụ Kiện Handmade  
 **Mã dự án:** SDN-CYH  
 **Môn học:** SDN302 – Server-side Development with NodeJS, Express & MongoDB (FPT University)  
+**Nhóm sinh viên thực hiện:**
+- **Thành viên 1 (Trưởng nhóm):** Đinh Thị Thu Trang – MSSV: HE195077
+- **Thành viên 2:** Nguyễn Thị Thắm – MSSV: HE191525
+- **Thành viên 3:** Nguyễn Minh Đức – MSSV: HE194336  
 **Phiên bản:** 1.0 Final  
 **Ngôn ngữ:** Tiếng Việt  
 **Ngày phát hành:** Tháng 11/2026  
@@ -229,7 +233,7 @@ flowchart LR
 | Thuộc Tính Đặc Tả | Chi Tiết Đặc Tả |
 | :--- | :--- |
 | **UC ID and Name:** | **UC-01 – Duyệt & Lọc Kho Chart Móc Len (Browse and Filter Patterns)** |
-| **Created By:** | Thành viên 1 |
+| **Created By:** | Đinh Thị Thu Trang (HE195077) |
 | **Date Created:** | 10/11/2026 |
 | **Primary Actor:** | Visitor / Crocheter |
 | **Secondary Actors:**| NestJS Backend, MongoDB Database |
@@ -252,7 +256,7 @@ flowchart LR
 | Thuộc Tính Đặc Tả | Chi Tiết Đặc Tả |
 | :--- | :--- |
 | **UC ID and Name:** | **UC-02 – Xem Chi Tiết Chart & Công Thức Móc (View Pattern Detail)** |
-| **Created By:** | Thành viên 1 |
+| **Created By:** | Đinh Thị Thu Trang (HE195077) |
 | **Date Created:** | 10/11/2026 |
 | **Primary Actor:** | Visitor / Crocheter |
 | **Secondary Actors:**| NestJS Backend, MongoDB Database |
@@ -275,7 +279,7 @@ flowchart LR
 | Thuộc Tính Đặc Tả | Chi Tiết Đặc Tả |
 | :--- | :--- |
 | **UC ID and Name:** | **UC-03 – Sử Dụng Trợ Lý Đếm Hàng Móc Len (Use Row Counter Widget)** |
-| **Created By:** | Thành viên 1 |
+| **Created By:** | Đinh Thị Thu Trang (HE195077) |
 | **Date Created:** | 10/11/2026 |
 | **Primary Actor:** | Visitor / Crocheter |
 | **Secondary Actors:**| Trình duyệt Web (HTML5 Web Audio API, LocalStorage) |
@@ -298,7 +302,7 @@ flowchart LR
 | Thuộc Tính Đặc Tả | Chi Tiết Đặc Tả |
 | :--- | :--- |
 | **UC ID and Name:** | **UC-04 – Thả Tim Yêu Thích Chart (Like Pattern)** |
-| **Created By:** | Thành viên 1 |
+| **Created By:** | Đinh Thị Thu Trang (HE195077) |
 | **Date Created:** | 10/11/2026 |
 | **Primary Actor:** | Visitor / Crocheter |
 | **Secondary Actors:**| NestJS Backend, MongoDB Database |
@@ -321,7 +325,7 @@ flowchart LR
 | Thuộc Tính Đặc Tả | Chi Tiết Đặc Tả |
 | :--- | :--- |
 | **UC ID and Name:** | **UC-05 – Gửi Đánh Giá & Bình Luận (Submit Review and Comment)** |
-| **Created By:** | Thành viên 1 |
+| **Created By:** | Đinh Thị Thu Trang (HE195077) |
 | **Date Created:** | 10/11/2026 |
 | **Primary Actor:** | Visitor / Crocheter |
 | **Secondary Actors:**| NestJS Backend, MongoDB Database |
@@ -344,7 +348,7 @@ flowchart LR
 | Thuộc Tính Đặc Tả | Chi Tiết Đặc Tả |
 | :--- | :--- |
 | **UC ID and Name:** | **UC-06 – Xem Bài Viết Cẩm Nang (Read Blog and Tips)** |
-| **Created By:** | Thành viên 3 |
+| **Created By:** | Nguyễn Minh Đức (HE194336) |
 | **Date Created:** | 10/11/2026 |
 | **Primary Actor:** | Visitor / Crocheter |
 | **Secondary Actors:**| NestJS Backend, MongoDB Database |
@@ -367,7 +371,7 @@ flowchart LR
 | Thuộc Tính Đặc Tả | Chi Tiết Đặc Tả |
 | :--- | :--- |
 | **UC ID and Name:** | **UC-07 – Duyệt & Lọc Phụ Kiện Len Sợi (Browse Accessories)** |
-| **Created By:** | Thành viên 2 |
+| **Created By:** | Nguyễn Thị Thắm (HE191525) |
 | **Date Created:** | 10/11/2026 |
 | **Primary Actor:** | Customer |
 | **Secondary Actors:**| NestJS Backend, MongoDB Database |
@@ -390,7 +394,7 @@ flowchart LR
 | Thuộc Tính Đặc Tả | Chi Tiết Đặc Tả |
 | :--- | :--- |
 | **UC ID and Name:** | **UC-08 – Xem Chi Tiết Phụ Kiện (View Product Detail)** |
-| **Created By:** | Thành viên 2 |
+| **Created By:** | Nguyễn Thị Thắm (HE191525) |
 | **Date Created:** | 10/11/2026 |
 | **Primary Actor:** | Customer |
 | **Secondary Actors:**| NestJS Backend, MongoDB Database |
@@ -413,7 +417,7 @@ flowchart LR
 | Thuộc Tính Đặc Tả | Chi Tiết Đặc Tả |
 | :--- | :--- |
 | **UC ID and Name:** | **UC-09 – Quản Lý Giỏ Hàng Mua Sắm (Manage Shopping Cart)** |
-| **Created By:** | Thành viên 2 |
+| **Created By:** | Nguyễn Thị Thắm (HE191525) |
 | **Date Created:** | 10/11/2026 |
 | **Primary Actor:** | Customer |
 | **Secondary Actors:**| Trình duyệt Web (CartContext, LocalStorage) |
@@ -436,7 +440,7 @@ flowchart LR
 | Thuộc Tính Đặc Tả | Chi Tiết Đặc Tả |
 | :--- | :--- |
 | **UC ID and Name:** | **UC-10 – Đặt Hàng Trực Tuyến (Checkout Order)** |
-| **Created By:** | Thành viên 2 |
+| **Created By:** | Nguyễn Thị Thắm (HE191525) |
 | **Date Created:** | 10/11/2026 |
 | **Primary Actor:** | Customer |
 | **Secondary Actors:**| NestJS Backend, MongoDB Database |
@@ -459,7 +463,7 @@ flowchart LR
 | Thuộc Tính Đặc Tả | Chi Tiết Đặc Tả |
 | :--- | :--- |
 | **UC ID and Name:** | **UC-11 – Tra Cứu Đơn Hàng Qua Số Điện Thoại (Lookup Order Status)** |
-| **Created By:** | Thành viên 2 |
+| **Created By:** | Nguyễn Thị Thắm (HE191525) |
 | **Date Created:** | 10/11/2026 |
 | **Primary Actor:** | Customer |
 | **Secondary Actors:**| NestJS Backend, MongoDB Database |
@@ -482,7 +486,7 @@ flowchart LR
 | Thuộc Tính Đặc Tả | Chi Tiết Đặc Tả |
 | :--- | :--- |
 | **UC ID and Name:** | **UC-12 – Quản Lý Mẫu Chart Móc Len (Manage Patterns - Admin)** |
-| **Created By:** | Thành viên 1 & 3 |
+| **Created By:** | Đinh Thị Thu Trang & Nguyễn Minh Đức |
 | **Date Created:** | 10/11/2026 |
 | **Primary Actor:** | Administrator |
 | **Secondary Actors:**| NestJS Backend, MongoDB Database |
@@ -505,7 +509,7 @@ flowchart LR
 | Thuộc Tính Đặc Tả | Chi Tiết Đặc Tả |
 | :--- | :--- |
 | **UC ID and Name:** | **UC-13 – Quản Lý Phụ Kiện Dụng Cụ (Manage Products - Admin)** |
-| **Created By:** | Thành viên 2 & 3 |
+| **Created By:** | Nguyễn Thị Thắm & Nguyễn Minh Đức |
 | **Date Created:** | 10/11/2026 |
 | **Primary Actor:** | Administrator |
 | **Secondary Actors:**| NestJS Backend, MongoDB Database |
@@ -528,7 +532,7 @@ flowchart LR
 | Thuộc Tính Đặc Tả | Chi Tiết Đặc Tả |
 | :--- | :--- |
 | **UC ID and Name:** | **UC-14 – Quản Lý & Cập Nhật Trạng Thái Đơn Hàng (Manage Order Status - Admin)** |
-| **Created By:** | Thành viên 2 & 3 |
+| **Created By:** | Nguyễn Thị Thắm & Nguyễn Minh Đức |
 | **Date Created:** | 10/11/2026 |
 | **Primary Actor:** | Administrator |
 | **Secondary Actors:**| NestJS Backend, MongoDB Database |
@@ -551,7 +555,7 @@ flowchart LR
 | Thuộc Tính Đặc Tả | Chi Tiết Đặc Tả |
 | :--- | :--- |
 | **UC ID and Name:** | **UC-15 – Quản Lý Danh Mục Hệ Thống (Manage Categories - Admin)** |
-| **Created By:** | Thành viên 3 |
+| **Created By:** | Nguyễn Minh Đức (HE194336) |
 | **Date Created:** | 10/11/2026 |
 | **Primary Actor:** | Administrator |
 | **Secondary Actors:**| NestJS Backend, MongoDB Database |
@@ -574,7 +578,7 @@ flowchart LR
 | Thuộc Tính Đặc Tả | Chi Tiết Đặc Tả |
 | :--- | :--- |
 | **UC ID and Name:** | **UC-16 – Quản Lý Bài Viết Cẩm Nang (Manage Blogs - Admin)** |
-| **Created By:** | Thành viên 3 |
+| **Created By:** | Nguyễn Minh Đức (HE194336) |
 | **Date Created:** | 10/11/2026 |
 | **Primary Actor:** | Administrator |
 | **Secondary Actors:**| NestJS Backend, MongoDB Database |

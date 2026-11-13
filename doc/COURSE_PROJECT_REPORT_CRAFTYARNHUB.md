@@ -53,13 +53,13 @@
 
 ## RECORD OF CHANGES
 
-| Date       | A / M / D\* | In Charge       | Change Description                                              |  Version  |
-| :--------- | :---------: | :-------------- | :-------------------------------------------------------------- | :-------: |
-| 02/11/2026 |      A      | Member 1 (Lead) | Initial project setup, core database schemas definition         |    0.1    |
-| 05/11/2026 |      A      | Member 2        | Implement Products catalog, shopping cart client state          |    0.4    |
-| 08/11/2026 |      A      | Member 3        | Implement Blogs module, Categories CRUD, Admin UI structure     |    0.7    |
-| 10/11/2026 |      M      | Member 1 & 2    | Implement real Orders module (NestJS + MongoDB), replace mockup |    0.9    |
-| 10/11/2026 |      A      | All Members     | Consolidate full Course Project Report documentation            | 1.0 Final |
+| Date       | A / M / D\* | In Charge                             | Change Description                                              |  Version  |
+| :--------- | :---------: | :------------------------------------ | :-------------------------------------------------------------- | :-------: |
+| 02/11/2026 |      A      | Đinh Thị Thu Trang (Lead)             | Initial project setup, core database schemas definition         |    0.1    |
+| 05/11/2026 |      A      | Nguyễn Thị Thắm                       | Implement Products catalog, shopping cart client state          |    0.4    |
+| 08/11/2026 |      A      | Nguyễn Minh Đức                       | Implement Blogs module, Categories CRUD, Admin UI structure     |    0.7    |
+| 10/11/2026 |      M      | Đinh Thị Thu Trang & Nguyễn Thị Thắm  | Implement real Orders module (NestJS + MongoDB), replace mockup |    0.9    |
+| 10/11/2026 |      A      | All Members                           | Consolidate full Course Project Report documentation            | 1.0 Final |
 
 *\*A: Added, M: Modified, D: Deleted*
 
@@ -79,9 +79,9 @@
 
 | No | Full Name                | Student ID |           Project Role           | Responsibilities                                                                                                                             |
 | :-: | :----------------------- | :--------: | :-------------------------------: | :------------------------------------------------------------------------------------------------------------------------------------------- |
-| 1 | **Thành viên 1** |  SE17xxxx  | **Leader (Fullstack Lead)** | **Core Pattern & Community:** Patterns CRUD, Regex search & filter, $inc view/like, Comments module, RowCounter widget, Home showcase. |
-| 2 | **Thành viên 2** |  SE17xxxx  |  **Developer (Fullstack)**  | **E-Commerce & Orders:** Products CRUD, Shopping Cart context, Orders module (schema, auto-code, status workflow, lookup).             |
-| 3 | **Thành viên 3** |  SE17xxxx  |  **Developer (Fullstack)**  | **Knowledge & Administration:** Blogs CRUD, Categories CRUD, Validation Pipe configuration, Admin Management Dashboard (`/admin`).   |
+| 1 | **Đinh Thị Thu Trang**   |  HE195077  | **Leader (Fullstack Lead)**       | **Core Pattern & Community:** Patterns CRUD, Regex search & filter, $inc view/like, Comments module, RowCounter widget, Home showcase. |
+| 2 | **Nguyễn Thị Thắm**      |  HE191525  |  **Developer (Fullstack)**        | **E-Commerce & Orders:** Products CRUD, Shopping Cart context, Orders module (schema, auto-code, status workflow, lookup).             |
+| 3 | **Nguyễn Minh Đức**      |  HE194336  |  **Developer (Fullstack)**        | **Knowledge & Administration:** Blogs CRUD, Categories CRUD, Validation Pipe configuration, Admin Management Dashboard (`/admin`).   |
 
 ### I.3 Business Opportunity and Objectives
 
@@ -232,7 +232,7 @@ flowchart LR
 ##### UC-02: Xem Chi Tiết Chart & Công Thức Móc Len
 
 - **Use Case ID & Name:** `UC-02: View Pattern Detail and Instructions`
-- **Created By:** Thành viên 1
+- **Created By:** Đinh Thị Thu Trang (HE195077)
 - **Primary Actor:** Visitor / Crocheter
 - **Trigger:** Người dùng nhấp chuột vào một thẻ mẫu chart tại Trang chủ hoặc Kho Chart.
 - **Description:** Hiển thị chi tiết mẫu móc len gồm hình ảnh chất lượng cao, thông tin tác giả, checklist nguyên liệu, dụng cụ và công thức móc từng bước (R1, R2...).
@@ -261,7 +261,7 @@ flowchart LR
 ##### UC-07: Đặt Hàng Trực Tuyến (Checkout Order)
 
 - **Use Case ID & Name:** `UC-07: Checkout Order`
-- **Created By:** Thành viên 2
+- **Created By:** Nguyễn Thị Thắm (HE191525)
 - **Primary Actor:** Customer
 - **Trigger:** Khách hàng bấm nút "Đặt Hàng Ngay" tại màn hình Giỏ Hàng (`/cart`).
 - **Description:** Thu thập thông tin giao nhận của khách hàng, đóng gói danh sách sản phẩm trong giỏ và gửi yêu cầu tạo đơn hàng lưu vào cơ sở dữ liệu MongoDB.
@@ -292,7 +292,7 @@ flowchart LR
 ##### UC-12: Quản Lý & Cập Nhật Trạng Thái Đơn Hàng
 
 - **Use Case ID & Name:** `UC-12: Manage and Update Order Status`
-- **Created By:** Thành viên 3
+- **Created By:** Nguyễn Minh Đức (HE194336)
 - **Primary Actor:** Administrator
 - **Trigger:** Quản trị viên truy cập trang `/admin` và chọn tab "Quản Lý Đơn Hàng".
 - **Description:** Xem danh sách toàn bộ các đơn đặt hàng từ khách, kiểm tra chi tiết các món hàng và đổi trạng thái xử lý đơn.

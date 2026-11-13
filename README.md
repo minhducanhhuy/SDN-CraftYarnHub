@@ -1,6 +1,11 @@
 # TIỆM LEN XINH (CRAFTYARNHUB)
 ## HỆ THỐNG QUẢN LÝ & CHIA SẺ CHART MÓC LEN & PHỤ KIỆN THỦ CÔNG
 
+> **Nhóm sinh viên thực hiện:**  
+> - **Thành viên 1 (Trưởng nhóm):** Đinh Thị Thu Trang – MSSV: HE195077  
+> - **Thành viên 2:** Nguyễn Thị Thắm – MSSV: HE191525  
+> - **Thành viên 3:** Nguyễn Minh Đức – MSSV: HE194336  
+> 
 > **Kiến trúc:** Client - Server Architecture (React Vite + NestJS + Mongoose ODM + MongoDB)  
 > **Dữ liệu:** 100% dữ liệu động từ MongoDB, chuẩn RESTful API, đầy đủ các thao tác CRUD và DTO Validation Pipe.
 
@@ -69,7 +74,7 @@ Hệ thống sẽ tự động khởi chạy song song:
 
 Hệ thống được thiết kế theo mô hình phân hệ khép kín (Full-stack theo Feature), tích hợp đồng bộ giữa Backend (NestJS, Mongoose) và Frontend (React Ant Design):
 
-### 🧶 Phân hệ 1: Quản Lý Kho Chart Móc Len & Tương Tác
+### 🧶 Phân hệ 1: Quản Lý Kho Chart Móc Len & Tương Tác (Đinh Thị Thu Trang - HE195077 - Trưởng nhóm)
 - **Backend:** 
   - Module Patterns: Đầy đủ API CRUD (`GET`, `POST`, `PUT`, `DELETE /api/patterns`), tìm kiếm Regex theo tên/nguyên liệu, lọc Category & Difficulty, tăng view và like bằng toán tử atomic `$inc`. DTOs `CreatePatternDto`, `UpdatePatternDto`.
   - Module Comments: API `GET /api/comments?patternId=...` và `POST /api/comments`, validate `CreateCommentDto`, tự động sinh avatar Dicebear.
@@ -79,7 +84,7 @@ Hệ thống được thiết kế theo mô hình phân hệ khép kín (Full-st
   - Chi Tiết Chart (`PatternDetailPage.tsx`): Xem công thức móc R1, R2... theo từng bộ phận, checklist nguyên liệu/dụng cụ dạng checkbox, nút Thả tim gọi API, form gửi đánh giá sao kèm reload danh sách tức thì.
   - Widget Đếm Hàng (`RowCounter.tsx`): Âm thanh tiếng bíp chân thực (Web Audio API) + Lưu tiến độ theo từng mẫu chart vào `localStorage`.
 
-### 🛍️ Phân hệ 2: Gian Hàng Phụ Kiện, Giỏ Hàng & Đơn Hàng (E-Commerce)
+### 🛍️ Phân hệ 2: Gian Hàng Phụ Kiện, Giỏ Hàng & Đơn Hàng (Nguyễn Thị Thắm - HE191525)
 - **Backend:**
   - Module Products: Đầy đủ API CRUD (`GET`, `POST`, `PUT`, `DELETE /api/products`), lọc danh mục phụ kiện, tìm kiếm sản phẩm.
   - Module Orders: `OrderSchema` (sub-document `items`), API `POST /api/orders` tạo đơn hàng, sinh mã tự động `ORD-XXXXXX`, API `GET /api/orders/lookup` tra cứu theo SĐT/mã đơn, API `PATCH /api/orders/:id/status` đổi trạng thái. DTO `CreateOrderDto`.
@@ -89,7 +94,7 @@ Hệ thống được thiết kế theo mô hình phân hệ khép kín (Full-st
   - Giỏ Hàng & Đặt Hàng (`CartPage.tsx`): Quản lý số lượng, tính tổng tiền VNĐ, form nhận hàng kết nối API tạo đơn thật và popup hiển thị mã đơn hàng.
   - Tra cứu đơn hàng: Popup tra cứu lịch sử mua hàng qua Số điện thoại.
 
-### ⚙️ Phân hệ 3: Cẩm Nang Blog & Cổng Quản Trị (Admin Control Panel)
+### ⚙️ Phân hệ 3: Cẩm Nang Blog & Cổng Quản Trị Hệ Thống (Nguyễn Minh Đức - HE194336)
 - **Backend:**
   - Module Blogs: Đầy đủ API CRUD (`GET`, `POST`, `PUT`, `DELETE /api/blogs`), chi tiết bài viết tăng view theo slug.
   - Module Categories: Đầy đủ API CRUD (`GET`, `POST`, `PUT`, `DELETE /api/categories`) cho cả chart và phụ kiện.
