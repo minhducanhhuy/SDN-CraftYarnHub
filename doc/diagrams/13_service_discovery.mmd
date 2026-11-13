@@ -1,0 +1,22 @@
+sequenceDiagram
+    autonumber
+    participant Registry as Service Registry (Consul / Eureka)
+    participant OrderSvc as Order Service Instance #1
+    participant Gateway as API Gateway (Load Balancer)
+    participant Client as React Client
+
+    Note over OrderSvc,Registry: 1. Service Registration Phase
+    OrderSvc->>Registry: Register (Service: 'OrderService', IP: 10.0.1.5, Port: 3003)
+    Registry-->>OrderSvc: 200 OK (Registered)
+    loop Every 10 seconds
+        OrderSvc->>Registry: Heartbeat / Health Check Ping
+        Registry-->>OrderSvc: Health OK
+    end
+
+    Note over Client,Gateway: 2. Routing & Discovery Phase
+    Client->>Gateway: POST /api/orders (Tạo đơn hàng mới)
+    Gateway->>Registry: Query healthy instances for 'OrderService'
+    Registry-->>Gateway: Return available endpoints: [10.0.1.5:3003, 10.0.1.6:3003]
+    Gateway->>OrderSvc: Forward POST /orders (Load-balanced: Round Robin)
+    OrderSvc-->>Gateway: Return 201 Created (Order Code: ORD-9821)
+    Gateway-->>Client: 201 Created (Đơn hàng thành công)

@@ -1,0 +1,34 @@
+flowchart TD
+    Client["Client Devices (React Web / Mobile App)"]
+    Gateway["API Gateway / Reverse Proxy (Kong / NGINX)"]
+
+    subgraph ServiceMesh["Microservices Mesh"]
+        SvcPattern["Pattern and Community Service (Port 3001)"]
+        SvcProduct["Product and Inventory Service (Port 3002)"]
+        SvcOrder["Order Processing Service (Port 3003)"]
+        SvcNotification["Notification Service (Worker)"]
+    end
+
+    subgraph MessageBroker["Event Bus"]
+        RabbitMQ[["Message Broker (RabbitMQ / Kafka)"]]
+    end
+
+    subgraph DataStorage["Distributed Databases"]
+        DB_Pattern[("Pattern DB (MongoDB)")]
+        DB_Product[("Product DB (MongoDB)")]
+        DB_Order[("Order DB (MongoDB)")]
+        Cache_Redis[("Redis Cache")]
+    end
+
+    Client -->|HTTPS Request| Gateway
+    Gateway -->|Route /api/patterns| SvcPattern
+    Gateway -->|Route /api/products| SvcProduct
+    Gateway -->|Route /api/orders| SvcOrder
+
+    SvcPattern --> DB_Pattern
+    SvcPattern --> Cache_Redis
+    SvcProduct --> DB_Product
+    SvcOrder --> DB_Order
+
+    SvcOrder -.->|Publish 'OrderCreated'| RabbitMQ
+    RabbitMQ -.->|Consume Event| SvcNotification
